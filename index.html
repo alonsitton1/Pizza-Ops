@@ -9,41 +9,85 @@
     <meta name="theme-color" content="#d32f2f">
     <title>Pizza Ops</title>
     
-    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Emojione_1F355.svg/512px-Emojione_1F355.svg.png">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Emojione_1F355.svg/512px-Emojione_1F355.svg.png">
-    <link rel="apple-touch-icon-precomposed" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Emojione_1F355.svg/512px-Emojione_1F355.svg.png">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png">
+    <link rel="apple-touch-icon-precomposed" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS remained exactly the same as v5.0 */
-        :root { --primary: #d32f2f; --accent: #1565c0; --bg: #f4f6f8; --card: #ffffff; --text: #37474f; --tooltip-bg: #263238; --tooltip-text: #ffffff; }
-        body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; max-width: 600px; margin: 0 auto; line-height: 1.5; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
-        .container { background: var(--card); padding: 25px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        :root {
+            --primary: #d32f2f;
+            --accent: #1565c0;
+            --bg: #f4f6f8;
+            --card: #ffffff;
+            --text: #37474f;
+            --tooltip-bg: #263238;
+            --tooltip-text: #ffffff;
+        }
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+            padding-bottom: 100px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .container {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
         h2 { font-size: 1.25rem; margin-top: 0; color: var(--text); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 20px; font-weight: 700; }
+        
+        /* Selectors & Inputs */
         .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .method-opt { border: 1px solid #cfd8dc; padding: 12px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.95rem; background: #fff; }
-        .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
-        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; box-sizing: border-box; background: #fff; font-family: 'Heebo', sans-serif; color: var(--text); }
+        .method-opt {
+            border: 1px solid #cfd8dc; padding: 12px 5px; text-align: center; border-radius: 8px;
+            cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.95rem;
+            background: #fff;
+        }
+        .method-opt.active {
+            background-color: var(--primary); color: white; border-color: var(--primary);
+            font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px);
+        }
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px;
+            font-size: 1rem; margin-top: 5px; box-sizing: border-box; background: #fff;
+            font-family: 'Heebo', sans-serif; color: var(--text);
+        }
         input:focus, select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1); }
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
+
+        /* Feature Classes */
         .timeline-select { background: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; font-weight: 700; }
         .work-constraint { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; font-weight: 700; }
         .temp-select { background: #e0f2f1; border: 1px solid #80cbc4; color: #00695c; font-weight: 700; }
         .alert-box { margin-top: 15px; padding: 12px; background-color: #fff3e0; color: #e65100; border-radius: 8px; font-size: 0.9rem; display: none; border: 1px solid #ffe0b2; }
+        
+        /* Schedule & Results */
         .schedule-box { background: #f1f8e9; border: 1px solid #c5e1a5; border-radius: 12px; padding: 15px; margin-top: 25px; }
         .results-box { background: #fafafa; border: 1px solid #eceff1; border-radius: 12px; padding: 15px; margin-top: 25px; }
         .time-row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed rgba(0,0,0,0.08); padding-bottom: 8px; font-size: 0.95rem; }
         .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
+        
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row:last-child { border-bottom: none; }
         .row-label { display: flex; align-items: center; font-weight: 500; font-size: 1rem; color: #455a64; flex-grow: 1; }
         .row-value { font-weight: 700; font-family: 'Heebo', sans-serif; font-size: 1.05rem; color: #263238; white-space: nowrap; margin-right: 10px; }
         .label-text-wrapper { display: flex; flex-direction: column; justify-content: center; }
         .water-subtext { font-size: 0.8rem; color: #0288d1; font-weight: 500; line-height: 1.2; margin-top: 2px; }
+
         .flour-breakdown { background: #eceff1; padding: 12px; border-radius: 8px; margin: 12px 0; border-right: 4px solid var(--accent); }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
+        
+        /* Menu & Shopping */
         .menu-grid { display: grid; gap: 10px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; transition: border-color 0.2s; }
         .menu-item:hover { border-color: #b0bec5; }
@@ -55,6 +99,7 @@
         .base-tag { font-size: 0.75rem; padding: 3px 8px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
         .base-red { background: #ffebee; color: #c62828; }
         .base-white { background: #f1f8e9; color: #33691e; }
+
         .shopping-list { margin-top: 25px; }
         .shop-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px dashed #cfd8dc; }
         .shop-item:last-child { border: none; }
@@ -66,6 +111,8 @@
         .status-bar { background: #263238; color: #fff; padding: 12px 15px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .status-match { color: #a5d6a7; font-weight: 700; }
         .status-mismatch { color: #ef9a9a; font-weight: 700; }
+
+        /* Tooltips */
         .tooltip-container { position: relative; display: inline-flex; align-items: center; cursor: pointer; margin-left: 8px; color: #90a4ae; transition: color 0.2s; }
         .tooltip-container:hover { color: var(--accent); }
         .info-icon { font-size: 1.1em; }
@@ -80,6 +127,8 @@
         .tip-content { color: #eceff1; font-size: 0.85rem; }
         .tip-label-plus { background-color: #c8e6c9; color: #1b5e20; padding: 1px 6px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; display: inline-block; margin-left: 4px; }
         .tip-label-minus { background-color: #ffcdd2; color: #b71c1c; padding: 1px 6px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; display: inline-block; margin-left: 4px; }
+
+        /* FAB & Modal */
         .fab-btn { position: fixed; bottom: 25px; left: 25px; background-color: var(--primary); color: white; width: 60px; height: 60px; border-radius: 50%; text-align: center; line-height: 60px; font-size: 24px; box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4); cursor: pointer; z-index: 1000; transition: transform 0.2s; }
         .fab-btn:hover { transform: scale(1.1); }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
@@ -92,6 +141,7 @@
         .qa-answer { display: none; margin-top: 10px; color: #455a64; font-size: 0.95rem; background: #f5f5f5; padding: 15px; border-radius: 10px; line-height: 1.6; }
         .qa-answer.show { display: block; }
         #searchInput { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #cfd8dc; border-radius: 10px; background: #f7f9fc; font-size: 1rem; }
+        
         .reset-link { display:block; text-align:center; margin-top:30px; color:#ef5350; cursor:pointer; font-size:0.9rem; font-weight:500; text-decoration:none; opacity:0.7; transition:opacity 0.2s; padding-bottom: 30px; }
         .reset-link:hover { opacity:1; text-decoration:underline; }
     </style>

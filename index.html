@@ -37,8 +37,13 @@
         input:focus, select:focus { border-color: var(--accent); outline: none; }
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
 
-        /* Weather Button */
-        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        /* Select Color Classes - RESTORED */
+        .timeline-select { background: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; font-weight: 700; }
+        .work-constraint { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; font-weight: 700; }
+        .temp-select { background: #e0f2f1; border: 1px solid #80cbc4; color: #00695c; font-weight: 700; }
+
+        /* Weather Button - FIXED ALIGNMENT */
+        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; box-sizing: border-box; }
         .weather-btn:active { background: #bbdefb; transform: scale(0.98); }
 
         /* Checklist Styles */
@@ -71,9 +76,15 @@
         .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
-        /* Menu */
-        .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px; border-radius: 10px; margin-bottom: 8px;}
-        .qty-btn { width: 32px; height: 32px; background: #eceff1; border-radius: 50%; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #546e7a; display: flex; align-items: center; justify-content: center; padding-bottom:3px; }
+        /* Menu - FIXED LAYOUT */
+        .menu-grid { display: grid; gap: 10px; margin-top: 15px; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; transition: border-color 0.2s; }
+        .menu-item:hover { border-color: #b0bec5; }
+        .menu-name { font-weight: 600; font-size: 1rem; color: #333; display: flex; align-items: center; }
+        .menu-controls { display: flex; align-items: center; gap: 12px; }
+        .qty-btn { width: 32px; height: 32px; background: #eceff1; border-radius: 50%; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #546e7a; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; transition: background 0.2s; }
+        .qty-btn:hover { background: #cfd8dc; }
+        .qty-val { font-weight: 700; width: 20px; text-align: center; font-size: 1.1rem; }
         
         /* Actions */
         .action-grid { margin-top:25px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
@@ -89,6 +100,10 @@
         .close-btn { font-size: 1.8rem; cursor: pointer; color: #90a4ae; }
         .qa-item { border-bottom: 1px solid #eceff1; padding: 15px 0; }
         .qa-question { font-weight: 600; cursor: pointer; color: var(--accent); display: flex; justify-content: space-between; }
+
+        /* Reset Link - RESTORED STYLING */
+        .reset-link { display:block; text-align:center; margin-top:30px; color:#ef5350; cursor:pointer; font-size:0.9rem; font-weight:500; text-decoration:none; opacity:0.7; transition:opacity 0.2s; padding-bottom: 30px; }
+        .reset-link:hover { opacity:1; text-decoration:underline; }
     </style>
 </head>
 <body>
@@ -129,7 +144,7 @@
         <div><label>הידרציה (%)</label><input type="number" id="hydration" value="67" oninput="calc()"></div>
         <div>
             <label>🌡️ טמפ' חדר</label>
-            <input type="number" id="roomTemp" value="20" oninput="calc()">
+            <input type="number" id="roomTemp" class="temp-select" value="20" oninput="calc()">
             <div class="weather-btn" onclick="getWeather()">📡 קבל טמפ' נוכחית</div>
         </div>
     </div>
@@ -186,7 +201,7 @@
         <span id="matchStatus"></span>
     </div>
     
-    <div id="menuList" class="menu-grid" style="margin-top:15px;"></div>
+    <div id="menuList" class="menu-grid"></div>
 
     <div class="action-grid">
         <button onclick="generateShopping()" class="btn-main" style="background:var(--accent);">🛒 הצג רשימה</button>

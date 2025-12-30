@@ -7,11 +7,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Pizza Ops">
     <meta name="theme-color" content="#d32f2f">
-    <title>Pizza Ops</title>
+    <title>Pizza Ops v6.0</title>
     
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png">
-    <link rel="apple-touch-icon-precomposed" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png">
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/5930/5930358.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/5930/5930358.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -22,128 +21,74 @@
             --bg: #f4f6f8;
             --card: #ffffff;
             --text: #37474f;
-            --tooltip-bg: #263238;
-            --tooltip-text: #ffffff;
+            --success: #2e7d32;
         }
-        body {
-            font-family: 'Heebo', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
-            padding-bottom: 100px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .container {
-            background: var(--card);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-        }
+        body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; max-width: 600px; margin: 0 auto; line-height: 1.5; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
+        .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
-        h2 { font-size: 1.25rem; margin-top: 0; color: var(--text); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 20px; font-weight: 700; }
+        h2 { font-size: 1.25rem; margin-top: 0; color: var(--text); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 15px; font-weight: 700; }
         
-        /* Selectors & Inputs */
-        .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .method-opt {
-            border: 1px solid #cfd8dc; padding: 12px 5px; text-align: center; border-radius: 8px;
-            cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.95rem;
-            background: #fff;
-        }
-        .method-opt.active {
-            background-color: var(--primary); color: white; border-color: var(--primary);
-            font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px);
-        }
-        input, select {
-            width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px;
-            font-size: 1rem; margin-top: 5px; box-sizing: border-box; background: #fff;
-            font-family: 'Heebo', sans-serif; color: var(--text);
-        }
-        input:focus, select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1); }
+        /* Inputs */
+        .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
+        .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
+        
+        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; box-sizing: border-box; background: #fff; font-family: 'Heebo', sans-serif; color: var(--text); }
+        input:focus, select:focus { border-color: var(--accent); outline: none; }
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
 
-        /* Feature Classes */
-        .timeline-select { background: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; font-weight: 700; }
-        .work-constraint { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; font-weight: 700; }
-        .temp-select { background: #e0f2f1; border: 1px solid #80cbc4; color: #00695c; font-weight: 700; }
-        .alert-box { margin-top: 15px; padding: 12px; background-color: #fff3e0; color: #e65100; border-radius: 8px; font-size: 0.9rem; display: none; border: 1px solid #ffe0b2; }
-        
-        /* Schedule & Results */
-        .schedule-box { background: #f1f8e9; border: 1px solid #c5e1a5; border-radius: 12px; padding: 15px; margin-top: 25px; }
-        .results-box { background: #fafafa; border: 1px solid #eceff1; border-radius: 12px; padding: 15px; margin-top: 25px; }
-        .time-row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed rgba(0,0,0,0.08); padding-bottom: 8px; font-size: 0.95rem; }
-        .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
-        
-        .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
-        .row:last-child { border-bottom: none; }
-        .row-label { display: flex; align-items: center; font-weight: 500; font-size: 1rem; color: #455a64; flex-grow: 1; }
-        .row-value { font-weight: 700; font-family: 'Heebo', sans-serif; font-size: 1.05rem; color: #263238; white-space: nowrap; margin-right: 10px; }
-        .label-text-wrapper { display: flex; flex-direction: column; justify-content: center; }
-        .water-subtext { font-size: 0.8rem; color: #0288d1; font-weight: 500; line-height: 1.2; margin-top: 2px; }
+        /* Weather Button */
+        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .weather-btn:active { background: #bbdefb; transform: scale(0.98); }
 
-        .flour-breakdown { background: #eceff1; padding: 12px; border-radius: 8px; margin: 12px 0; border-right: 4px solid var(--accent); }
+        /* Checklist Styles */
+        .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px dashed #cfd8dc; cursor: pointer; transition: all 0.2s; border-radius: 6px; user-select: none; }
+        .checklist-item:last-child { border-bottom: none; }
+        .checklist-item:active { background: #f5f5f5; }
+        .checklist-item.checked { background: #e8f5e9; opacity: 0.7; }
+        .checklist-item.checked .step-txt { text-decoration: line-through; color: #81c784; }
+        .check-icon { width: 24px; text-align: center; margin-left: 10px; font-size: 1.1rem; }
+        .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
+
+        /* Video Repository */
+        .video-form { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee; }
+        .video-grid { display: grid; gap: 15px; }
+        .video-card { display: flex; background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; height: 90px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .video-thumb { width: 120px; height: 100%; object-fit: cover; background: #000; flex-shrink: 0; }
+        .video-content { padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; min-width: 0; }
+        .video-title { font-weight: 600; font-size: 0.9rem; line-height: 1.2; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; text-decoration: none; color: #333; }
+        .video-footer { display: flex; justify-content: space-between; align-items: center; }
+        .video-tag { font-size: 0.75rem; background: #eceff1; padding: 2px 8px; border-radius: 4px; color: #546e7a; font-weight: 500; }
+        .delete-vid { color: #ef5350; font-size: 1.1rem; cursor: pointer; padding: 5px; }
+        
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
+        .filter-chip { padding: 6px 14px; border-radius: 20px; background: #eee; font-size: 0.85rem; font-weight: 600; color: #546e7a; cursor: pointer; white-space: nowrap; border: 1px solid transparent; transition: 0.2s; }
+        .filter-chip.active { background: var(--text); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+        /* Recipe Rows */
+        .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+        .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
+        .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
-        /* Menu & Shopping */
-        .menu-grid { display: grid; gap: 10px; }
-        .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; transition: border-color 0.2s; }
-        .menu-item:hover { border-color: #b0bec5; }
-        .menu-name { font-weight: 600; font-size: 1rem; color: #333; display: flex; align-items: center; }
-        .menu-controls { display: flex; align-items: center; gap: 12px; }
-        .qty-btn { width: 32px; height: 32px; background: #eceff1; border-radius: 50%; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #546e7a; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; transition: background 0.2s; }
-        .qty-btn:hover { background: #cfd8dc; }
-        .qty-val { font-weight: 700; width: 20px; text-align: center; font-size: 1.1rem; }
-        .base-tag { font-size: 0.75rem; padding: 3px 8px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
-        .base-red { background: #ffebee; color: #c62828; }
-        .base-white { background: #f1f8e9; color: #33691e; }
-
-        .shopping-list { margin-top: 25px; }
-        .shop-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px dashed #cfd8dc; }
-        .shop-item:last-child { border: none; }
-        .shop-checkbox { width: 22px; height: 22px; margin-left: 15px; accent-color: var(--primary); cursor: pointer; } 
-        .shop-text { font-size: 1.05rem; font-weight: 500; color: #37474f; }
-        .prep-guide { background: #fff8e1; border: 1px solid #ffe082; border-radius: 12px; padding: 20px; margin-top: 25px; }
-        .prep-step { margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: flex-start; line-height: 1.4; }
-        .prep-icon { margin-left: 10px; flex-shrink: 0; font-size: 1.1rem; }
-        .status-bar { background: #263238; color: #fff; padding: 12px 15px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .status-match { color: #a5d6a7; font-weight: 700; }
-        .status-mismatch { color: #ef9a9a; font-weight: 700; }
-
-        /* Tooltips */
-        .tooltip-container { position: relative; display: inline-flex; align-items: center; cursor: pointer; margin-left: 8px; color: #90a4ae; transition: color 0.2s; }
-        .tooltip-container:hover { color: var(--accent); }
-        .info-icon { font-size: 1.1em; }
-        .tooltip-text { visibility: hidden; width: 280px; background-color: var(--tooltip-bg); color: var(--tooltip-text); text-align: right; border-radius: 8px; padding: 0; position: absolute; z-index: 100; bottom: 135%; right: -10px; opacity: 0; transition: all 0.2s ease-in-out; transform: translateY(5px); font-size: 0.9rem; line-height: 1.5; box-shadow: 0 8px 30px rgba(0,0,0,0.3); pointer-events: none; }
-        .tooltip-text::after { content: ""; position: absolute; top: 100%; right: 15px; margin-right: 0; border-width: 6px; border-style: solid; border-color: var(--tooltip-bg) transparent transparent transparent; }
-        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; transform: translateY(0); }
-        .tip-header { background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px 8px 0 0; font-weight: 700; font-size: 0.9rem; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .tip-body { padding: 12px 14px; }
-        .tip-row { display: flex; align-items: flex-start; margin-bottom: 10px; }
-        .tip-row:last-child { margin-bottom: 0; }
-        .tip-icon { flex-shrink: 0; width: 20px; font-size: 16px; margin-left: 10px; text-align: center; margin-top: 2px; }
-        .tip-content { color: #eceff1; font-size: 0.85rem; }
-        .tip-label-plus { background-color: #c8e6c9; color: #1b5e20; padding: 1px 6px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; display: inline-block; margin-left: 4px; }
-        .tip-label-minus { background-color: #ffcdd2; color: #b71c1c; padding: 1px 6px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; display: inline-block; margin-left: 4px; }
-
-        /* FAB & Modal */
+        /* Menu */
+        .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px; border-radius: 10px; margin-bottom: 8px;}
+        .qty-btn { width: 32px; height: 32px; background: #eceff1; border-radius: 50%; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #546e7a; display: flex; align-items: center; justify-content: center; padding-bottom:3px; }
+        
+        /* Actions */
+        .action-grid { margin-top:25px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+        .btn-main { border:none; padding:12px; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; color:white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        
         .fab-btn { position: fixed; bottom: 25px; left: 25px; background-color: var(--primary); color: white; width: 60px; height: 60px; border-radius: 50%; text-align: center; line-height: 60px; font-size: 24px; box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4); cursor: pointer; z-index: 1000; transition: transform 0.2s; }
         .fab-btn:hover { transform: scale(1.1); }
+        
+        /* Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
         .modal-content { background: white; width: 90%; max-width: 500px; max-height: 80vh; border-radius: 16px; padding: 25px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .close-btn { font-size: 1.8rem; cursor: pointer; color: #90a4ae; transition: color 0.2s; }
-        .close-btn:hover { color: #37474f; }
+        .close-btn { font-size: 1.8rem; cursor: pointer; color: #90a4ae; }
         .qa-item { border-bottom: 1px solid #eceff1; padding: 15px 0; }
-        .qa-question { font-weight: 600; cursor: pointer; color: var(--accent); display: flex; justify-content: space-between; font-size: 1rem; }
-        .qa-answer { display: none; margin-top: 10px; color: #455a64; font-size: 0.95rem; background: #f5f5f5; padding: 15px; border-radius: 10px; line-height: 1.6; }
-        .qa-answer.show { display: block; }
-        #searchInput { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #cfd8dc; border-radius: 10px; background: #f7f9fc; font-size: 1rem; }
-        
-        .reset-link { display:block; text-align:center; margin-top:30px; color:#ef5350; cursor:pointer; font-size:0.9rem; font-weight:500; text-decoration:none; opacity:0.7; transition:opacity 0.2s; padding-bottom: 30px; }
-        .reset-link:hover { opacity:1; text-decoration:underline; }
+        .qa-question { font-weight: 600; cursor: pointer; color: var(--accent); display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
@@ -160,100 +105,101 @@
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
             <label>📅 מסלול:</label>
-            <select id="scheduleMode" class="timeline-select" onchange="saveData()">
+            <select id="scheduleMode" class="timeline-select" onchange="calc()">
                 <option value="1day" id="opt_sched_1">🚀 יום אחד</option>
                 <option value="2day" id="opt_sched_2">🌙 יומיים</option>
                 <option value="3day" id="opt_sched_3" selected>❄️ 3 ימים</option>
             </select>
         </div>
         <div>
-            <label>💼 זמינות להכנה:</label>
-            <select id="workMode" class="work-constraint" onchange="saveData()">
-                <option value="flexible">🏠 גמיש / חופש</option>
-                <option value="work" selected>💼 יום עבודה (17:00+)</option>
-            </select>
-        </div>
-    </div>
-    
-    <div id="workAlert" class="alert-box"></div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div>
-            <label>כמות כדורים</label>
-            <input type="number" id="balls" value="6" oninput="saveData()">
-        </div>
-        <div>
-            <label>משקל כדור (גרם)</label>
-            <input type="number" id="weight" value="250" oninput="saveData()">
-        </div>
-    </div>
-
-    <label>🌾 הרכב קמחים</label>
-    <select id="flourMix" onchange="saveData()">
-        <option value="red_nuvola" id="opt_red_nuvola">מיקס 50/50</option>
-        <option value="nuvola" id="opt_nuvola">100% נובולה</option>
-        <option value="red" id="opt_red">100% קאפוטו אדום</option>
-        <option value="red_shtibel" id="opt_shtibel">מיקס שטיבל</option>
-    </select>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div>
-            <label>הידרציה (%)</label>
-            <input type="number" id="hydration" value="67" oninput="saveData()">
-        </div>
-        <div>
-            <label>🌡️ עונה / חודש (ת"א)</label>
-            <select id="monthSelect" class="temp-select" onchange="saveData()">
-                <option value="18">ינואר (❄️ קר - 18°C)</option>
-                <option value="18">פברואר (❄️ קר - 18°C)</option>
-                <option value="20">מרץ (🌱 נעים - 20°C)</option>
-                <option value="22">אפריל (🌱 נעים - 22°C)</option>
-                <option value="25">מאי (☀️ חמים - 25°C)</option>
-                <option value="28">יוני (🔥 קיץ - 28°C)</option>
-                <option value="30">יולי (🔥 חם מאוד - 30°C)</option>
-                <option value="30">אוגוסט (🔥 חם מאוד - 30°C)</option>
-                <option value="29">ספטמבר (☀️ חם - 29°C)</option>
-                <option value="26">אוקטובר (🍂 סתיו - 26°C)</option>
-                <option value="22">נובמבר (🍂 נעים - 22°C)</option>
-                <option value="19">דצמבר (❄️ קריר - 19°C)</option>
+            <label>💼 זמינות:</label>
+            <select id="workMode" class="work-constraint" onchange="calc()">
+                <option value="flexible">🏠 גמיש</option>
+                <option value="work" selected>💼 עבודה (17:00+)</option>
             </select>
         </div>
     </div>
 
-    <label>🕒 מתי רוצים לאכול? (יום ושעה)</label>
-    <input type="datetime-local" id="targetTime" onchange="saveData()">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div><label>כמות כדורים</label><input type="number" id="balls" value="6" oninput="calc()"></div>
+        <div><label>משקל כדור (ג')</label><input type="number" id="weight" value="250" oninput="calc()"></div>
+    </div>
 
-    <div id="outputArea"></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div><label>הידרציה (%)</label><input type="number" id="hydration" value="67" oninput="calc()"></div>
+        <div>
+            <label>🌡️ טמפ' חדר</label>
+            <input type="number" id="roomTemp" value="20" oninput="calc()">
+            <div class="weather-btn" onclick="getWeather()">📡 קבל טמפ' נוכחית</div>
+        </div>
+    </div>
+
+    <label>🕒 מתי אוכלים?</label>
+    <input type="datetime-local" id="targetTime" onchange="calc()">
+
+    <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
+    <div id="recipeArea" style="margin-top:15px; background:#fafafa; padding:15px; border-radius:12px; border:1px solid #eee;"></div>
 
     <div style="text-align:center; margin-top:25px; font-size:0.85rem; color:#90a4ae; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('adv').style.display='block'">הגדרות מתקדמות</div>
     <div id="adv" class="hidden-adv">
-        <label>מלח (%)</label><input type="number" id="saltPct" value="2.5" step="0.1" oninput="saveData()">
-        <label>שמרים בסיס (%)</label><input type="number" id="yeastPct" value="0.5" step="0.1" oninput="saveData()">
-        <label>לתת/Malt (%)</label><input type="number" id="maltPct" value="1.0" step="0.1" oninput="saveData()">
+        <label>מלח (%)</label><input type="number" id="saltPct" value="2.5" step="0.1" oninput="calc()">
+        <label>שמרים בסיס (%)</label><input type="number" id="yeastPct" value="0.5" step="0.1" oninput="calc()">
+        <label>לתת/Malt (%)</label><input type="number" id="maltPct" value="1.0" step="0.1" oninput="calc()">
+        <label>הרכב קמחים</label>
+        <select id="flourMix" onchange="saveData()">
+            <option value="red_nuvola">מיקס 50/50</option>
+            <option value="nuvola">100% נובולה</option>
+            <option value="red">100% קאפוטו אדום</option>
+            <option value="red_shtibel">מיקס שטיבל</option>
+        </select>
     </div>
 </div>
 
 <div class="container">
-    <h2>🍅 תפריט וקניות</h2>
-    <div class="status-bar">
-        <span>סה"כ פיצות שנבחרו: <strong id="totalSelected">0</strong></span>
-        <span id="matchStatus" class="status-match">תואם לכמות הבצק ✅</span>
+    <h2>🎥 השראות ומתכונים</h2>
+    
+    <div class="video-form">
+        <input type="text" id="vidUrl" placeholder="הדבק לינק מיוטיוב..." style="margin-top:0;">
+        <input type="text" id="vidTitle" placeholder="כותרת הסרטון...">
+        <select id="vidTag" style="margin-bottom:10px;">
+            <option value="batzek">🍞 בצק וטכניקה</option>
+            <option value="topping">🍅 תוספות ורוטב</option>
+            <option value="general">🍕 כללי</option>
+        </select>
+        <button onclick="addVideo()" class="btn-main" style="width:100%; background:#546e7a;">שמור סרטון +</button>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-chip active" onclick="filterVids('all', this)">הכל</div>
+        <div class="filter-chip" onclick="filterVids('batzek', this)">בצק</div>
+        <div class="filter-chip" onclick="filterVids('topping', this)">תוספות</div>
+        <div class="filter-chip" onclick="filterVids('general', this)">כללי</div>
+    </div>
+
+    <div id="videoList" class="video-grid"></div>
+</div>
+
+<div class="container">
+    <h2>🛒 תפריט וקניות</h2>
+    <div class="status-bar" style="background:#263238; color:#fff; padding:10px; border-radius:8px; display:flex; justify-content:space-between;">
+        <span>נבחרו: <strong id="totalSelected">0</strong></span>
+        <span id="matchStatus"></span>
     </div>
     
-    <div id="menuList" class="menu-grid" style="margin-top:20px;"></div>
+    <div id="menuList" class="menu-grid" style="margin-top:15px;"></div>
 
-    <div style="margin-top:25px; display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <button onclick="generateShopping()" style="background:var(--accent); color:white; border:none; padding:12px; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">🛒 הצג רשימה</button>
-        <button onclick="shareViaEmail()" style="background:#ea4335; color:white; border:none; padding:12px; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">📧 שלח למייל</button>
+    <div class="action-grid">
+        <button onclick="generateShopping()" class="btn-main" style="background:var(--accent);">🛒 הצג רשימה</button>
+        <button onclick="shareWhatsApp()" class="btn-main" style="background:#25D366;">💬 שלח בוואטסאפ</button>
     </div>
 
-    <div id="shoppingResult" style="display:none;">
-        <div class="prep-guide">
-            <h3 style="margin:0 0 15px 0; color:#e65100; font-size:1.1rem;">🔪 הכנות מוקדמות</h3>
+    <div id="shoppingResult" style="display:none; margin-top:20px;">
+        <div class="prep-guide" style="background:#fff8e1; padding:15px; border-radius:10px; border:1px solid #ffe082;">
+            <h3 style="margin:0 0 10px 0; color:#f57f17;">🔪 הכנות</h3>
             <div id="prepList"></div>
         </div>
-        <div class="shopping-list">
-            <h3 style="margin:0 0 15px 0; color:#2c3e50; font-size:1.1rem;">🛒 רשימת מצרכים</h3>
+        <div class="shopping-list" style="margin-top:15px;">
+            <h3 style="margin:0 0 10px 0; color:#37474f;">📋 מצרכים</h3>
             <div id="shopList"></div>
         </div>
     </div>
@@ -261,470 +207,413 @@
     <div onclick="resetApp()" class="reset-link">🔄 איפוס נתונים ומחיקת הכל</div>
 </div>
 
-<div class="fab-btn" onclick="openSOS()">🆘</div>
+<div class="fab-btn" onclick="document.getElementById('sosModal').style.display='flex'">🆘</div>
 <div class="modal-overlay" id="sosModal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h2 style="margin:0; color:#d32f2f; font-size:1.4rem;">🆘 הצלה / שאלות</h2>
-            <span class="close-btn" onclick="closeSOS()">&times;</span>
-        </div>
-        <input type="text" id="searchInput" placeholder="חפש בעיה..." onkeyup="filterQA()">
+        <div class="modal-header"><h2>🆘 שאלות נפוצות</h2><span class="close-btn" onclick="document.getElementById('sosModal').style.display='none'">&times;</span></div>
         <div id="qaList"></div>
     </div>
 </div>
 
 <script>
+    // --- STATE ---
     let currentMethod = 'biga';
     let menuCounts = {};
-    
+    let savedVideos = [];
+    let checkedSteps = {}; 
+
+    // --- INIT ---
     function init() {
         initMenu();
         loadData();
-        if (!currentMethod) currentMethod = 'biga';
+        renderVideos();
         
-        document.querySelectorAll('.method-opt').forEach(el => el.classList.remove('active'));
-        const activeBtn = document.getElementById('btn-' + currentMethod);
-        if(activeBtn) activeBtn.classList.add('active');
+        const qa = [
+            {q:"הבצק דביק בטירוף", a:"תן מנוחה של 10 דק' מכוסה וחזור ללוש. אל תוסיף קמח!"},
+            {q:"הביגה יבשה מדי", a:"זה תקין! זה אמור להיות פירורים ולא בצק."},
+            {q:"הבצק נקרע בפתיחה", a:"הגלוטן מתוח. חכה 30 דק' בטמפ' החדר."}
+        ];
+        document.getElementById('qaList').innerHTML = qa.map(x => `<div class="qa-item" onclick="this.lastElementChild.style.display=this.lastElementChild.style.display=='block'?'none':'block'"><div class="qa-question">${x.q} ▼</div><div class="qa-answer" style="display:none; margin-top:5px; color:#555;">${x.a}</div></div>`).join('');
 
-        updateScheduleOptions(); 
-        updateFlourLabels(); 
-        calculate(); 
+        if(!document.getElementById('targetTime').value) {
+            const t = new Date(); t.setDate(t.getDate()+2); t.setHours(20,0,0,0);
+            const pad = n => n<10 ? '0'+n : n;
+            document.getElementById('targetTime').value = `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}T${pad(t.getHours())}:${pad(t.getMinutes())}`;
+        }
+        
+        calc();
     }
 
-    function saveData() {
-        const data = {
-            balls: document.getElementById('balls').value,
-            weight: document.getElementById('weight').value,
-            hydration: document.getElementById('hydration').value,
-            monthIndex: document.getElementById('monthSelect').selectedIndex, 
-            saltPct: document.getElementById('saltPct').value,
-            yeastPct: document.getElementById('yeastPct').value,
-            maltPct: document.getElementById('maltPct').value,
-            scheduleMode: document.getElementById('scheduleMode').value,
-            workMode: document.getElementById('workMode').value,
-            flourMix: document.getElementById('flourMix').value,
-            targetTime: document.getElementById('targetTime').value,
-            method: currentMethod, 
-            menuCounts: menuCounts
+    // --- LOGIC: WEATHER ---
+    function getWeather() {
+        if (!navigator.geolocation) return alert("הדפדפן לא תומך במיקום");
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const { latitude, longitude } = pos.coords;
+            try {
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+                const data = await res.json();
+                document.getElementById('roomTemp').value = Math.round(data.current_weather.temperature);
+                calc();
+                alert(`הטמפרטורה עודכנה: ${data.current_weather.temperature}°C`);
+            } catch(e) { alert("שגיאה בקבלת מזג אוויר"); }
+        }, () => alert("יש לאשר גישה למיקום"));
+    }
+
+    // --- LOGIC: CALCULATOR ---
+    function calc() {
+        const p = {
+            balls: +document.getElementById('balls').value,
+            weight: +document.getElementById('weight').value,
+            hyd: +document.getElementById('hydration').value,
+            temp: +document.getElementById('roomTemp').value,
+            salt: +document.getElementById('saltPct').value,
+            yeast: +document.getElementById('yeastPct').value,
+            malt: +document.getElementById('maltPct').value,
+            mode: document.getElementById('scheduleMode').value,
+            work: document.getElementById('workMode').value,
+            date: new Date(document.getElementById('targetTime').value)
         };
-        localStorage.setItem('pizzaOpsData', JSON.stringify(data));
-        
-        updateFlourLabels();
-        calculate();
-        if (Object.keys(menuCounts).length > 0) {
-            updateMenuStatus();
-            if (document.getElementById('shoppingResult').style.display === 'block') {
-                generateShopping();
-            }
-        }
-    }
 
-    function loadData() {
-        const stored = localStorage.getItem('pizzaOpsData');
-        if (stored) {
-            const data = JSON.parse(stored);
-            if (data.balls) document.getElementById('balls').value = data.balls;
-            if (data.weight) document.getElementById('weight').value = data.weight;
-            if (data.hydration) document.getElementById('hydration').value = data.hydration;
-            if (data.monthIndex !== undefined) document.getElementById('monthSelect').selectedIndex = data.monthIndex;
-            else document.getElementById('monthSelect').selectedIndex = new Date().getMonth();
-            if (data.saltPct) document.getElementById('saltPct').value = data.saltPct;
-            if (data.yeastPct) document.getElementById('yeastPct').value = data.yeastPct;
-            if (data.maltPct) document.getElementById('maltPct').value = data.maltPct;
-            if (data.scheduleMode) document.getElementById('scheduleMode').value = data.scheduleMode;
-            if (data.workMode) document.getElementById('workMode').value = data.workMode;
-            if (data.flourMix) document.getElementById('flourMix').value = data.flourMix;
-            if (data.targetTime) document.getElementById('targetTime').value = data.targetTime;
-            else {
-                const target = new Date();
-                target.setDate(target.getDate() + 2); 
-                target.setHours(20, 0, 0, 0);
-                const pad = (n) => n < 10 ? '0'+n : n;
-                document.getElementById('targetTime').value = `${target.getFullYear()}-${pad(target.getMonth()+1)}-${pad(target.getDate())}T${pad(target.getHours())}:${pad(target.getMinutes())}`;
-            }
-            if (data.method) currentMethod = data.method;
-            if (data.menuCounts) {
-                menuCounts = data.menuCounts;
-                for (const [id, count] of Object.entries(menuCounts)) {
-                    const el = document.getElementById(`count-${id}`);
-                    if(el) el.innerText = count;
-                }
-            }
-        } else {
-            const target = new Date();
-            target.setDate(target.getDate() + 2); 
-            target.setHours(20, 0, 0, 0);
-            const pad = (n) => n < 10 ? '0'+n : n;
-            document.getElementById('targetTime').value = `${target.getFullYear()}-${pad(target.getMonth()+1)}-${pad(target.getDate())}T${pad(target.getHours())}:${pad(target.getMinutes())}`;
-            document.getElementById('monthSelect').selectedIndex = new Date().getMonth();
-        }
-    }
-
-    function setMethod(method) {
-        currentMethod = method;
-        document.querySelectorAll('.method-opt').forEach(el => el.classList.remove('active'));
-        document.getElementById('btn-' + method).classList.add('active');
-        updateScheduleOptions();
-        saveData(); 
-    }
-
-    function resetApp() {
-        if(!confirm("בטוח שרוצים לאפס הכל? זה ימחק את כל ההגדרות והתפריט שנבחר.")) return;
-        localStorage.removeItem('pizzaOpsData');
-        
-        document.getElementById('balls').value = 6;
-        document.getElementById('weight').value = 250;
-        document.getElementById('hydration').value = 67;
-        document.getElementById('monthSelect').selectedIndex = new Date().getMonth();
-        document.getElementById('saltPct').value = 2.5;
-        document.getElementById('yeastPct').value = 0.5;
-        document.getElementById('maltPct').value = 1.0;
-        document.getElementById('scheduleMode').value = '3day';
-        document.getElementById('workMode').value = 'work';
-        document.getElementById('flourMix').value = 'red_nuvola';
-        
-        const target = new Date();
-        target.setDate(target.getDate() + 2); 
-        target.setHours(20, 0, 0, 0);
-        const pad = (n) => n < 10 ? '0'+n : n;
-        document.getElementById('targetTime').value = `${target.getFullYear()}-${pad(target.getMonth()+1)}-${pad(target.getDate())}T${pad(target.getHours())}:${pad(target.getMinutes())}`;
-
-        currentMethod = 'biga';
-        menuCounts = {};
-        
-        document.querySelectorAll('.method-opt').forEach(el => el.classList.remove('active'));
-        document.getElementById('btn-biga').classList.add('active');
-        document.getElementById('shoppingResult').style.display = 'none';
-        
-        initMenu(); 
-        updateScheduleOptions(); 
-        updateFlourLabels(); 
-        calculate();
-        updateMenuStatus();
-    }
-
-    function round5(num) { return Math.round(num / 5) * 5; }
-    function roundHalf(num) { return Math.round(num * 2) / 2; }
-    function round1Decimal(num) { return Math.round(num * 10) / 10; }
-
-    function updateScheduleOptions() {
-        const s1 = document.getElementById('opt_sched_1');
-        const s2 = document.getElementById('opt_sched_2');
-        const s3 = document.getElementById('opt_sched_3');
-        const select = document.getElementById('scheduleMode');
-        if (currentMethod === 'direct') {
-            s1.disabled = false; s1.text = "🚀 יום אחד"; s2.text = "🌙 יומיים (לישה ערב לפני)"; s3.text = "❄️ 3 ימים";
-        } else {
-            s1.disabled = true; s1.text = "⛔ יום אחד (חסום)"; s2.text = "🌙 יומיים"; s3.text = "❄️ 3 ימים";
-            if (select.value === '1day') select.value = '2day';
-        }
-    }
-
-    function updateFlourLabels() {
-        const mode = document.getElementById('scheduleMode').value;
-        const optMix = document.getElementById('opt_red_nuvola');
-        const optRed = document.getElementById('opt_red');
-        const optNuvola = document.getElementById('opt_nuvola');
-        const optShtibel = document.getElementById('opt_shtibel');
-        const select = document.getElementById('flourMix');
-
-        if (mode === '3day') {
-            optMix.text = "⭐ מיקס 50/50 (מומלץ)"; optRed.text = "100% קאפוטו אדום (יציב)";
-            optNuvola.text = "100% נובולה (אפשרי)"; optShtibel.text = "מיקס שטיבל";
-            if (select.value === 'nuvola' || select.value === 'red') select.value = 'red_nuvola'; 
-        } else if (mode === '2day') {
-            optMix.text = "⭐ מיקס 50/50"; optRed.text = "100% אדום (מצוין)";
-            optNuvola.text = "100% נובולה (אפשרי)"; optShtibel.text = "מיקס שטיבל";
-        } else { 
-            optMix.text = "מיקס 50/50"; optRed.text = "100% אדום (קשה מדי)";
-            optNuvola.text = "⭐ 100% נובולה (מומלץ)"; optShtibel.text = "מיקס שטיבל";
-            select.value = 'nuvola';
-        }
-    }
-
-    function getTipHTML(role, upText, downText) {
-        return `<div class="tip-header">תפקיד: ${role}</div><div class="tip-body"><div class="tip-row"><div class="tip-icon">⬆️</div><div class="tip-content"><span class="tip-label-plus">יותר מדי:</span><br>${upText}</div></div><div class="tip-row"><div class="tip-icon">⬇️</div><div class="tip-content"><span class="tip-label-minus">פחות מדי:</span><br>${downText}</div></div></div>`;
-    }
-    const scienceInfo = {
-        flour: getTipHTML("השלד (גלוטן)", "בצק 'גומי' שקשה לפתוח.", "הבצק ייקרע ולא יחזיק גזים."),
-        water: getTipHTML("מרקם ואווריריות", "בועיות ענק, אבל בצק דביק.", "בצק יציב אך דחוס וכבד."),
-        yeast: getTipHTML("המנוע (גז)", "טעם לוואי וקריסה.", "פיצה שטוחה וכבדה."),
-        salt: getTipHTML("טעם וחיזוק", "בצק קשה, שמרים מתים.", "בצק דביק, חסר טעם, תפיחה מהירה."),
-        malt: getTipHTML("צבע ומזון", "הפיצה תישרף מהר.", "צבע חיוור (קריטי בארוך).")
-    };
-    function getTip(key) { return `<div class="tooltip-container"><span class="info-icon">ℹ️</span><div class="tooltip-text">${scienceInfo[key]}</div></div>`; }
-
-    function calculate() {
-        const balls = parseFloat(document.getElementById('balls').value);
-        const weight = parseFloat(document.getElementById('weight').value);
-        const hyd = parseFloat(document.getElementById('hydration').value);
-        const saltPct = parseFloat(document.getElementById('saltPct').value);
-        let yeastPct = parseFloat(document.getElementById('yeastPct').value);
-        const maltPct = parseFloat(document.getElementById('maltPct').value);
-        const mode = document.getElementById('scheduleMode').value;
-        const workMode = document.getElementById('workMode').value;
-        const targetDate = new Date(document.getElementById('targetTime').value);
-        const flourMix = document.getElementById('flourMix').value;
-        const roomTemp = parseFloat(document.getElementById('monthSelect').value); 
-
+        // Temp Adjustment
         let tempFactor = 1.0;
         let waterTip = "";
-        
-        if (roomTemp > 24) {
-            if (roomTemp >= 30) tempFactor = 0.6; else if (roomTemp >= 27) tempFactor = 0.75; else tempFactor = 0.9;
-            waterTip = "מים קרים מאוד/קרח";
-        } else if (roomTemp < 20) {
-            if (roomTemp <= 15) tempFactor = 1.4; else if (roomTemp <= 18) tempFactor = 1.25; else tempFactor = 1.1;
+        if (p.temp > 24) {
+            tempFactor = p.temp >= 30 ? 0.6 : 0.8;
+            waterTip = "מים קרים מאוד (קרח)";
+        } else if (p.temp < 20) {
+            tempFactor = p.temp <= 15 ? 1.4 : 1.2;
             waterTip = "מים פושרים (25°C)";
         } else {
             waterTip = "מים בטמפ' החדר";
         }
-
-        if (mode === '1day' && currentMethod === 'direct') yeastPct = 0.3 * tempFactor;
-        else if (mode === '3day') yeastPct = 0.5 * tempFactor;
-        else yeastPct = yeastPct * tempFactor; 
-
-        const totalDough = balls * weight;
-        const totalPct = 100 + hyd + saltPct + yeastPct + maltPct;
-        const rawFlour = (totalDough / totalPct) * 100;
-        const rTotalFlour = round5(rawFlour);
-        const rTotalWater = round5(rTotalFlour * (hyd/100));
-        const rTotalSalt = roundHalf(rTotalFlour * (saltPct/100));
-        const rTotalYeast = roundHalf(rTotalFlour * (yeastPct/100));
-        const rTotalMalt = roundHalf(rTotalFlour * (maltPct/100));
-
-        const subtractHours = (date, h) => new Date(date.getTime() - (h * 60 * 60 * 1000));
-        let steps = [];
-        const pad = (n) => n < 10 ? '0'+n : n;
-        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
-        const fmt = (d) => `<span class="day-badge">${days[d.getDay()]}</span> ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-
-        steps.push({ time: targetDate, label: "🍕 זמן אפייה", icon: "🔥" });
-
-        let pullTime, ballingTime, mixTime, prefermentTime;
-        let alertMsg = "";
-        let isWorkAlert = false;
-
-        function applyWorkLogic(idealMix, idealBall) {
-            if (workMode === 'work') {
-                const mixH = idealMix.getHours();
-                if (mixH >= 6 && mixH < 18) {
-                    isWorkAlert = true;
-                    const newMix = new Date(idealMix); newMix.setHours(17, 0, 0, 0);
-                    const duration = (idealBall - idealMix); 
-                    const newBall = new Date(newMix.getTime() + duration);
-                    return { m: newMix, b: newBall };
-                }
-            }
-            return { m: idealMix, b: idealBall };
-        }
-
-        if (mode === '3day') {
-            let benchRest = (flourMix === 'red') ? 3.0 : 1.5; 
-            pullTime = subtractHours(targetDate, benchRest);
-            let idealBall = subtractHours(pullTime, 24);
-            let idealMix = subtractHours(idealBall, 1); 
-            const res = applyWorkLogic(idealMix, idealBall);
-            mixTime = res.m; ballingTime = res.b;
-            const fridgeHours = (pullTime - ballingTime) / (1000 * 60 * 60);
-            if (isWorkAlert) alertMsg = `💡 אילוץ יום עבודה: הלישה הוזזה ל-17:00. המקרר קוצר ל-${fridgeHours.toFixed(1)} שעות.`;
-            
-            steps.push({ time: pullTime, label: `הוצאת כדורים`, icon: "🌡️" });
-            steps.push({ time: ballingTime, label: "כדרור והכנסה למקרר", icon: "🔴" });
-            steps.push({ time: mixTime, label: "הכנת בצק עיקרי", icon: "🏗️" });
-            prefermentTime = subtractHours(mixTime, 18);
-
-        } else if (mode === '2day') {
-            let idealBall = subtractHours(targetDate, 5);
-            let idealMix = subtractHours(idealBall, 1);
-            const res = applyWorkLogic(idealMix, idealBall);
-            mixTime = res.m; ballingTime = res.b;
-            if (isWorkAlert) alertMsg = `💡 אילוץ יום עבודה: הלישה הוזזה ל-17:00.`;
-            steps.push({ time: ballingTime, label: "כדרור והתפחה בחוץ", icon: "🔴" });
-            steps.push({ time: mixTime, label: "הכנת בצק עיקרי", icon: "🏗️" });
-            prefermentTime = subtractHours(mixTime, 18);
-        } else {
-            let idealBall = subtractHours(targetDate, 4);
-            let idealMix = subtractHours(idealBall, 1);
-            const res = applyWorkLogic(idealMix, idealBall);
-            mixTime = res.m; ballingTime = res.b;
-            if (isWorkAlert) alertMsg = `💡 אילוץ יום עבודה: הלישה הוזזה ל-17:00.`;
-            steps.push({ time: ballingTime, label: "כדרור והתפחה", icon: "🔴" });
-            steps.push({ time: mixTime, label: "לישה והכנת בצק", icon: "🏗️" });
-        }
-
-        if (currentMethod !== 'direct' && mode !== '1day') {
-            const label = currentMethod === 'biga' ? "ערבוב ביגה (יום 1)" : "ערבוב פוליש";
-            steps.push({ time: prefermentTime, label: label, icon: "🥣" });
-        }
-
-        steps.sort((a,b) => a.time - b.time);
         
-        const alertEl = document.getElementById('workAlert');
-        if (isWorkAlert) { alertEl.style.display = 'block'; alertEl.innerText = alertMsg; } else { alertEl.style.display = 'none'; }
+        let yPct = p.yeast * tempFactor;
+        if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
+        if (p.mode === '3day') yPct = 0.5 * tempFactor;
 
-        let schedHtml = `<h3 style="margin-top:0;">📅 לו"ז עבודה</h3>`;
-        steps.forEach(s => { schedHtml += `<div class="time-row"><span>${s.icon} ${s.label}</span><span>${fmt(s.time)}</span></div>`; });
+        // Weights
+        const total = p.balls * p.weight;
+        const totalPct = 100 + p.hyd + p.salt + yPct + p.malt;
+        const flour = Math.round((total / totalPct) * 100);
+        const water = Math.round(flour * (p.hyd/100));
+        const salt = Math.round(flour * (p.salt/100) * 10)/10;
+        const yeast = Math.round(flour * (yPct/100) * 10)/10;
+        const malt = Math.round(flour * (p.malt/100) * 10)/10;
 
-        // Recipe HTML Generation
-        let flourHtml = '';
-        const flourTip = getTip('flour');
-        if (flourMix === 'red') {
-            flourHtml = `<div class="row"><div class="row-label">${flourTip} קמח קאפוטו אדום</div><span class="row-value">${rTotalFlour} גרם</span></div>`;
-        } else if (flourMix === 'red_nuvola') {
-            const h1 = round5(rTotalFlour * 0.5); const h2 = rTotalFlour - h1;
-            flourHtml = `<div class="row"><div class="row-label">${flourTip} קמח קאפוטו אדום</div><span class="row-value">${h1} גרם</span></div><div class="row"><div class="row-label">${flourTip} קמח קאפוטו נובולה</div><span class="row-value">${h2} גרם</span></div><div style="font-size:0.8rem; color:#1976d2;">* לערבב קמחים יחד</div>`;
-        } else if (flourMix === 'red_shtibel') {
-            const p1 = round5(rTotalFlour * 0.7); const p2 = rTotalFlour - p1;
-            flourHtml = `<div class="row"><div class="row-label">${flourTip} קמח קאפוטו אדום (70%)</div><span class="row-value">${p1} גרם</span></div><div class="row"><div class="row-label">קמח שטיבל פיצה (30%)</div><span class="row-value">${p2} גרם</span></div>`;
-        } else if (flourMix === 'nuvola') {
-            flourHtml = `<div class="row"><div class="row-label">${flourTip} קמח קאפוטו נובולה</div><span class="row-value">${rTotalFlour} גרם</span></div>`;
-        }
+        // Schedule
+        const subH = (d,h) => new Date(d.getTime() - (h*3600000));
+        let steps = [];
+        let bake = p.date;
+        steps.push({t: bake, txt: "🔥 זמן אפייה", id: "bake"});
 
-        let recipeHtml = '';
-        const wTip = getTip('water'); const yTip = getTip('yeast'); const mTip = getTip('malt'); const sTip = getTip('salt');
-        const waterSub = `<span class="water-subtext">${waterTip}</span>`;
-
-        if (currentMethod === 'biga') {
-            const rBWater = round5(rTotalFlour * 0.45); const rRWater = rTotalWater - rBWater; 
-            recipeHtml = `<h4>🥣 שלב א': ביגה 100%</h4><div class="flour-breakdown">${flourHtml}<div class="row" style="margin-top:5px; border-top:1px solid #ccc; padding-top:5px"><div class="row-label">סה"כ קמח</div><span class="row-value">${rTotalFlour} גרם</span></div></div><div class="row"><div class="row-label">${wTip} <div class="label-text-wrapper"><span>מים (45%)</span></div></div><span class="row-value">${rBWater} גרם</span></div><div class="row"><div class="row-label">${yTip} שמרים יבשים</div><span class="row-value">${rTotalYeast} גרם</span></div><h4>🏗️ שלב ב': בצק עיקרי</h4><div class="row"><div class="row-label">כל הביגה משלב א'</div></div><div class="row"><div class="row-label">${wTip} <div class="label-text-wrapper"><span>מים נוספים (Bassinage)</span>${waterSub}</div></div><span class="row-value">${rRWater} גרם</span></div><div class="row"><div class="row-label">${mTip} לתת (Malt)</div><span class="row-value">${rTotalMalt} גרם</span></div><div class="row"><div class="row-label">${sTip} מלח</div><span class="row-value">${rTotalSalt} גרם</span></div>`;
-        } else if (currentMethod === 'poolish') {
-             const rPFlour = round5(rTotalFlour * 0.3); const rPWater = rPFlour; const rMFlour = rTotalFlour - rPFlour; const rMWater = rTotalWater - rPWater;
-             let pYeast = round1Decimal(rPFlour * 0.001); if (pYeast < 0.1) pYeast = 0.1; const mYeast = round1Decimal(rTotalYeast - pYeast);
-             recipeHtml = `<h4>🥣 שלב א': פוליש (30%)</h4><div class="row"><div class="row-label">${flourTip} קמח</div><span class="row-value">${rPFlour} גרם</span></div><div class="row"><div class="row-label">${wTip} מים</div><span class="row-value">${rPWater} גרם</span></div><div class="row"><div class="row-label">${yTip} שמרים</div><span class="row-value">${pYeast} גרם</span></div><h4>🏗️ שלב ב': בצק עיקרי</h4><div class="row"><div class="row-label">כל הפוליש + שארית קמח (${rMFlour} גרם)</div></div><div class="row"><div class="row-label">${wTip} <div class="label-text-wrapper"><span>מים נוספים</span>${waterSub}</div></div><span class="row-value">${rMWater} גרם</span></div><div class="row"><div class="row-label">${sTip} מלח</div><span class="row-value">${rTotalSalt} גרם</span></div><div class="row"><div class="row-label">${yTip} שמרים</div><span class="row-value">${mYeast} גרם</span></div>`;
+        let mix, ball;
+        
+        if (p.mode === '3day') {
+            let rest = 3; 
+            let pull = subH(bake, rest);
+            ball = subH(pull, 24);
+            mix = subH(ball, 1);
+            if (p.work === 'work' && mix.getHours() < 17 && mix.getHours() > 6) {
+                mix.setHours(17,0);
+                ball = new Date(mix.getTime() + 3600000);
+            }
+            steps.push({t: pull, txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+            steps.push({t: ball, txt: "🔴 כדרור למקרר", id: "ball"});
+            steps.push({t: mix, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+            if(currentMethod !== 'direct') steps.push({t: subH(mix, 18), txt: "🥣 הכנת מקדים (ביגה/פוליש)", id: "pref"});
+        } else if (p.mode === '2day') {
+            ball = subH(bake, 5);
+            mix = subH(ball, 1);
+            if (p.work === 'work' && mix.getHours() < 17 && mix.getHours() > 6) {
+                mix.setHours(17,0); ball = new Date(mix.getTime() + 3600000);
+            }
+            steps.push({t: ball, txt: "🔴 כדרור והתפחה", id: "ball"});
+            steps.push({t: mix, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+            if(currentMethod !== 'direct') steps.push({t: subH(mix, 18), txt: "🥣 הכנת מקדים", id: "pref"});
         } else {
-             recipeHtml = `<h4>🛒 מצרכים (בצק ישיר)</h4>${flourHtml}<div class="row"><div class="row-label">${wTip} <div class="label-text-wrapper"><span>מים</span>${waterSub}</div></div><span class="row-value">${rTotalWater} גרם</span></div><div class="row"><div class="row-label">${sTip} מלח</div><span class="row-value">${rTotalSalt} גרם</span></div><div class="row"><div class="row-label">${yTip} שמרים</div><span class="row-value">${rTotalYeast} גרם</span></div>`;
+            ball = subH(bake, 4);
+            mix = subH(ball, 1);
+            steps.push({t: ball, txt: "🔴 כדרור", id: "ball"});
+            steps.push({t: mix, txt: "🏗️ לישה", id: "mix"});
         }
 
-        document.getElementById('outputArea').innerHTML = `<div class="schedule-box">${schedHtml}</div><div class="results-box">${recipeHtml}</div>`;
+        steps.sort((a,b) => a.t - b.t);
+
+        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
+        const fmt = d => `<span class="day-badge">${days[d.getDay()]}</span> ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        
+        let schedHtml = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (לחץ לסימון)</h3>`;
+        steps.forEach(s => {
+            const isChecked = checkedSteps[s.id] ? 'checked' : '';
+            schedHtml += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
+                <div class="step-txt">${s.txt}</div>
+                <div>${fmt(s.t)} <span class="check-icon">${isChecked ? '✅' : '⬜'}</span></div>
+            </div>`;
+        });
+        document.getElementById('scheduleArea').innerHTML = schedHtml;
+
+        let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentMethod})</h3>`;
+        
+        if (currentMethod === 'biga') {
+            let pFlour = Math.round(flour); 
+            let pWater = Math.round(flour * 0.45);
+            let mainWater = water - pWater;
+            rHtml += row("קמח (לביגה)", pFlour);
+            rHtml += row("מים (לביגה)", pWater);
+            rHtml += row("שמרים", yeast);
+            rHtml += `<hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">`;
+            rHtml += row(`מים נוספים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, mainWater);
+            rHtml += row("מלח", salt);
+            rHtml += row("לתת (Malt)", malt);
+        } else if (currentMethod === 'poolish') {
+            let pFlour = Math.round(flour * 0.3);
+            let pWater = pFlour;
+            let mainFlour = flour - pFlour;
+            let mainWater = water - pWater;
+            let pYeast = 0.2; 
+            rHtml += row("קמח (לפוליש)", pFlour);
+            rHtml += row("מים (לפוליש)", pWater);
+            rHtml += row("שמרים (לפוליש)", pYeast);
+            rHtml += `<hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">`;
+            rHtml += row("קמח נוסף", mainFlour);
+            rHtml += row(`מים נוספים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, mainWater);
+            rHtml += row("שמרים נוספים", (yeast - pYeast).toFixed(1));
+            rHtml += row("מלח", salt);
+        } else {
+            rHtml += row("קמח", flour);
+            rHtml += row(`מים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, water);
+            rHtml += row("שמרים", yeast);
+            rHtml += row("מלח", salt);
+        }
+        
+        document.getElementById('recipeArea').innerHTML = rHtml;
+        saveData();
         updateMenuStatus();
     }
 
-    const pizzaMenu = [
-        { id: 'marinara', name: 'מרינרה', base: 'red', icon: '🍅', ingredients: { sauce: 90, garlic: 1, oregano: 1 } },
-        { id: 'margherita', name: 'מרגריטה', base: 'red', icon: '🧀', ingredients: { sauce: 90, mozzarella: 100, basil: 5, parmesan: 5 } },
-        { id: 'zucchini', name: 'זוקיני רוזמרין', base: 'white', icon: '🥒', ingredients: { zucchini: 0.5, rosemary: 1, mozzarella: 50 } },
-        { id: 'pepperoni', name: 'פפרוני', base: 'red', icon: '🥓', ingredients: { sauce: 90, mozzarella: 100, pepperoni: 40 } },
-        { id: 'potato', name: 'תפ"א גוואנצ\'לה', base: 'white', icon: '🥔', ingredients: { potato: 1, parmesan: 15, guanciale: 40, thyme: 1, mozzarella: 50 } },
-        { id: 'garlic', name: 'שום חריף', base: 'white', icon: '🌶️', ingredients: { garlic: 2, chili: 0.5 } }
-    ];
+    function row(lbl, val) { return `<div class="row"><span class="row-label">${lbl}</span><span class="row-value">${val} גרם</span></div>`; }
 
-    function initMenu() {
-        const menuList = document.getElementById('menuList');
-        menuList.innerHTML = '';
-        pizzaMenu.forEach(p => {
-            if (!menuCounts[p.id]) menuCounts[p.id] = 0;
-            const baseClass = p.base === 'red' ? 'base-red' : 'base-white';
-            const baseText = p.base === 'red' ? 'אדום' : 'לבן';
-            menuList.innerHTML += `
-                <div class="menu-item">
-                    <div><span class="menu-name">${p.icon} ${p.name}<span class="base-tag ${baseClass}">${baseText}</span></span></div>
-                    <div class="menu-controls">
-                        <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
-                        <span class="qty-val" id="count-${p.id}">${menuCounts[p.id]}</span>
-                        <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
+    function toggleStep(id) {
+        checkedSteps[id] = !checkedSteps[id];
+        calc(); 
+    }
+
+    // --- LOGIC: VIDEOS ---
+    function addVideo() {
+        const url = document.getElementById('vidUrl').value;
+        const title = document.getElementById('vidTitle').value;
+        const tag = document.getElementById('vidTag').value;
+        
+        if(!url) return;
+        
+        let vidId = "";
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        if (match && match[2].length === 11) vidId = match[2];
+        else return alert("לינק לא תקין");
+
+        savedVideos.push({ id: vidId, title: title || "סרטון ללא שם", tag: tag, added: new Date() });
+        document.getElementById('vidUrl').value = "";
+        document.getElementById('vidTitle').value = "";
+        saveData();
+        renderVideos();
+    }
+
+    function renderVideos(filter = 'all') {
+        const list = document.getElementById('videoList');
+        list.innerHTML = "";
+        
+        const filtered = filter === 'all' ? savedVideos : savedVideos.filter(v => v.tag === filter);
+        
+        if (filtered.length === 0) list.innerHTML = `<div style="text-align:center; color:#999; margin-top:10px;">אין סרטונים בקטגוריה זו</div>`;
+
+        filtered.forEach((v, idx) => {
+            const tagNames = { batzek: "בצק", topping: "תוספות", general: "כללי" };
+            const realIdx = savedVideos.indexOf(v);
+            list.innerHTML += `
+                <div class="video-card">
+                    <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank">
+                        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" class="video-thumb">
+                    </a>
+                    <div class="video-content">
+                        <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" class="video-title">${v.title}</a>
+                        <div class="video-footer">
+                            <span class="video-tag">${tagNames[v.tag]}</span>
+                            <span class="delete-vid" onclick="deleteVideo(${realIdx})">🗑️</span>
+                        </div>
                     </div>
-                </div>`;
+                </div>
+            `;
         });
     }
 
-    function changeQty(id, delta) {
-        if (menuCounts[id] + delta >= 0) {
-            menuCounts[id] += delta;
+    function deleteVideo(idx) {
+        if(confirm("למחוק סרטון?")) {
+            savedVideos.splice(idx, 1);
+            saveData();
+            renderVideos();
+        }
+    }
+
+    function filterVids(tag, el) {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        renderVideos(tag);
+    }
+
+    // --- LOGIC: MENU & SHARING ---
+    const pizzaMenu = [
+        { id: 'marinara', name: 'מרינרה', icon: '🍅', ing: { sauce: 90, garlic: 1, oregano: 1 } },
+        { id: 'margherita', name: 'מרגריטה', icon: '🧀', ing: { sauce: 90, mozzarella: 100, basil: 5, parmesan: 5 } },
+        { id: 'zucchini', name: 'זוקיני', icon: '🥒', ing: { zucchini: 0.5, rosemary: 1, mozzarella: 50 } },
+        { id: 'pepperoni', name: 'פפרוני', icon: '🥓', ing: { sauce: 90, mozzarella: 100, pepperoni: 40 } },
+        { id: 'potato', name: 'תפ"א', icon: '🥔', ing: { potato: 1, parmesan: 15, guanciale: 40, mozzarella: 50 } },
+        { id: 'garlic', name: 'שום חריף', icon: '🌶️', ing: { garlic: 2, chili: 0.5 } }
+    ];
+
+    function initMenu() {
+        const list = document.getElementById('menuList');
+        list.innerHTML = pizzaMenu.map(p => `
+            <div class="menu-item">
+                <span class="menu-name">${p.icon} ${p.name}</span>
+                <div class="menu-controls">
+                    <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
+                    <span class="qty-val" id="count-${p.id}">0</span>
+                    <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
+                </div>
+            </div>`).join('');
+    }
+
+    function changeQty(id, d) {
+        if (!menuCounts[id]) menuCounts[id] = 0;
+        if (menuCounts[id] + d >= 0) {
+            menuCounts[id] += d;
             document.getElementById(`count-${id}`).innerText = menuCounts[id];
             saveData();
+            updateMenuStatus();
         }
     }
 
     function updateMenuStatus() {
-        const totalSelected = Object.values(menuCounts).reduce((a, b) => a + b, 0);
-        document.getElementById('totalSelected').innerText = totalSelected;
-        const balls = parseFloat(document.getElementById('balls').value);
-        const statusEl = document.getElementById('matchStatus');
-        if (totalSelected === balls) { statusEl.innerHTML = "בול על הכמות! ✅"; statusEl.className = "status-match"; }
-        else if (totalSelected > balls) { statusEl.innerHTML = `יותר מדי פיצות (${totalSelected - balls}+) ❌`; statusEl.className = "status-mismatch"; }
-        else { statusEl.innerHTML = `נשאר בצק (${balls - totalSelected}) ⚠️`; statusEl.className = "status-mismatch"; }
+        const total = Object.values(menuCounts).reduce((a,b)=>a+b, 0);
+        document.getElementById('totalSelected').innerText = total;
+        const balls = +document.getElementById('balls').value;
+        const el = document.getElementById('matchStatus');
+        if(total === balls) { el.innerText = "✅ בול!"; el.style.color="#81c784"; }
+        else if(total > balls) { el.innerText = `❌ חריגה (${total-balls})`; el.style.color="#ef5350"; }
+        else { el.innerText = `⚠️ נותר (${balls-total})`; el.style.color="#ffb74d"; }
     }
 
     function generateShopping() {
         let totalIng = {};
-        let prepNotes = new Set();
-        const excludedItems = ['oil', 'spices'];
-
+        const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
+        
         pizzaMenu.forEach(p => {
-            const count = menuCounts[p.id];
-            if (count > 0) {
-                if (p.id === 'potato') prepNotes.add("🥔 לפרוס תפוח אדמה דק דק (מנדולינה) ולהשרות במים קרים שעה.");
-                if (p.id === 'zucchini') prepNotes.add("🥒 לפרוס זוקיני דק, לפזר מלח גס ולתת לנוח 20 דק' להגיר נוזלים.");
-                if (p.id === 'potato') prepNotes.add("🥓 לחתוך גוואנצ'לה לקוביות/רצועות.");
-                if (p.base === 'red') prepNotes.add("🍅 להכין רוטב עגבניות בסיסי.");
-                for (const [key, amount] of Object.entries(p.ingredients)) {
-                    if (!totalIng[key]) totalIng[key] = 0; totalIng[key] += (amount * count);
+            const c = menuCounts[p.id] || 0;
+            if (c > 0) {
+                for (const [k, v] of Object.entries(p.ing)) {
+                    totalIng[k] = (totalIng[k] || 0) + (v * c);
                 }
             }
         });
 
-        const dict = {
-            sauce: "רוטב עגבניות", mozzarella: "מוצרלה (כדורים)", garlic: "שיני שום", oregano: "אורגנו יבש",
-            basil: "בזיליקום (עלים)", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "ענפי רוזמרין",
-            pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", thyme: "טימין טרי", chili: "פלפל צ'ילי טרי",
-        };
-
-        const prepEl = document.getElementById('prepList');
-        prepEl.innerHTML = prepNotes.size > 0 ? Array.from(prepNotes).map(n => `<div class="prep-step"><div class="prep-icon">🔪</div><div>${n}</div></div>`).join('') : "אין הכנות מיוחדות.";
-
-        const shopEl = document.getElementById('shopList');
-        let html = '';
-        for (const [key, amount] of Object.entries(totalIng)) {
-            if (excludedItems.includes(key)) continue;
-            const name = dict[key] || key;
-            html += `<div class="shop-item"><input type="checkbox" class="shop-checkbox"><span class="shop-text">${name}</span></div>`;
+        let html = "";
+        for (const [k, v] of Object.entries(totalIng)) {
+            html += `<div class="checklist-item"><div class="shop-text">${dict[k] || k}</div><div style="font-weight:bold;">${v}</div></div>`;
         }
-        shopEl.innerHTML = html || "רשימה ריקה (או שלא בחרת פיצות).";
+        document.getElementById('shopList').innerHTML = html || "לא נבחרו פיצות";
         document.getElementById('shoppingResult').style.display = 'block';
-        document.getElementById('shoppingResult').scrollIntoView({behavior: 'smooth'});
-    }
-
-    function shareViaEmail() {
-        const balls = document.getElementById('balls').value;
-        let body = `רשימת הכנות לפיצה (${balls} כדורים):\n\n`;
-        body += "--- תפריט ---\n";
-        pizzaMenu.forEach(p => {
-            if (menuCounts[p.id] > 0) body += `${p.icon} ${p.name}: ${menuCounts[p.id]}\n`;
-        });
-        body += "\n--- הכנות מוקדמות ---\n";
-        const prepNodes = document.querySelectorAll('.prep-step');
-        if (prepNodes.length > 0) prepNodes.forEach(node => body += `• ${node.innerText.replace('🔪', '').trim()}\n`);
-        else body += "אין הכנות מיוחדות.\n";
+        document.getElementById('shoppingResult').scrollIntoView({behavior:'smooth'});
         
-        body += "\n--- קניות ---\n";
-        const shopNodes = document.querySelectorAll('.shop-text');
-        if (shopNodes.length > 0) shopNodes.forEach(node => body += `[ ] ${node.innerText}\n`);
-        else body += "לא נבחרו מצרכים.\n";
-
-        const subject = "Pizza Ops - רשימת הכנות";
-        window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        let prepHtml = "";
+        if(totalIng.potato) prepHtml += `<div class="checklist-item"><div>🥔 לפרוס תפ"א דק ולהשרות במים</div></div>`;
+        if(totalIng.zucchini) prepHtml += `<div class="checklist-item"><div>🥒 לפרוס זוקיני ולהמליח (הגרת נוזלים)</div></div>`;
+        if(totalIng.sauce) prepHtml += `<div class="checklist-item"><div>🍅 להכין רוטב עגבניות</div></div>`;
+        
+        document.getElementById('prepList').innerHTML = prepHtml || "אין הכנות מיוחדות";
     }
 
-    const qaData = [
-        { q: "הביגה יבשה מדי", a: "זה תקין! זה אמור להיות פירורים יבשים ולא בצק אחיד." },
-        { q: "הבצק דביק בטירוף", a: "לא להוסיף קמח! תן מנוחה של 10 דקות (מכוסה) ותחזור ללוש." },
-        { q: "הבצק נקרע בפתיחה", a: "הגלוטן מתוח. כסה וחכה 30-60 דקות בטמפ' החדר." },
-        { q: "הכדורים נמרחו בקופסה", a: "התפחת יתר. קמח הרבה סולת ותעבוד בעדינות רבה." }
-    ];
-    function openSOS() {
-        const list = document.getElementById('qaList'); list.innerHTML = ''; 
-        qaData.forEach(item => { list.innerHTML += `<div class="qa-item"><div class="qa-question" onclick="toggleAns(this)">${item.q} <span>▼</span></div><div class="qa-answer">${item.a}</div></div>`; });
-        document.getElementById('sosModal').style.display = 'flex';
-    }
-    function closeSOS() { document.getElementById('sosModal').style.display = 'none'; }
-    function toggleAns(el) { el.nextElementSibling.classList.toggle('show'); }
-    function filterQA() { 
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        document.querySelectorAll('.qa-item').forEach(item => {
-            const txt = item.innerText.toLowerCase();
-            item.style.display = txt.includes(term) ? 'block' : 'none';
+    function shareWhatsApp() {
+        let txt = "*רשימת קניות לפיצה (Pizza Ops)* 🍕\n\n";
+        
+        let totalIng = {};
+        const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
+        pizzaMenu.forEach(p => {
+            const c = menuCounts[p.id] || 0;
+            if (c > 0) for (const [k, v] of Object.entries(p.ing)) totalIng[k] = (totalIng[k] || 0) + (v * c);
         });
+
+        if (Object.keys(totalIng).length === 0) return alert("בחר פיצות קודם!");
+
+        for (const [k, v] of Object.entries(totalIng)) {
+            txt += `✅ ${dict[k] || k}: ${v}\n`;
+        }
+        
+        const balls = document.getElementById('balls').value;
+        txt += `\n*בצק (${balls} כדורים):*\n`;
+        txt += `🌾 לבדוק שיש קמח ושמרים בבית!`;
+
+        window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+    }
+
+    // --- DATA ---
+    function saveData() {
+        const d = {
+            inputs: {
+                balls: document.getElementById('balls').value,
+                weight: document.getElementById('weight').value,
+                hyd: document.getElementById('hydration').value,
+                temp: document.getElementById('roomTemp').value,
+                date: document.getElementById('targetTime').value,
+                salt: document.getElementById('saltPct').value,
+                yeast: document.getElementById('yeastPct').value,
+                malt: document.getElementById('maltPct').value,
+                sched: document.getElementById('scheduleMode').value,
+                work: document.getElementById('workMode').value,
+                flour: document.getElementById('flourMix').value
+            },
+            method: currentMethod,
+            counts: menuCounts,
+            videos: savedVideos,
+            checks: checkedSteps
+        };
+        localStorage.setItem('pizzaOpsV6', JSON.stringify(d));
+    }
+
+    function loadData() {
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV6'));
+        if (d) {
+            if(d.inputs) {
+                for(let k in d.inputs) {
+                    const el = document.getElementById({balls:'balls', weight:'weight', hyd:'hydration', temp:'roomTemp', date:'targetTime', salt:'saltPct', yeast:'yeastPct', malt:'maltPct', sched:'scheduleMode', work:'workMode', flour:'flourMix'}[k]);
+                    if(el) el.value = d.inputs[k];
+                }
+            }
+            if(d.method) setMethod(d.method);
+            if(d.counts) menuCounts = d.counts;
+            if(d.videos) savedVideos = d.videos;
+            if(d.checks) checkedSteps = d.checks;
+            
+            // UI Update
+            for (const [id, c] of Object.entries(menuCounts)) {
+                const el = document.getElementById(`count-${id}`);
+                if(el) el.innerText = c;
+            }
+        }
+    }
+
+    function setMethod(m) {
+        currentMethod = m;
+        document.querySelectorAll('.method-opt').forEach(e => e.classList.remove('active'));
+        document.getElementById('btn-'+m).classList.add('active');
+        calc();
+    }
+
+    function resetApp() {
+        if(confirm("בטוח שרוצים לאפס הכל?")) {
+            localStorage.removeItem('pizzaOpsV6');
+            location.reload();
+        }
     }
 
     init();

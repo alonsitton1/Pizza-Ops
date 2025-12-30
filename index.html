@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Pizza Ops">
     <meta name="theme-color" content="#d32f2f">
-    <title>Pizza Ops v6.0</title>
+    
+    <meta property="og:title" content="Pizza Ops">
+    <meta property="og:description" content="מחשבון פיצה חכם">
+    <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/5930/5930358.png">
+    <meta property="og:type" content="website">
+
+    <title>Pizza Ops v6.1</title>
     
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/5930/5930358.png">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/5930/5930358.png">
@@ -15,6 +22,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
+        /* GLOBAL RESET FOR LAYOUT FIXES */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         :root {
             --primary: #d32f2f;
             --accent: #1565c0;
@@ -23,39 +33,45 @@
             --text: #37474f;
             --success: #2e7d32;
         }
-        body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; max-width: 600px; margin: 0 auto; line-height: 1.5; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
-        .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 15px; margin: 0; padding-bottom: 100px; }
+        
+        .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; }
+        
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
         h2 { font-size: 1.25rem; margin-top: 0; color: var(--text); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 15px; font-weight: 700; }
         
-        /* Inputs */
+        /* Inputs & Selectors */
         .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
         .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
         .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
         
-        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; box-sizing: border-box; background: #fff; font-family: 'Heebo', sans-serif; color: var(--text); }
+        /* FIXED INPUT WIDTHS */
+        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background: #fff; font-family: 'Heebo', sans-serif; color: var(--text); max-width: 100%; }
         input:focus, select:focus { border-color: var(--accent); outline: none; }
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
 
-        /* Select Color Classes - RESTORED */
+        /* Feature Classes */
         .timeline-select { background: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; font-weight: 700; }
         .work-constraint { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; font-weight: 700; }
         .temp-select { background: #e0f2f1; border: 1px solid #80cbc4; color: #00695c; font-weight: 700; }
 
-        /* Weather Button - FIXED ALIGNMENT */
-        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; box-sizing: border-box; }
+        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
         .weather-btn:active { background: #bbdefb; transform: scale(0.98); }
 
-        /* Checklist Styles */
-        .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px dashed #cfd8dc; cursor: pointer; transition: all 0.2s; border-radius: 6px; user-select: none; }
+        /* CHECKLIST FIX: No Wrapping, Proper Spacing */
+        .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px dashed #cfd8dc; cursor: pointer; transition: all 0.2s; border-radius: 6px; user-select: none; width: 100%; }
         .checklist-item:last-child { border-bottom: none; }
         .checklist-item:active { background: #f5f5f5; }
-        .checklist-item.checked { background: #e8f5e9; opacity: 0.7; }
+        .checklist-item.checked { background: #e8f5e9; opacity: 0.8; }
+        
+        .step-txt { flex-grow: 1; padding-right: 5px; font-size: 0.95rem; } /* Gives text space */
         .checklist-item.checked .step-txt { text-decoration: line-through; color: #81c784; }
-        .check-icon { width: 24px; text-align: center; margin-left: 10px; font-size: 1.1rem; }
-        .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
+        
+        .meta-group { display: flex; align-items: center; flex-shrink: 0; } /* Prevents wrapping of time/icon */
+        .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
+        .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; white-space: nowrap; }
 
-        /* Video Repository */
+        /* Video Styles */
         .video-form { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee; }
         .video-grid { display: grid; gap: 15px; }
         .video-card { display: flex; background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; height: 90px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
@@ -70,20 +86,18 @@
         .filter-chip { padding: 6px 14px; border-radius: 20px; background: #eee; font-size: 0.85rem; font-weight: 600; color: #546e7a; cursor: pointer; white-space: nowrap; border: 1px solid transparent; transition: 0.2s; }
         .filter-chip.active { background: var(--text); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
-        /* Recipe Rows */
+        /* Rows */
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
         .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
-        /* Menu - FIXED LAYOUT */
+        /* Menu */
         .menu-grid { display: grid; gap: 10px; margin-top: 15px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; transition: border-color 0.2s; }
-        .menu-item:hover { border-color: #b0bec5; }
         .menu-name { font-weight: 600; font-size: 1rem; color: #333; display: flex; align-items: center; }
         .menu-controls { display: flex; align-items: center; gap: 12px; }
-        .qty-btn { width: 32px; height: 32px; background: #eceff1; border-radius: 50%; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #546e7a; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; transition: background 0.2s; }
-        .qty-btn:hover { background: #cfd8dc; }
+        .qty-btn { width: 32px; height: 32px; background: #eceff1; border-radius: 50%; border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #546e7a; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; }
         .qty-val { font-weight: 700; width: 20px; text-align: center; font-size: 1.1rem; }
         
         /* Actions */
@@ -101,9 +115,7 @@
         .qa-item { border-bottom: 1px solid #eceff1; padding: 15px 0; }
         .qa-question { font-weight: 600; cursor: pointer; color: var(--accent); display: flex; justify-content: space-between; }
 
-        /* Reset Link - RESTORED STYLING */
         .reset-link { display:block; text-align:center; margin-top:30px; color:#ef5350; cursor:pointer; font-size:0.9rem; font-weight:500; text-decoration:none; opacity:0.7; transition:opacity 0.2s; padding-bottom: 30px; }
-        .reset-link:hover { opacity:1; text-decoration:underline; }
     </style>
 </head>
 <body>
@@ -114,7 +126,7 @@
     <div class="method-selector">
         <div class="method-opt" onclick="setMethod('direct')" id="btn-direct">ישיר</div>
         <div class="method-opt" onclick="setMethod('poolish')" id="btn-poolish">פוליש</div>
-        <div class="method-opt active" onclick="setMethod('biga')" id="btn-biga">ביגה 100%</div>
+        <div class="method-opt active" onclick="setMethod('biga')" id="btn-biga">Biga 100%</div>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -172,6 +184,9 @@
 
 <div class="container">
     <h2>🎥 השראות ומתכונים</h2>
+    <div style="font-size:0.85rem; color:#f57f17; background:#fff3e0; padding:8px; border-radius:6px; margin-bottom:15px;">
+        💡 שים לב: הסרטונים נשמרים רק על המכשיר הזה. הוסף אותם באייפון כדי לראות אותם שם.
+    </div>
     
     <div class="video-form">
         <input type="text" id="vidUrl" placeholder="הדבק לינק מיוטיוב..." style="margin-top:0;">
@@ -196,7 +211,7 @@
 
 <div class="container">
     <h2>🛒 תפריט וקניות</h2>
-    <div class="status-bar" style="background:#263238; color:#fff; padding:10px; border-radius:8px; display:flex; justify-content:space-between;">
+    <div class="status-bar">
         <span>נבחרו: <strong id="totalSelected">0</strong></span>
         <span id="matchStatus"></span>
     </div>
@@ -362,12 +377,12 @@
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
             schedHtml += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
                 <div class="step-txt">${s.txt}</div>
-                <div>${fmt(s.t)} <span class="check-icon">${isChecked ? '✅' : '⬜'}</span></div>
+                <div class="meta-group">${fmt(s.t)} <span class="check-icon">${isChecked ? '✅' : '⬜'}</span></div>
             </div>`;
         });
         document.getElementById('scheduleArea').innerHTML = schedHtml;
 
-        let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentMethod})</h3>`;
+        let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentMethod === 'biga' ? 'Biga 100%' : currentMethod})</h3>`;
         
         if (currentMethod === 'biga') {
             let pFlour = Math.round(flour); 
@@ -534,16 +549,16 @@
 
         let html = "";
         for (const [k, v] of Object.entries(totalIng)) {
-            html += `<div class="checklist-item"><div class="shop-text">${dict[k] || k}</div><div style="font-weight:bold;">${v}</div></div>`;
+            html += `<div class="checklist-item"><div class="shop-text" style="flex-grow:1">${dict[k] || k}</div><div style="font-weight:bold;">${v}</div><div class="check-icon">⬜</div></div>`;
         }
         document.getElementById('shopList').innerHTML = html || "לא נבחרו פיצות";
         document.getElementById('shoppingResult').style.display = 'block';
         document.getElementById('shoppingResult').scrollIntoView({behavior:'smooth'});
         
         let prepHtml = "";
-        if(totalIng.potato) prepHtml += `<div class="checklist-item"><div>🥔 לפרוס תפ"א דק ולהשרות במים</div></div>`;
-        if(totalIng.zucchini) prepHtml += `<div class="checklist-item"><div>🥒 לפרוס זוקיני ולהמליח (הגרת נוזלים)</div></div>`;
-        if(totalIng.sauce) prepHtml += `<div class="checklist-item"><div>🍅 להכין רוטב עגבניות</div></div>`;
+        if(totalIng.potato) prepHtml += `<div class="checklist-item"><div class="step-txt">🥔 לפרוס תפ"א דק ולהשרות במים</div></div>`;
+        if(totalIng.zucchini) prepHtml += `<div class="checklist-item"><div class="step-txt">🥒 לפרוס זוקיני ולהמליח (הגרת נוזלים)</div></div>`;
+        if(totalIng.sauce) prepHtml += `<div class="checklist-item"><div class="step-txt">🍅 להכין רוטב עגבניות</div></div>`;
         
         document.getElementById('prepList').innerHTML = prepHtml || "אין הכנות מיוחדות";
     }

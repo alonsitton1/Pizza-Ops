@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v7.0</title>
+    <title>Pizza Ops v7.1</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.1">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.1">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.1">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -27,13 +27,13 @@
         .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; }
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
         
-        /* STYLE SELECTOR (New) */
+        /* STYLE SELECTOR */
         .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; background: #eceff1; padding: 5px; border-radius: 12px; }
         .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.9rem; font-weight: 500; color: #78909c; transition: 0.2s; }
         .style-tab.active { background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .style-icon { display: block; font-size: 1.4rem; margin-bottom: 4px; }
 
-        /* Method Selector (Existing) */
+        /* Method Selector */
         .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
         .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
         .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <div class="method-selector">
+    <div class="method-selector" id="methodSelectorContainer">
         <div class="method-opt" onclick="setMethod('direct')" id="btn-direct">ישיר</div>
         <div class="method-opt" onclick="setMethod('poolish')" id="btn-poolish">פוליש</div>
         <div class="method-opt active" onclick="setMethod('biga')" id="btn-biga">Biga 100%</div>
@@ -258,7 +258,6 @@
         loadData();
         renderVideos();
         
-        // Setup Q&A
         const qa = [
             {q:"הבצק דביק בטירוף", a:"תן מנוחה של 10 דק' מכוסה וחזור ללוש. אל תוסיף קמח!"},
             {q:"הביגה יבשה מדי", a:"זה תקין! זה אמור להיות פירורים ולא בצק."},
@@ -282,6 +281,16 @@
         document.querySelectorAll('.style-tab').forEach(e => e.classList.remove('active'));
         document.getElementById(`tab-${style}`).classList.add('active');
 
+        // Show/Hide Method Selector (Only for Napoli)
+        const methodContainer = document.getElementById('methodSelectorContainer');
+        if(style === 'napoli') {
+            methodContainer.style.display = 'grid';
+            setMethod('biga'); // Default for Napoli
+        } else {
+            methodContainer.style.display = 'none';
+            setMethod('direct'); // Direct for Romana/NY
+        }
+
         // AUTO-ADJUST DEFAULTS
         if(style === 'napoli') {
             document.getElementById('balls').value = 6;
@@ -291,25 +300,22 @@
             document.getElementById('oilPct').value = 0;
             document.getElementById('sugarPct').value = 0;
             document.getElementById('yeastPct').value = 0.5;
-            setMethod('biga'); // Napoli default
         } else if(style === 'romana') {
             document.getElementById('balls').value = 4;
-            document.getElementById('weight').value = 180; // Small thin balls
+            document.getElementById('weight').value = 180;
             document.getElementById('hydration').value = 70;
             document.getElementById('saltPct').value = 3.5;
-            document.getElementById('oilPct').value = 5.0; // High oil
+            document.getElementById('oilPct').value = 5.0; 
             document.getElementById('sugarPct').value = 0;
             document.getElementById('yeastPct').value = 0.5;
-            setMethod('direct'); // Usually direct for home simplicity, or adjust as needed
         } else if(style === 'ny') {
             document.getElementById('balls').value = 4;
-            document.getElementById('weight').value = 300; // Standard peel size
+            document.getElementById('weight').value = 300; 
             document.getElementById('hydration').value = 65;
             document.getElementById('saltPct').value = 2.5;
             document.getElementById('oilPct').value = 2.0;
             document.getElementById('sugarPct').value = 2.0;
-            document.getElementById('yeastPct').value = 0.3; // Low yeast for cold ferment
-            setMethod('direct'); // NY is usually direct + cold ferment
+            document.getElementById('yeastPct').value = 0.3; // Low yeast
         }
         calc();
     }
@@ -365,7 +371,6 @@
         if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
         if (p.mode === '3day' && currentStyle !== 'ny') yPct = 0.5 * tempFactor; // Keep NY low
         
-        // Calculate Totals
         const totalWeight = p.balls * p.weight;
         const totalPct = 100 + p.hyd + p.salt + p.oil + p.sugar + yPct + p.malt;
         
@@ -385,8 +390,19 @@
 
         let mix, ball;
         
-        // Custom Schedules per Style/Mode
-        if (p.mode === '3day') { // Cold Ferment
+        if (currentStyle === 'ny' && p.mode === '3day') {
+             // NY 72 Hour Cold Ferment Logic
+             // Mix -> (Bulk in fridge) -> Ball -> (Proof) -> Bake
+             // Let's set Mix at -72h
+             let mixTime = subH(bake, 72);
+             // Balling: 24h before bake (after 48h bulk)
+             let ballTime = subH(bake, 24);
+             
+             steps.push({t: mixTime, txt: "🏗️ לישה והכנסה למקרר (כגוש)", id: "mix"});
+             steps.push({t: ballTime, txt: "🔴 כדרור והחזרה למקרר", id: "ball"});
+             steps.push({t: subH(bake, 2), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
+        } else if (p.mode === '3day') { 
+            // Standard 3 Day (Napoli/Roman)
             let rest = 3; 
             let pull = subH(bake, rest);
             ball = subH(pull, 24);
@@ -415,11 +431,10 @@
         }
         steps.sort((a,b) => a.t - b.t);
 
-        // Render Schedule
         const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
         const fmt = d => `<span class="day-badge">${days[d.getDay()]}</span> ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
         
-        let schedHtml = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${currentStyle})</h3>`;
+        let schedHtml = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         steps.forEach(s => {
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
             schedHtml += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
@@ -432,16 +447,6 @@
         // --- RECIPE RENDER ---
         let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         
-        // Flour Logic for Romana
-        let displayFlour = "";
-        let flourRow = "";
-        if(currentStyle === 'romana') {
-            const flourWhite = Math.round(totalFlour * 0.7);
-            const flourSemolina = Math.round(totalFlour * 0.3);
-            displayFlour = `לבן: ${flourWhite}ג' | סמולינה: ${flourSemolina}ג'`;
-            // We use totalFlour for the calculations below, but display split
-        }
-
         if (currentMethod === 'biga' && currentStyle === 'napoli') {
             let pFlour = Math.round(totalFlour); 
             let pWater = Math.round(totalFlour * 0.45);
@@ -715,7 +720,11 @@
                 }
             }
             if(d.style) switchStyle(d.style);
-            if(d.method) setMethod(d.method);
+            // After switching style, ensure method is set correctly from saved data if compatible
+            // But logic inside switchStyle overrides method. So we let switchStyle run first.
+            // Actually, we might want to respect saved method only for Napoli.
+            if(d.style === 'napoli' && d.method) setMethod(d.method);
+            
             if(d.counts) menuCounts = d.counts;
             if(d.videos) savedVideos = d.videos;
             if(d.checks) checkedSteps = d.checks;

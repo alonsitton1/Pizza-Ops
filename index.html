@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v6.5</title>
+    <title>Pizza Ops v7.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=6.5">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=6.5">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=6.5">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=7.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -26,8 +26,14 @@
         body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 15px; margin: 0; padding-bottom: 100px; }
         .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; }
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
-        h2 { font-size: 1.25rem; margin-top: 0; color: var(--text); border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 15px; font-weight: 700; }
         
+        /* STYLE SELECTOR (New) */
+        .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; background: #eceff1; padding: 5px; border-radius: 12px; }
+        .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.9rem; font-weight: 500; color: #78909c; transition: 0.2s; }
+        .style-tab.active { background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .style-icon { display: block; font-size: 1.4rem; margin-bottom: 4px; }
+
+        /* Method Selector (Existing) */
         .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
         .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
         .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
@@ -55,7 +61,6 @@
         .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
         .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; white-space: nowrap; }
 
-        /* Video Styles */
         .video-form { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee; }
         .video-grid { display: grid; gap: 15px; }
         .video-card { display: flex; background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; height: 90px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
@@ -102,6 +107,18 @@
 
 <div class="container">
     <h1>🍕 Pizza Ops</h1>
+
+    <div class="style-tabs">
+        <div class="style-tab active" id="tab-napoli" onclick="switchStyle('napoli')">
+            <span class="style-icon">🇮🇹</span>נאפוליטנית
+        </div>
+        <div class="style-tab" id="tab-romana" onclick="switchStyle('romana')">
+            <span class="style-icon">🏛️</span>רומאית
+        </div>
+        <div class="style-tab" id="tab-ny" onclick="switchStyle('ny')">
+            <span class="style-icon">🗽</span>ניו-יורק
+        </div>
+    </div>
 
     <div class="method-selector">
         <div class="method-opt" onclick="setMethod('direct')" id="btn-direct">ישיר</div>
@@ -150,6 +167,8 @@
     <div style="text-align:center; margin-top:25px; font-size:0.85rem; color:#90a4ae; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('adv').style.display='block'">הגדרות מתקדמות</div>
     <div id="adv" class="hidden-adv">
         <label>מלח (%)</label><input type="number" id="saltPct" value="2.5" step="0.1" oninput="calc()">
+        <label>שמן (%)</label><input type="number" id="oilPct" value="0" step="0.5" oninput="calc()">
+        <label>סוכר (%)</label><input type="number" id="sugarPct" value="0" step="0.5" oninput="calc()">
         <label>שמרים בסיס (%)</label><input type="number" id="yeastPct" value="0.5" step="0.1" oninput="calc()">
         <label>לתת/Malt (%)</label><input type="number" id="maltPct" value="1.0" step="0.1" oninput="calc()">
         <label>הרכב קמחים</label>
@@ -227,6 +246,7 @@
 
 <script>
     // --- STATE ---
+    let currentStyle = 'napoli';
     let currentMethod = 'biga';
     let menuCounts = {};
     let savedVideos = [];
@@ -238,10 +258,12 @@
         loadData();
         renderVideos();
         
+        // Setup Q&A
         const qa = [
             {q:"הבצק דביק בטירוף", a:"תן מנוחה של 10 דק' מכוסה וחזור ללוש. אל תוסיף קמח!"},
             {q:"הביגה יבשה מדי", a:"זה תקין! זה אמור להיות פירורים ולא בצק."},
-            {q:"הבצק נקרע בפתיחה", a:"הגלוטן מתוח. חכה 30 דק' בטמפ' החדר."}
+            {q:"הבצק נקרע בפתיחה", a:"הגלוטן מתוח. חכה 30 דק' בטמפ' החדר."},
+            {q:"מה זה סמולינה?", a:"קמח דורום דק. חובה לפיצה רומאית לקריספיות."}
         ];
         document.getElementById('qaList').innerHTML = qa.map(x => `<div class="qa-item" onclick="this.lastElementChild.style.display=this.lastElementChild.style.display=='block'?'none':'block'"><div class="qa-question">${x.q} ▼</div><div class="qa-answer" style="display:none; margin-top:5px; color:#555;">${x.a}</div></div>`).join('');
 
@@ -251,6 +273,44 @@
             document.getElementById('targetTime').value = `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}T${pad(t.getHours())}:${pad(t.getMinutes())}`;
         }
         
+        calc();
+    }
+
+    // --- LOGIC: STYLE SWITCHER ---
+    function switchStyle(style) {
+        currentStyle = style;
+        document.querySelectorAll('.style-tab').forEach(e => e.classList.remove('active'));
+        document.getElementById(`tab-${style}`).classList.add('active');
+
+        // AUTO-ADJUST DEFAULTS
+        if(style === 'napoli') {
+            document.getElementById('balls').value = 6;
+            document.getElementById('weight').value = 250;
+            document.getElementById('hydration').value = 67;
+            document.getElementById('saltPct').value = 2.5;
+            document.getElementById('oilPct').value = 0;
+            document.getElementById('sugarPct').value = 0;
+            document.getElementById('yeastPct').value = 0.5;
+            setMethod('biga'); // Napoli default
+        } else if(style === 'romana') {
+            document.getElementById('balls').value = 4;
+            document.getElementById('weight').value = 180; // Small thin balls
+            document.getElementById('hydration').value = 70;
+            document.getElementById('saltPct').value = 3.5;
+            document.getElementById('oilPct').value = 5.0; // High oil
+            document.getElementById('sugarPct').value = 0;
+            document.getElementById('yeastPct').value = 0.5;
+            setMethod('direct'); // Usually direct for home simplicity, or adjust as needed
+        } else if(style === 'ny') {
+            document.getElementById('balls').value = 4;
+            document.getElementById('weight').value = 300; // Standard peel size
+            document.getElementById('hydration').value = 65;
+            document.getElementById('saltPct').value = 2.5;
+            document.getElementById('oilPct').value = 2.0;
+            document.getElementById('sugarPct').value = 2.0;
+            document.getElementById('yeastPct').value = 0.3; // Low yeast for cold ferment
+            setMethod('direct'); // NY is usually direct + cold ferment
+        }
         calc();
     }
 
@@ -277,6 +337,8 @@
             hyd: +document.getElementById('hydration').value,
             temp: +document.getElementById('roomTemp').value,
             salt: +document.getElementById('saltPct').value,
+            oil: +document.getElementById('oilPct').value,
+            sugar: +document.getElementById('sugarPct').value,
             yeast: +document.getElementById('yeastPct').value,
             malt: +document.getElementById('maltPct').value,
             mode: document.getElementById('scheduleMode').value,
@@ -284,9 +346,10 @@
             date: new Date(document.getElementById('targetTime').value)
         };
 
-        // Temp Adjustment
         let tempFactor = 1.0;
         let waterTip = "";
+        
+        // Temp Logic
         if (p.temp > 24) {
             tempFactor = p.temp >= 30 ? 0.6 : 0.8;
             waterTip = "מים קרים מאוד (קרח)";
@@ -298,19 +361,23 @@
         }
         
         let yPct = p.yeast * tempFactor;
+        // Schedule adjustments
         if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
-        if (p.mode === '3day') yPct = 0.5 * tempFactor;
+        if (p.mode === '3day' && currentStyle !== 'ny') yPct = 0.5 * tempFactor; // Keep NY low
+        
+        // Calculate Totals
+        const totalWeight = p.balls * p.weight;
+        const totalPct = 100 + p.hyd + p.salt + p.oil + p.sugar + yPct + p.malt;
+        
+        const totalFlour = Math.round((totalWeight / totalPct) * 100);
+        const water = Math.round(totalFlour * (p.hyd/100));
+        const salt = Math.round(totalFlour * (p.salt/100) * 10)/10;
+        const oil = Math.round(totalFlour * (p.oil/100));
+        const sugar = Math.round(totalFlour * (p.sugar/100));
+        const yeast = Math.round(totalFlour * (yPct/100) * 10)/10;
+        const malt = Math.round(totalFlour * (p.malt/100) * 10)/10;
 
-        // Weights
-        const total = p.balls * p.weight;
-        const totalPct = 100 + p.hyd + p.salt + yPct + p.malt;
-        const flour = Math.round((total / totalPct) * 100);
-        const water = Math.round(flour * (p.hyd/100));
-        const salt = Math.round(flour * (p.salt/100) * 10)/10;
-        const yeast = Math.round(flour * (yPct/100) * 10)/10;
-        const malt = Math.round(flour * (p.malt/100) * 10)/10;
-
-        // Schedule
+        // --- SCHEDULE LOGIC ---
         const subH = (d,h) => new Date(d.getTime() - (h*3600000));
         let steps = [];
         let bake = p.date;
@@ -318,19 +385,19 @@
 
         let mix, ball;
         
-        if (p.mode === '3day') {
+        // Custom Schedules per Style/Mode
+        if (p.mode === '3day') { // Cold Ferment
             let rest = 3; 
             let pull = subH(bake, rest);
             ball = subH(pull, 24);
             mix = subH(ball, 1);
             if (p.work === 'work' && mix.getHours() < 17 && mix.getHours() > 6) {
-                mix.setHours(17,0);
-                ball = new Date(mix.getTime() + 3600000);
+                mix.setHours(17,0); ball = new Date(mix.getTime() + 3600000);
             }
             steps.push({t: pull, txt: "🌡️ הוצאה מהמקרר", id: "pull"});
             steps.push({t: ball, txt: "🔴 כדרור למקרר", id: "ball"});
             steps.push({t: mix, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-            if(currentMethod !== 'direct') steps.push({t: subH(mix, 18), txt: "🥣 הכנת מקדים (ביגה/פוליש)", id: "pref"});
+            if(currentMethod !== 'direct') steps.push({t: subH(mix, 18), txt: "🥣 הכנת מקדים", id: "pref"});
         } else if (p.mode === '2day') {
             ball = subH(bake, 5);
             mix = subH(ball, 1);
@@ -346,13 +413,13 @@
             steps.push({t: ball, txt: "🔴 כדרור", id: "ball"});
             steps.push({t: mix, txt: "🏗️ לישה", id: "mix"});
         }
-
         steps.sort((a,b) => a.t - b.t);
 
+        // Render Schedule
         const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
         const fmt = d => `<span class="day-badge">${days[d.getDay()]}</span> ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
         
-        let schedHtml = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (לחץ לסימון)</h3>`;
+        let schedHtml = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${currentStyle})</h3>`;
         steps.forEach(s => {
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
             schedHtml += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
@@ -362,11 +429,22 @@
         });
         document.getElementById('scheduleArea').innerHTML = schedHtml;
 
-        let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentMethod === 'biga' ? 'Biga 100%' : currentMethod})</h3>`;
+        // --- RECIPE RENDER ---
+        let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         
-        if (currentMethod === 'biga') {
-            let pFlour = Math.round(flour); 
-            let pWater = Math.round(flour * 0.45);
+        // Flour Logic for Romana
+        let displayFlour = "";
+        let flourRow = "";
+        if(currentStyle === 'romana') {
+            const flourWhite = Math.round(totalFlour * 0.7);
+            const flourSemolina = Math.round(totalFlour * 0.3);
+            displayFlour = `לבן: ${flourWhite}ג' | סמולינה: ${flourSemolina}ג'`;
+            // We use totalFlour for the calculations below, but display split
+        }
+
+        if (currentMethod === 'biga' && currentStyle === 'napoli') {
+            let pFlour = Math.round(totalFlour); 
+            let pWater = Math.round(totalFlour * 0.45);
             let mainWater = water - pWater;
             rHtml += row("קמח (לביגה)", pFlour);
             rHtml += row("מים (לביגה)", pWater);
@@ -376,9 +454,9 @@
             rHtml += row("מלח", salt);
             rHtml += row("לתת (Malt)", malt);
         } else if (currentMethod === 'poolish') {
-            let pFlour = Math.round(flour * 0.3);
+            let pFlour = Math.round(totalFlour * 0.3);
             let pWater = pFlour;
-            let mainFlour = flour - pFlour;
+            let mainFlour = totalFlour - pFlour;
             let mainWater = water - pWater;
             let pYeast = 0.2; 
             rHtml += row("קמח (לפוליש)", pFlour);
@@ -390,10 +468,19 @@
             rHtml += row("שמרים נוספים", (yeast - pYeast).toFixed(1));
             rHtml += row("מלח", salt);
         } else {
-            rHtml += row("קמח", flour);
+            // DIRECT METHOD (Used for Romana / NY usually)
+            if(currentStyle === 'romana') {
+                 rHtml += row("קמח לבן (00)", Math.round(totalFlour * 0.7));
+                 rHtml += row("קמח סמולינה", Math.round(totalFlour * 0.3));
+            } else {
+                 rHtml += row("קמח", totalFlour);
+            }
+            
             rHtml += row(`מים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, water);
             rHtml += row("שמרים", yeast);
             rHtml += row("מלח", salt);
+            if(oil > 0) rHtml += row("שמן זית", oil);
+            if(sugar > 0) rHtml += row("סוכר", sugar);
         }
         
         document.getElementById('recipeArea').innerHTML = rHtml;
@@ -527,10 +614,20 @@
             }
         });
 
+        // Add Style Specific Ingredients
+        if(currentStyle === 'romana') {
+            totalIng['semolina'] = 1;
+            totalIng['oil'] = 1;
+        }
+        if(currentStyle === 'ny') {
+            totalIng['sugar'] = 1;
+            totalIng['oil'] = 1;
+        }
+        const extraDict = { semolina: "קמח סמולינה", oil: "שמן זית", sugar: "סוכר לבן" };
+
         let html = "";
         for (const [k, v] of Object.entries(totalIng)) {
-            // NO QUANTITY DISPLAY
-            html += `<div class="checklist-item"><div class="shop-text" style="flex-grow:1">${dict[k] || k}</div><div class="check-icon">⬜</div></div>`;
+            html += `<div class="checklist-item"><div class="shop-text" style="flex-grow:1">${dict[k] || extraDict[k] || k}</div><div class="check-icon">⬜</div></div>`;
         }
         document.getElementById('shopList').innerHTML = html || "לא נבחרו פיצות";
         document.getElementById('shoppingResult').style.display = 'block';
@@ -540,6 +637,7 @@
         if(totalIng.potato) prepHtml += `<div class="checklist-item"><div class="step-txt">🥔 לפרוס תפ"א דק ולהשרות במים</div></div>`;
         if(totalIng.zucchini) prepHtml += `<div class="checklist-item"><div class="step-txt">🥒 לפרוס זוקיני ולהמליח (הגרת נוזלים)</div></div>`;
         if(totalIng.sauce) prepHtml += `<div class="checklist-item"><div class="step-txt">🍅 להכין רוטב עגבניות</div></div>`;
+        if(currentStyle === 'romana') prepHtml += `<div class="checklist-item"><div class="step-txt">🪵 להכין מערוך (רומאית)</div></div>`;
         
         document.getElementById('prepList').innerHTML = prepHtml || "אין הכנות מיוחדות";
     }
@@ -554,15 +652,27 @@
             if (c > 0) for (const [k, v] of Object.entries(p.ing)) totalIng[k] = (totalIng[k] || 0) + (v * c);
         });
 
+        // Add Style Specifics to Whatsapp
+        if(currentStyle === 'romana') {
+            totalIng['semolina'] = 1;
+            totalIng['oil'] = 1;
+        }
+        if(currentStyle === 'ny') {
+            totalIng['sugar'] = 1;
+            totalIng['oil'] = 1;
+        }
+        const extraDict = { semolina: "קמח סמולינה", oil: "שמן זית", sugar: "סוכר לבן" };
+
         if (Object.keys(totalIng).length === 0) return alert("בחר פיצות קודם!");
 
         for (const [k, v] of Object.entries(totalIng)) {
-            // NO QUANTITY DISPLAY
-            txt += `✅ ${dict[k] || k}\n`;
+            txt += `✅ ${dict[k] || extraDict[k] || k}\n`;
         }
         
         const balls = document.getElementById('balls').value;
-        txt += `\n*בצק (${balls} כדורים):*\n`;
+        const styleName = currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק';
+        
+        txt += `\n*בצק (${balls} כדורים, סגנון ${styleName}):*\n`;
         txt += `🌾 לבדוק שיש קמח ושמרים בבית!`;
 
         window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
@@ -578,6 +688,8 @@
                 temp: document.getElementById('roomTemp').value,
                 date: document.getElementById('targetTime').value,
                 salt: document.getElementById('saltPct').value,
+                oil: document.getElementById('oilPct').value,
+                sugar: document.getElementById('sugarPct').value,
                 yeast: document.getElementById('yeastPct').value,
                 malt: document.getElementById('maltPct').value,
                 sched: document.getElementById('scheduleMode').value,
@@ -585,22 +697,24 @@
                 flour: document.getElementById('flourMix').value
             },
             method: currentMethod,
+            style: currentStyle,
             counts: menuCounts,
             videos: savedVideos,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV6', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV7', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV6'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV7'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
-                    const el = document.getElementById({balls:'balls', weight:'weight', hyd:'hydration', temp:'roomTemp', date:'targetTime', salt:'saltPct', yeast:'yeastPct', malt:'maltPct', sched:'scheduleMode', work:'workMode', flour:'flourMix'}[k]);
+                    const el = document.getElementById({balls:'balls', weight:'weight', hyd:'hydration', temp:'roomTemp', date:'targetTime', salt:'saltPct', oil:'oilPct', sugar:'sugarPct', yeast:'yeastPct', malt:'maltPct', sched:'scheduleMode', work:'workMode', flour:'flourMix'}[k]);
                     if(el) el.value = d.inputs[k];
                 }
             }
+            if(d.style) switchStyle(d.style);
             if(d.method) setMethod(d.method);
             if(d.counts) menuCounts = d.counts;
             if(d.videos) savedVideos = d.videos;
@@ -623,7 +737,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV6');
+            localStorage.removeItem('pizzaOpsV7');
             location.reload();
         }
     }

@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v9.2</title>
+    <title>Pizza Ops v10.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.2">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.2">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.2">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -38,7 +38,6 @@
             padding: 15px; 
             margin: 0; 
             padding-bottom: 100px;
-            /* CENTER THE APP ON DESKTOP */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -52,7 +51,6 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.05); 
             margin-bottom: 20px; 
             width: 100%; 
-            /* LIMIT WIDTH FOR DESKTOP */
             max-width: 500px; 
         }
         
@@ -188,9 +186,9 @@
         <div>
             <label>📅 מסלול:</label>
             <select id="scheduleMode" class="timeline-select" onchange="calc()">
-                <option value="1day" id="opt_sched_1">🚀 יום אחד</option>
-                <option value="2day" id="opt_sched_2">🌙 יומיים</option>
-                <option value="3day" id="opt_sched_3" selected>❄️ 3 ימים</option>
+                <option value="1day" id="opt_sched_1">🚀 24 שעות</option>
+                <option value="2day" id="opt_sched_2">🌙 48 שעות</option>
+                <option value="3day" id="opt_sched_3" selected>❄️ 72 שעות</option>
             </select>
         </div>
         <div>
@@ -430,49 +428,67 @@
         let bake = p.date;
         steps.push({t: bake, txt: "🔥 זמן אפייה", id: "bake"});
 
-        let mix, ball;
+        // 1. NAPOLI SCHEDULE
+        if(currentStyle === 'napoli') {
+            if (p.mode === '3day') { // 72h
+                // 3 Day Napoli usually means 48h active time (Biga 24h + Bulk/Ball 24h)
+                // Or true 72h? Let's stick to standard Biga 100% flow which is ~48h total
+                // If user selects 72h, we extend cold ferment of the main dough
+                let mixTime = subH(bake, 48); // Mix main dough 48h before bake
+                let bigaTime = subH(mixTime, 24); // Make Biga 24h before mixing
+                steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
+                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+                steps.push({t: subH(bake, 24), txt: "🔴 כדרור", id: "ball"});
+                steps.push({t: subH(bake, 3), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+            } else if (p.mode === '2day') { // 48h
+                // Standard Biga: Biga -18h -> Mix -> Bulk -> Ball -> Bake
+                let mixTime = subH(bake, 24);
+                let bigaTime = subH(mixTime, 18);
+                steps.push({t: bigaTime, txt: "🥣 הכנת ביגה/פוליש", id: "pref"});
+                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+                steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
+            } else { // 24h
+                let mixTime = subH(bake, 8); // Same day direct usually
+                steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
+                steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
+            }
+        }
         
-        // 2-Day Logic Fix for Romana/NY
-        if ((currentStyle === 'ny' || currentStyle === 'romana') && p.mode === '2day') {
-             let mixTime = subH(bake, 48);
-             let ballTime = subH(bake, 24);
-             steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (גוש)", id: "mix"});
-             steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
-             steps.push({t: subH(bake, 2), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
-        }
-        else if (currentStyle === 'ny' && p.mode === '3day') {
-             let mixTime = subH(bake, 72);
-             let ballTime = subH(bake, 24);
-             steps.push({t: mixTime, txt: "🏗️ לישה והכנסה למקרר (כגוש)", id: "mix"});
-             steps.push({t: ballTime, txt: "🔴 כדרור והחזרה למקרר", id: "ball"});
-             steps.push({t: subH(bake, 2), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
-        } else if (p.mode === '3day') { 
-            let rest = 3; 
-            let pull = subH(bake, rest);
-            ball = subH(pull, 24);
-            mix = subH(ball, 1);
-            if (p.work === 'work' && mix.getHours() < 17 && mix.getHours() > 6) {
-                mix.setHours(17,0); ball = new Date(mix.getTime() + 3600000);
+        // 2. NEW YORK SCHEDULE (Cold Ferment Focused)
+        else if (currentStyle === 'ny') {
+            let mixTime, ballTime;
+            if(p.mode === '3day') { // 72h
+                mixTime = subH(bake, 72);
+                ballTime = subH(bake, 24);
+                steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
+                steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
+            } else if(p.mode === '2day') { // 48h
+                mixTime = subH(bake, 48);
+                ballTime = subH(bake, 24);
+                steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
+                steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
+            } else { // 24h
+                mixTime = subH(bake, 24);
+                steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
+                steps.push({t: subH(bake, 6), txt: "🔴 כדרור", id: "ball"});
             }
-            steps.push({t: pull, txt: "🌡️ הוצאה מהמקרר", id: "pull"});
-            steps.push({t: ball, txt: "🔴 כדרור למקרר", id: "ball"});
-            steps.push({t: mix, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-            if(currentMethod !== 'direct') steps.push({t: subH(mix, 18), txt: "🥣 הכנת מקדים", id: "pref"});
-        } else if (p.mode === '2day') {
-            ball = subH(bake, 5);
-            mix = subH(ball, 1);
-            if (p.work === 'work' && mix.getHours() < 17 && mix.getHours() > 6) {
-                mix.setHours(17,0); ball = new Date(mix.getTime() + 3600000);
-            }
-            steps.push({t: ball, txt: "🔴 כדרור והתפחה", id: "ball"});
-            steps.push({t: mix, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-            if(currentMethod !== 'direct') steps.push({t: subH(mix, 18), txt: "🥣 הכנת מקדים", id: "pref"});
-        } else {
-            ball = subH(bake, 4);
-            mix = subH(ball, 1);
-            steps.push({t: ball, txt: "🔴 כדרור", id: "ball"});
-            steps.push({t: mix, txt: "🏗️ לישה", id: "mix"});
+            steps.push({t: subH(bake, 2), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
         }
+
+        // 3. ROMAN SCHEDULE (Tonda - Roll out)
+        else if (currentStyle === 'romana') {
+            // Roman Tonda: Long bulk, ball on baking day (4-6h before)
+            let mixTime;
+            if(p.mode === '3day') mixTime = subH(bake, 72);
+            else if(p.mode === '2day') mixTime = subH(bake, 48);
+            else mixTime = subH(bake, 24);
+
+            steps.push({t: mixTime, txt: "🏗️ לישה + מנוחה 10 דק' + קיפול + מקרר (גוש)", id: "mix"});
+            // Balling is always on bake day for thin roman
+            steps.push({t: subH(bake, 5), txt: "🔴 כדרור (לפיצה דקה)", id: "ball"});
+            steps.push({t: subH(bake, 0.5), txt: "🪵 רידוד דק עם מערוך", id: "roll"});
+        }
+
         steps.sort((a,b) => a.t - b.t);
 
         const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
@@ -491,7 +507,6 @@
         // --- RECIPE RENDER ---
         let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         
-        // Clean up flour name for display
         let cleanFlour = p.flourType.split(" (")[0]; 
 
         if (currentMethod === 'biga' && currentStyle === 'napoli') {
@@ -520,7 +535,6 @@
             rHtml += row("שמרים נוספים", (yeast - pYeast).toFixed(1));
             rHtml += row("מלח", salt);
         } else {
-            // DIRECT METHOD
             if(currentStyle === 'romana') {
                  rHtml += row("קמח לבן (00)", Math.round(totalFlour * 0.7));
                  rHtml += row("קמח סמולינה", Math.round(totalFlour * 0.3));
@@ -704,11 +718,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV9_2', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV10', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV9_2'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV10'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -739,7 +753,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV9_2');
+            localStorage.removeItem('pizzaOpsV10');
             location.reload();
         }
     }

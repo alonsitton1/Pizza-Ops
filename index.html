@@ -12,19 +12,50 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v9.0</title>
+    <title>Pizza Ops v9.1</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.1">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.1">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.1">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #d32f2f; --accent: #1565c0; --bg: #f4f6f8; --card: #ffffff; --text: #37474f; }
-        body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 15px; margin: 0; padding-bottom: 100px; }
-        .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; }
+        
+        :root { 
+            --primary: #d32f2f; 
+            --accent: #1565c0; 
+            --bg: #f4f6f8; 
+            --card: #ffffff; 
+            --text: #37474f; 
+        }
+        
+        body { 
+            font-family: 'Heebo', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            padding: 15px; 
+            margin: 0; 
+            padding-bottom: 100px;
+            /* CENTER THE APP ON DESKTOP */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container { 
+            background: var(--card); 
+            padding: 20px; 
+            border-radius: 16px; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05); 
+            margin-bottom: 20px; 
+            width: 100%; 
+            /* LIMIT WIDTH FOR DESKTOP */
+            max-width: 500px; 
+        }
+        
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
         
         /* STYLE SELECTOR */
@@ -41,16 +72,41 @@
         .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
         .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
         
-        /* Fixed Inputs */
-        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background: #fff; font-family: 'Heebo', sans-serif; color: var(--text); max-width: 100%; }
+        /* INPUTS & SELECT FIXES */
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #cfd8dc; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            margin-top: 5px; 
+            background-color: #fff; 
+            font-family: 'Heebo', sans-serif; 
+            color: #333; /* Hardcoded dark color */
+            max-width: 100%;
+        }
+        
+        /* Specific fix for Dropdowns on Desktop */
+        select {
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: left 12px top 50%;
+            background-size: 10px auto;
+            padding-left: 30px; /* Space for arrow */
+            text-align: right;
+            cursor: pointer;
+        }
+
         input:focus, select:focus { border-color: var(--accent); outline: none; }
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
 
         #targetTime { direction: ltr; text-align: center; max-width: 100%; display: block; -webkit-appearance: none; min-height: 45px; }
 
-        .timeline-select { background: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; font-weight: 700; }
-        .work-constraint { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; font-weight: 700; }
-        .temp-select { background: #e0f2f1; border: 1px solid #80cbc4; color: #00695c; font-weight: 700; }
+        .timeline-select { background-color: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; font-weight: 700; }
+        .work-constraint { background-color: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; font-weight: 700; }
+        .temp-select { background-color: #e0f2f1; border: 1px solid #80cbc4; color: #00695c; font-weight: 700; }
 
         .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
         
@@ -321,6 +377,8 @@
     // --- LOGIC: CALCULATOR ---
     function calc() {
         const flourSelect = document.getElementById('flourMix');
+        // Get just the main text before any parenthesis for simpler display if needed, 
+        // or just use the full text but clean it up in the render function.
         const flourName = flourSelect.options[flourSelect.selectedIndex].text;
         
         const p = {
@@ -428,11 +486,14 @@
         // --- RECIPE RENDER ---
         let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         
+        // Clean up flour name for display
+        let cleanFlour = p.flourType.split(" (")[0]; 
+
         if (currentMethod === 'biga' && currentStyle === 'napoli') {
             let pFlour = Math.round(totalFlour); 
             let pWater = Math.round(totalFlour * 0.45);
             let mainWater = water - pWater;
-            rHtml += row(`קמח: ${p.flourType}`, pFlour);
+            rHtml += row(`קמח: ${cleanFlour}`, pFlour);
             rHtml += row("מים (לביגה)", pWater);
             rHtml += row("שמרים", yeast);
             rHtml += `<hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">`;
@@ -445,7 +506,7 @@
             let mainFlour = totalFlour - pFlour;
             let mainWater = water - pWater;
             let pYeast = 0.2; 
-            rHtml += row(`קמח: ${p.flourType}`, pFlour);
+            rHtml += row(`קמח: ${cleanFlour}`, pFlour);
             rHtml += row("מים (לפוליש)", pWater);
             rHtml += row("שמרים (לפוליש)", pYeast);
             rHtml += `<hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">`;
@@ -462,7 +523,7 @@
                  rHtml += row("קמח לחם", Math.round(totalFlour * 0.7));
                  rHtml += row("קמח רב-תכליתי", Math.round(totalFlour * 0.3));
             } else {
-                 rHtml += row(`קמח: ${p.flourType}`, totalFlour);
+                 rHtml += row(`קמח: ${cleanFlour}`, totalFlour);
             }
             
             rHtml += row(`מים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, water);
@@ -602,7 +663,7 @@
         txt += `\n*בצק (${balls} כדורים, סגנון ${styleName}):*\n`;
         
         if(currentStyle === 'napoli') {
-             const fType = document.getElementById('flourMix').options[document.getElementById('flourMix').selectedIndex].text;
+             const fType = document.getElementById('flourMix').options[document.getElementById('flourMix').selectedIndex].text.split(" (")[0];
              txt += `🌾 ${fType}\n`;
         } else if (currentStyle === 'romana') {
              txt += `🌾 קמח 00 + סמולינה\n`;
@@ -638,11 +699,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV9', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV9_1', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV9'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV9_1'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -651,7 +712,6 @@
                 }
             }
             if(d.style) switchStyle(d.style);
-            // Re-apply saved method ONLY if Napoli, otherwise switchStyle enforces direct
             if(d.style === 'napoli' && d.method) setMethod(d.method);
             
             if(d.counts) menuCounts = d.counts;
@@ -674,7 +734,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV9');
+            localStorage.removeItem('pizzaOpsV9_1');
             location.reload();
         }
     }

@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v9.1</title>
+    <title>Pizza Ops v9.2</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.1">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.1">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.1">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.2">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.2">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=9.2">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -82,11 +82,10 @@
             margin-top: 5px; 
             background-color: #fff; 
             font-family: 'Heebo', sans-serif; 
-            color: #333; /* Hardcoded dark color */
+            color: #333; 
             max-width: 100%;
         }
         
-        /* Specific fix for Dropdowns on Desktop */
         select {
             -webkit-appearance: none;
             appearance: none;
@@ -94,7 +93,7 @@
             background-repeat: no-repeat;
             background-position: left 12px top 50%;
             background-size: 10px auto;
-            padding-left: 30px; /* Space for arrow */
+            padding-left: 30px; 
             text-align: right;
             cursor: pointer;
         }
@@ -377,8 +376,6 @@
     // --- LOGIC: CALCULATOR ---
     function calc() {
         const flourSelect = document.getElementById('flourMix');
-        // Get just the main text before any parenthesis for simpler display if needed, 
-        // or just use the full text but clean it up in the render function.
         const flourName = flourSelect.options[flourSelect.selectedIndex].text;
         
         const p = {
@@ -435,7 +432,15 @@
 
         let mix, ball;
         
-        if (currentStyle === 'ny' && p.mode === '3day') {
+        // 2-Day Logic Fix for Romana/NY
+        if ((currentStyle === 'ny' || currentStyle === 'romana') && p.mode === '2day') {
+             let mixTime = subH(bake, 48);
+             let ballTime = subH(bake, 24);
+             steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (גוש)", id: "mix"});
+             steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
+             steps.push({t: subH(bake, 2), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
+        }
+        else if (currentStyle === 'ny' && p.mode === '3day') {
              let mixTime = subH(bake, 72);
              let ballTime = subH(bake, 24);
              steps.push({t: mixTime, txt: "🏗️ לישה והכנסה למקרר (כגוש)", id: "mix"});
@@ -699,11 +704,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV9_1', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV9_2', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV9_1'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV9_2'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -734,7 +739,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV9_1');
+            localStorage.removeItem('pizzaOpsV9_2');
             location.reload();
         }
     }

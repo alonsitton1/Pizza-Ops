@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v10.1</title>
+    <title>Pizza Ops v10.2</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.1">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.1">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.1">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.2">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.2">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.2">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -37,7 +37,7 @@
             color: var(--text); 
             padding: 15px; 
             margin: 0; 
-            padding-bottom: 100px;
+            padding-bottom: 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -133,17 +133,6 @@
         .action-grid { margin-top:25px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
         .btn-main { border:none; padding:12px; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; color:white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 6px; }
         
-        .fab-btn { position: fixed; bottom: 25px; left: 25px; background-color: var(--primary); color: white; width: 60px; height: 60px; border-radius: 50%; text-align: center; line-height: 60px; font-size: 24px; box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4); cursor: pointer; z-index: 1000; transition: transform 0.2s; }
-        .fab-btn:hover { transform: scale(1.1); }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-        /* Scroll Fix: overscroll-behavior: contain */
-        .modal-content { background: white; width: 90%; max-width: 500px; max-height: 80vh; border-radius: 16px; padding: 25px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .close-btn { font-size: 1.8rem; cursor: pointer; color: #90a4ae; }
-        .qa-item { border-bottom: 1px solid #eceff1; padding: 15px 0; }
-        .qa-question { font-weight: 600; cursor: pointer; color: var(--accent); display: flex; justify-content: space-between; }
-
         .reset-link { display:block; text-align:center; margin-top:30px; color:#ef5350; cursor:pointer; font-size:0.9rem; font-weight:500; text-decoration:none; opacity:0.7; transition:opacity 0.2s; padding-bottom: 30px; }
     </style>
 </head>
@@ -259,14 +248,6 @@
     <div onclick="resetApp()" class="reset-link">🔄 איפוס נתונים ומחיקת הכל</div>
 </div>
 
-<div class="fab-btn" onclick="document.getElementById('sosModal').style.display='flex'">🆘</div>
-<div class="modal-overlay" id="sosModal">
-    <div class="modal-content">
-        <div class="modal-header"><h2>🆘 שאלות נפוצות</h2><span class="close-btn" onclick="document.getElementById('sosModal').style.display='none'">&times;</span></div>
-        <div id="qaList"></div>
-    </div>
-</div>
-
 <script>
     // --- STATE ---
     let currentStyle = 'napoli';
@@ -279,14 +260,6 @@
         initMenu();
         loadData();
         
-        const qa = [
-            {q:"הבצק דביק בטירוף", a:"תן מנוחה של 10 דק' מכוסה וחזור ללוש. אל תוסיף קמח!"},
-            {q:"הביגה יבשה מדי", a:"זה תקין! זה אמור להיות פירורים ולא בצק."},
-            {q:"הבצק נקרע בפתיחה", a:"הגלוטן מתוח. חכה 30 דק' בטמפ' החדר."},
-            {q:"מה זה סמולינה?", a:"קמח דורום דק. חובה לפיצה רומאית לקריספיות."}
-        ];
-        document.getElementById('qaList').innerHTML = qa.map(x => `<div class="qa-item" onclick="this.lastElementChild.style.display=this.lastElementChild.style.display=='block'?'none':'block'"><div class="qa-question">${x.q} ▼</div><div class="qa-answer" style="display:none; margin-top:5px; color:#555;">${x.a}</div></div>`).join('');
-
         if(!document.getElementById('targetTime').value) {
             const t = new Date(); t.setDate(t.getDate()+2); t.setHours(20,0,0,0);
             const pad = n => n<10 ? '0'+n : n;
@@ -302,11 +275,13 @@
         document.querySelectorAll('.style-tab').forEach(e => e.classList.remove('active'));
         document.getElementById(`tab-${style}`).classList.add('active');
 
+        // Toggle UI Elements
         const methodContainer = document.getElementById('methodSelectorContainer');
         const napoliFlour = document.getElementById('napoliFlourSelect');
         const romanaInfo = document.getElementById('romanaInfo');
         const nyInfo = document.getElementById('nyInfo');
 
+        // Reset visibility
         methodContainer.style.display = 'none';
         napoliFlour.style.display = 'none';
         romanaInfo.style.display = 'none';
@@ -317,6 +292,7 @@
             napoliFlour.style.display = 'block';
             setMethod('biga');
             
+            // Napoli Defaults
             document.getElementById('balls').value = 6;
             document.getElementById('weight').value = 250;
             document.getElementById('hydration').value = 67;
@@ -329,6 +305,7 @@
             romanaInfo.style.display = 'block';
             setMethod('direct');
             
+            // Romana Defaults
             document.getElementById('balls').value = 4;
             document.getElementById('weight').value = 180;
             document.getElementById('hydration').value = 70;
@@ -341,6 +318,7 @@
             nyInfo.style.display = 'block';
             setMethod('direct');
             
+            // NY Defaults
             document.getElementById('balls').value = 4;
             document.getElementById('weight').value = 300; 
             document.getElementById('hydration').value = 65;
@@ -391,6 +369,7 @@
         let tempFactor = 1.0;
         let waterTip = "";
         
+        // Temp Logic
         if (p.temp > 24) {
             tempFactor = p.temp >= 30 ? 0.6 : 0.8;
             waterTip = "מים קרים מאוד (קרח)";
@@ -402,6 +381,7 @@
         }
         
         let yPct = p.yeast * tempFactor;
+        // Schedule adjustments
         if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
         if (p.mode === '3day' && currentStyle !== 'ny') yPct = 0.5 * tempFactor; 
         
@@ -720,11 +700,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV10_1', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV10_2', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_1'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_2'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -755,7 +735,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV10_1');
+            localStorage.removeItem('pizzaOpsV10_2');
             location.reload();
         }
     }

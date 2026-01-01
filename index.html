@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v10.7</title>
+    <title>Pizza Ops v10.8</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.7">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.7">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.7">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.8">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.8">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.8">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -345,6 +345,10 @@
         }, () => alert("יש לאשר גישה למיקום"));
     }
 
+    // --- ROUNDING HELPERS ---
+    function round5(n) { return Math.round(n / 5) * 5; }
+    function roundHalf(n) { return Math.round(n * 2) / 2; }
+
     // --- LOGIC: CALCULATOR ---
     function calc() {
         const flourSelect = document.getElementById('flourMix');
@@ -385,16 +389,26 @@
         if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
         if (p.mode === '3day' && currentStyle !== 'ny') yPct = 0.5 * tempFactor; 
         
+        // --- CALCULATION WITH ROUNDING ---
         const totalWeight = p.balls * p.weight;
         const totalPct = 100 + p.hyd + p.salt + p.oil + p.sugar + yPct + p.malt;
         
-        const totalFlour = Math.round((totalWeight / totalPct) * 100);
-        const water = Math.round(totalFlour * (p.hyd/100));
-        const salt = Math.round(totalFlour * (p.salt/100) * 10)/10;
-        const oil = Math.round(totalFlour * (p.oil/100));
-        const sugar = Math.round(totalFlour * (p.sugar/100));
-        const yeast = Math.round(totalFlour * (yPct/100) * 10)/10;
-        const malt = Math.round(totalFlour * (p.malt/100) * 10)/10;
+        // 1. Calculate raw flour
+        let rawFlour = (totalWeight / totalPct) * 100;
+        
+        // 2. Round Flour to nearest 5g
+        const totalFlour = round5(rawFlour);
+        
+        // 3. Calculate everything else based on the ROUNDED flour
+        // Water rounded to nearest 5g
+        const water = round5(totalFlour * (p.hyd/100));
+        
+        // Others rounded to nearest 0.5g
+        const salt = roundHalf(totalFlour * (p.salt/100));
+        const oil = roundHalf(totalFlour * (p.oil/100));
+        const sugar = roundHalf(totalFlour * (p.sugar/100));
+        const yeast = roundHalf(totalFlour * (yPct/100));
+        const malt = roundHalf(totalFlour * (p.malt/100));
 
         // --- SCHEDULE LOGIC ---
         const subH = (d,h) => new Date(d.getTime() - (h*3600000));
@@ -528,8 +542,8 @@
         let cleanFlour = p.flourType.split(" (")[0]; 
 
         if (currentMethod === 'biga' && currentStyle === 'napoli') {
-            let pFlour = Math.round(totalFlour); 
-            let pWater = Math.round(totalFlour * 0.45);
+            let pFlour = round5(totalFlour); 
+            let pWater = round5(totalFlour * 0.45);
             let mainWater = water - pWater;
             rHtml += row(`קמח: ${cleanFlour}`, pFlour);
             rHtml += row("מים (לביגה)", pWater);
@@ -539,7 +553,7 @@
             rHtml += row("מלח", salt);
             rHtml += row("לתת (Malt)", malt);
         } else if (currentMethod === 'poolish') {
-            let pFlour = Math.round(totalFlour * 0.3);
+            let pFlour = round5(totalFlour * 0.3);
             let pWater = pFlour;
             let mainFlour = totalFlour - pFlour;
             let mainWater = water - pWater;
@@ -554,11 +568,11 @@
             rHtml += row("מלח", salt);
         } else {
             if(currentStyle === 'romana') {
-                 rHtml += row("קמח לבן (00)", Math.round(totalFlour * 0.7));
-                 rHtml += row("קמח סמולינה", Math.round(totalFlour * 0.3));
+                 rHtml += row("קמח לבן (00)", round5(totalFlour * 0.7));
+                 rHtml += row("קמח סמולינה", round5(totalFlour * 0.3));
             } else if(currentStyle === 'ny') {
-                 rHtml += row("קמח לחם", Math.round(totalFlour * 0.7));
-                 rHtml += row("קמח רב-תכליתי", Math.round(totalFlour * 0.3));
+                 rHtml += row("קמח לחם", round5(totalFlour * 0.7));
+                 rHtml += row("קמח רב-תכליתי", round5(totalFlour * 0.3));
             } else {
                  rHtml += row(`קמח: ${cleanFlour}`, totalFlour);
             }
@@ -736,11 +750,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV10_7', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV10_8', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_7'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_8'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -771,7 +785,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV10_7');
+            localStorage.removeItem('pizzaOpsV10_8');
             location.reload();
         }
     }

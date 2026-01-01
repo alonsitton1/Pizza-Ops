@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v10.4</title>
+    <title>Pizza Ops v10.5</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.4">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.4">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.4">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.5">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.5">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.5">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -404,42 +404,69 @@
 
         let mix, ball;
         
-        // WORK CONSTRAINT FIX (Fixing the 2AM Biga Issue)
+        // WORK CONSTRAINT FIX (Applies to all styles)
         const applyWorkConstraint = (d) => {
-            if (p.work === 'work') {
-                // If it's a workday (Morning to Afternoon), push to evening
-                if (d.getHours() < 17 && d.getHours() > 6) {
-                    d.setHours(17, 0);
-                }
-                
-                // CRITICAL FIX: If using Biga/Poolish (18h preferment), a late mix (20:00+) 
-                // results in Biga at 02:00+. This is unrealistic.
-                // We force the Mix time back to 17:00 (right after work) so Biga falls on ~23:00 previous day.
-                if ((currentMethod === 'biga' || currentMethod === 'poolish') && d.getHours() > 18) {
-                     d.setHours(17, 0);
-                }
+            // General Constraint: Shift morning/noon to 17:00 if in Work mode
+            if (p.work === 'work' && d.getHours() < 17 && d.getHours() > 6) {
+                d.setHours(17, 0);
             }
             return d;
+        };
+
+        // SLEEP CONSTRAINT FIX (Applies to ALL modes including Flexible)
+        // If Biga time falls between 01:00 and 06:00, shift back to 23:00 previous day
+        const ensureSensibleHours = (mixDate, prefermentDuration) => {
+            let prefDate = subH(mixDate, prefermentDuration);
+            // If preferment is between 1am and 6am
+            if (prefDate.getHours() >= 1 && prefDate.getHours() < 6) {
+                // Calculate hours to shift back to 23:00
+                // Target: 23:00 previous day
+                let targetH = 23;
+                let currentH = prefDate.getHours();
+                // Shift: (currentH + 1) hours back to midnight + 1 hour back to 23:00?
+                // E.g. 02:00 -> 23:00 = -3 hours.
+                // 24 - (23 - 2) is wrong.
+                // Simple: Set preferment to 23:00 previous day
+                let newPref = new Date(prefDate);
+                newPref.setHours(23, 0);
+                if(newPref > prefDate) newPref.setDate(newPref.getDate() - 1); 
+                else if(newPref.getDate() == prefDate.getDate() && newPref.getHours() > prefDate.getHours()) newPref.setDate(newPref.getDate() - 1);
+                
+                // Now shift mix date by the same delta
+                let diff = prefDate - newPref;
+                mixDate = new Date(mixDate - diff);
+            }
+            return mixDate;
         };
 
         if(currentStyle === 'napoli') {
             if (p.mode === '3day') { // 72h
                 let mixTime = subH(bake, 48);
+                // Apply Sleep Fix First (so Work constraint can override if needed, or vice versa?
+                // Actually Sleep constraint is more critical for health.
+                mixTime = ensureSensibleHours(mixTime, 18);
+                // Apply Work constraint
                 mixTime = applyWorkConstraint(mixTime);
-                let bigaTime = subH(mixTime, 18); // 18h for biga
+                // Re-check sleep after work constraint (just in case)
+                mixTime = ensureSensibleHours(mixTime, 18);
+
+                let bigaTime = subH(mixTime, 18); 
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 steps.push({t: subH(bake, 24), txt: "🔴 כדרור", id: "ball"});
                 steps.push({t: subH(bake, 3), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
             } else if (p.mode === '2day') { // 48h
                 let mixTime = subH(bake, 24);
+                mixTime = ensureSensibleHours(mixTime, 18);
                 mixTime = applyWorkConstraint(mixTime);
+                mixTime = ensureSensibleHours(mixTime, 18);
+
                 let bigaTime = subH(mixTime, 18);
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה/פוליש", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
             } else { // 24h
-                let mixTime = subH(bake, 8); 
+                let mixTime = subH(bake, 5); // CHANGED to 5h (1h gap to ball)
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
                 steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
             }
@@ -710,11 +737,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV10_4', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV10_5', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_4'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_5'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -745,7 +772,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV10_4');
+            localStorage.removeItem('pizzaOpsV10_5');
             location.reload();
         }
     }

@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v10.3</title>
+    <title>Pizza Ops v10.4</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.3">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.3">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.3">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.4">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.4">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.4">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -37,7 +37,7 @@
             color: var(--text); 
             padding: 15px; 
             margin: 0; 
-            padding-bottom: 100px;
+            padding-bottom: 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -404,10 +404,20 @@
 
         let mix, ball;
         
-        // WORK CONSTRAINT FIX (Applies to all styles)
+        // WORK CONSTRAINT FIX (Fixing the 2AM Biga Issue)
         const applyWorkConstraint = (d) => {
-            if (p.work === 'work' && d.getHours() < 17 && d.getHours() > 6) {
-                d.setHours(17, 0);
+            if (p.work === 'work') {
+                // If it's a workday (Morning to Afternoon), push to evening
+                if (d.getHours() < 17 && d.getHours() > 6) {
+                    d.setHours(17, 0);
+                }
+                
+                // CRITICAL FIX: If using Biga/Poolish (18h preferment), a late mix (20:00+) 
+                // results in Biga at 02:00+. This is unrealistic.
+                // We force the Mix time back to 17:00 (right after work) so Biga falls on ~23:00 previous day.
+                if ((currentMethod === 'biga' || currentMethod === 'poolish') && d.getHours() > 18) {
+                     d.setHours(17, 0);
+                }
             }
             return d;
         };
@@ -416,7 +426,7 @@
             if (p.mode === '3day') { // 72h
                 let mixTime = subH(bake, 48);
                 mixTime = applyWorkConstraint(mixTime);
-                let bigaTime = subH(mixTime, 18); // FIX: 18 hours for biga
+                let bigaTime = subH(mixTime, 18); // 18h for biga
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 steps.push({t: subH(bake, 24), txt: "🔴 כדרור", id: "ball"});
@@ -700,11 +710,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV10_3', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV10_4', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_3'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_4'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -735,7 +745,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV10_3');
+            localStorage.removeItem('pizzaOpsV10_4');
             location.reload();
         }
     }

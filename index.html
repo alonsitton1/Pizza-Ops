@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v10.0</title>
+    <title>Pizza Ops v10.1</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.1">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.1">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.1">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
@@ -137,7 +137,8 @@
         .fab-btn:hover { transform: scale(1.1); }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-        .modal-content { background: white; width: 90%; max-width: 500px; max-height: 80vh; border-radius: 16px; padding: 25px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        /* Scroll Fix: overscroll-behavior: contain */
+        .modal-content { background: white; width: 90%; max-width: 500px; max-height: 80vh; border-radius: 16px; padding: 25px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .close-btn { font-size: 1.8rem; cursor: pointer; color: #90a4ae; }
         .qa-item { border-bottom: 1px solid #eceff1; padding: 15px 0; }
@@ -301,13 +302,11 @@
         document.querySelectorAll('.style-tab').forEach(e => e.classList.remove('active'));
         document.getElementById(`tab-${style}`).classList.add('active');
 
-        // Toggle UI Elements
         const methodContainer = document.getElementById('methodSelectorContainer');
         const napoliFlour = document.getElementById('napoliFlourSelect');
         const romanaInfo = document.getElementById('romanaInfo');
         const nyInfo = document.getElementById('nyInfo');
 
-        // Reset visibility
         methodContainer.style.display = 'none';
         napoliFlour.style.display = 'none';
         romanaInfo.style.display = 'none';
@@ -318,7 +317,6 @@
             napoliFlour.style.display = 'block';
             setMethod('biga');
             
-            // Napoli Defaults
             document.getElementById('balls').value = 6;
             document.getElementById('weight').value = 250;
             document.getElementById('hydration').value = 67;
@@ -331,7 +329,6 @@
             romanaInfo.style.display = 'block';
             setMethod('direct');
             
-            // Romana Defaults
             document.getElementById('balls').value = 4;
             document.getElementById('weight').value = 180;
             document.getElementById('hydration').value = 70;
@@ -344,7 +341,6 @@
             nyInfo.style.display = 'block';
             setMethod('direct');
             
-            // NY Defaults
             document.getElementById('balls').value = 4;
             document.getElementById('weight').value = 300; 
             document.getElementById('hydration').value = 65;
@@ -395,7 +391,6 @@
         let tempFactor = 1.0;
         let waterTip = "";
         
-        // Temp Logic
         if (p.temp > 24) {
             tempFactor = p.temp >= 30 ? 0.6 : 0.8;
             waterTip = "מים קרים מאוד (קרח)";
@@ -407,7 +402,6 @@
         }
         
         let yPct = p.yeast * tempFactor;
-        // Schedule adjustments
         if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
         if (p.mode === '3day' && currentStyle !== 'ny') yPct = 0.5 * tempFactor; 
         
@@ -428,63 +422,71 @@
         let bake = p.date;
         steps.push({t: bake, txt: "🔥 זמן אפייה", id: "bake"});
 
-        // 1. NAPOLI SCHEDULE
+        let mix, ball;
+        
+        // WORK CONSTRAINT FIX (Applies to all styles)
+        const applyWorkConstraint = (d) => {
+            if (p.work === 'work' && d.getHours() < 17 && d.getHours() > 6) {
+                d.setHours(17, 0);
+            }
+            return d;
+        };
+
         if(currentStyle === 'napoli') {
             if (p.mode === '3day') { // 72h
-                // 3 Day Napoli usually means 48h active time (Biga 24h + Bulk/Ball 24h)
-                // Or true 72h? Let's stick to standard Biga 100% flow which is ~48h total
-                // If user selects 72h, we extend cold ferment of the main dough
-                let mixTime = subH(bake, 48); // Mix main dough 48h before bake
-                let bigaTime = subH(mixTime, 24); // Make Biga 24h before mixing
+                let mixTime = subH(bake, 48);
+                mixTime = applyWorkConstraint(mixTime);
+                let bigaTime = subH(mixTime, 24);
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 steps.push({t: subH(bake, 24), txt: "🔴 כדרור", id: "ball"});
                 steps.push({t: subH(bake, 3), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
             } else if (p.mode === '2day') { // 48h
-                // Standard Biga: Biga -18h -> Mix -> Bulk -> Ball -> Bake
                 let mixTime = subH(bake, 24);
+                mixTime = applyWorkConstraint(mixTime);
                 let bigaTime = subH(mixTime, 18);
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה/פוליש", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
             } else { // 24h
-                let mixTime = subH(bake, 8); // Same day direct usually
+                let mixTime = subH(bake, 8); 
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
                 steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
             }
         }
         
-        // 2. NEW YORK SCHEDULE (Cold Ferment Focused)
         else if (currentStyle === 'ny') {
             let mixTime, ballTime;
             if(p.mode === '3day') { // 72h
                 mixTime = subH(bake, 72);
+                mixTime = applyWorkConstraint(mixTime);
                 ballTime = subH(bake, 24);
                 steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
                 steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
             } else if(p.mode === '2day') { // 48h
                 mixTime = subH(bake, 48);
+                mixTime = applyWorkConstraint(mixTime);
                 ballTime = subH(bake, 24);
                 steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
                 steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
             } else { // 24h
                 mixTime = subH(bake, 24);
+                mixTime = applyWorkConstraint(mixTime);
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
                 steps.push({t: subH(bake, 6), txt: "🔴 כדרור", id: "ball"});
             }
             steps.push({t: subH(bake, 2), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
         }
 
-        // 3. ROMAN SCHEDULE (Tonda - Roll out)
         else if (currentStyle === 'romana') {
-            // Roman Tonda: Long bulk, ball on baking day (4-6h before)
             let mixTime;
             if(p.mode === '3day') mixTime = subH(bake, 72);
             else if(p.mode === '2day') mixTime = subH(bake, 48);
             else mixTime = subH(bake, 24);
+            
+            mixTime = applyWorkConstraint(mixTime);
 
             steps.push({t: mixTime, txt: "🏗️ לישה + מנוחה 10 דק' + קיפול + מקרר (גוש)", id: "mix"});
-            // Balling is always on bake day for thin roman
             steps.push({t: subH(bake, 5), txt: "🔴 כדרור (לפיצה דקה)", id: "ball"});
             steps.push({t: subH(bake, 0.5), txt: "🪵 רידוד דק עם מערוך", id: "roll"});
         }
@@ -634,7 +636,7 @@
 
         let html = "";
         for (const [k, v] of Object.entries(totalIng)) {
-            html += `<div class="checklist-item"><div class="shop-text" style="flex-grow:1">${dict[k] || extraDict[k] || k}</div><div class="check-icon">⬜</div></div>`;
+            html += `<div class="checklist-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-icon').innerText = this.classList.contains('checked') ? '✅' : '⬜'"><div class="shop-text" style="flex-grow:1">${dict[k] || extraDict[k] || k}</div><div class="check-icon">⬜</div></div>`;
         }
         document.getElementById('shopList').innerHTML = html || "לא נבחרו פיצות";
         document.getElementById('shoppingResult').style.display = 'block';
@@ -718,11 +720,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV10', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV10_1', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV10'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_1'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -753,7 +755,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV10');
+            localStorage.removeItem('pizzaOpsV10_1');
             location.reload();
         }
     }

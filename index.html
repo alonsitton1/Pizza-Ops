@@ -12,13 +12,13 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v10.8</title>
+    <title>Pizza Ops v11.1</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.8">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.8">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=10.8">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=11.1">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=11.1">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=11.1">
 
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -114,9 +114,27 @@
         .checklist-item.checked .step-txt { text-decoration: line-through; color: #81c784; }
         
         .step-txt { flex-grow: 1; padding-right: 5px; font-size: 0.95rem; } 
-        .meta-group { display: flex; align-items: center; flex-shrink: 0; }
+        .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;}
         .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
-        .day-badge { font-weight: 700; background: #455a64; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; white-space: nowrap; }
+        
+        /* IMPROVED DAY BADGE */
+        .day-badge { 
+            font-weight: 900; 
+            color: #fff; 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            font-size: 0.95rem; 
+            margin-left: 8px; 
+            white-space: nowrap; 
+            display: inline-block;
+            min-width: 35px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .day-badge.default { background: #546e7a; }
+        .day-badge.today { background: #2e7d32; border: 1px solid #1b5e20; } /* Green for Today */
+        .day-badge.tomorrow { background: #f57f17; border: 1px solid #e65100; } /* Orange for Tomorrow */
+        .day-badge.after-tomorrow { background: #1565c0; border: 1px solid #0d47a1; } /* Blue for Next Day */
 
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
@@ -174,11 +192,11 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
-            <label>📅 מסלול:</label>
+            <label>📅 מתי אוכלים?</label>
             <select id="scheduleMode" class="timeline-select" onchange="calc()">
-                <option value="1day" id="opt_sched_1">🚀 24 שעות</option>
-                <option value="2day" id="opt_sched_2">🌙 48 שעות</option>
-                <option value="3day" id="opt_sched_3" selected>❄️ 72 שעות</option>
+                <option value="1day" id="opt_sched_1">🚀 להיום (קצר)</option>
+                <option value="2day" id="opt_sched_2">🌙 למחר (לילה 1)</option>
+                <option value="3day" id="opt_sched_3" selected>❄️ למחרתיים (2 לילות)</option>
             </select>
         </div>
         <div>
@@ -204,7 +222,7 @@
         </div>
     </div>
 
-    <label>🕒 מתי אוכלים?</label>
+    <label>🕒 שעת הארוחה (ביום היעד):</label>
     <input type="datetime-local" id="targetTime" onchange="calc()">
 
     <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
@@ -212,10 +230,16 @@
 
     <div style="text-align:center; margin-top:25px; font-size:0.85rem; color:#90a4ae; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('adv').style.display='block'">הגדרות מתקדמות</div>
     <div id="adv" class="hidden-adv">
+        <label>🧪 סוג שמרים:</label>
+        <select id="yeastType" onchange="calc()">
+            <option value="dry">יבשים (אינסטנט)</option>
+            <option value="fresh">טריים (קוביה/פירורים)</option>
+        </select>
+        
         <label>מלח (%)</label><input type="number" id="saltPct" value="2.5" step="0.1" oninput="calc()">
         <label>שמן (%)</label><input type="number" id="oilPct" value="0" step="0.5" oninput="calc()">
         <label>סוכר (%)</label><input type="number" id="sugarPct" value="0" step="0.5" oninput="calc()">
-        <label>שמרים בסיס (%)</label><input type="number" id="yeastPct" value="0.5" step="0.1" oninput="calc()">
+        <label>שמרים בסיס (יבשים %)</label><input type="number" id="yeastPct" value="0.25" step="0.05" oninput="calc()">
         <label>לתת/Malt (%)</label><input type="number" id="maltPct" value="1.0" step="0.1" oninput="calc()">
     </div>
 </div>
@@ -281,7 +305,6 @@
         const romanaInfo = document.getElementById('romanaInfo');
         const nyInfo = document.getElementById('nyInfo');
 
-        // Reset visibility
         methodContainer.style.display = 'none';
         napoliFlour.style.display = 'none';
         romanaInfo.style.display = 'none';
@@ -292,40 +315,37 @@
             napoliFlour.style.display = 'block';
             setMethod('biga');
             
-            // Napoli Defaults
             document.getElementById('balls').value = 6;
             document.getElementById('weight').value = 250;
             document.getElementById('hydration').value = 67;
             document.getElementById('saltPct').value = 2.5;
             document.getElementById('oilPct').value = 0;
             document.getElementById('sugarPct').value = 0;
-            document.getElementById('yeastPct').value = 0.5;
+            document.getElementById('yeastPct').value = 0.25;
 
         } else if(style === 'romana') {
             romanaInfo.style.display = 'block';
             setMethod('direct');
             
-            // Romana Defaults
             document.getElementById('balls').value = 4;
             document.getElementById('weight').value = 180;
             document.getElementById('hydration').value = 70;
             document.getElementById('saltPct').value = 3.5;
             document.getElementById('oilPct').value = 5.0; 
             document.getElementById('sugarPct').value = 0;
-            document.getElementById('yeastPct').value = 0.5;
+            document.getElementById('yeastPct').value = 0.25;
 
         } else if(style === 'ny') {
             nyInfo.style.display = 'block';
             setMethod('direct');
             
-            // NY Defaults
             document.getElementById('balls').value = 4;
             document.getElementById('weight').value = 300; 
             document.getElementById('hydration').value = 65;
             document.getElementById('saltPct').value = 2.5;
             document.getElementById('oilPct').value = 2.0;
             document.getElementById('sugarPct').value = 2.0;
-            document.getElementById('yeastPct').value = 0.3;
+            document.getElementById('yeastPct').value = 0.25;
         }
         calc();
     }
@@ -349,10 +369,34 @@
     function round5(n) { return Math.round(n / 5) * 5; }
     function roundHalf(n) { return Math.round(n * 2) / 2; }
 
+    // --- HELPER: RELATIVE DATE ---
+    function formatRelativeDay(d) {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const check = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        
+        // Calculate diff in days
+        const diff = Math.round((check - today) / (1000 * 60 * 60 * 24));
+        
+        let label = "";
+        let badgeClass = "default";
+        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
+        const dayName = days[d.getDay()];
+
+        if (diff === 0) { label = `היום (${dayName})`; badgeClass = "today"; }
+        else if (diff === 1) { label = `מחר (${dayName})`; badgeClass = "tomorrow"; }
+        else if (diff === 2) { label = `מחרתיים (${dayName})`; badgeClass = "after-tomorrow"; }
+        else { label = `יום ${dayName}`; }
+        
+        const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        return `${time} <span class="day-badge ${badgeClass}">${label}</span>`;
+    }
+
     // --- LOGIC: CALCULATOR ---
     function calc() {
         const flourSelect = document.getElementById('flourMix');
         const flourName = flourSelect.options[flourSelect.selectedIndex].text;
+        const yeastType = document.getElementById('yeastType').value;
         
         const p = {
             balls: +document.getElementById('balls').value,
@@ -373,7 +417,6 @@
         let tempFactor = 1.0;
         let waterTip = "";
         
-        // Temp Logic
         if (p.temp > 24) {
             tempFactor = p.temp >= 30 ? 0.6 : 0.8;
             waterTip = "מים קרים מאוד (קרח)";
@@ -384,30 +427,24 @@
             waterTip = "מים בטמפ' החדר";
         }
         
-        let yPct = p.yeast * tempFactor;
-        // Schedule adjustments
-        if (p.mode === '1day' && currentMethod === 'direct') yPct = 0.3 * tempFactor;
-        if (p.mode === '3day' && currentStyle !== 'ny') yPct = 0.5 * tempFactor; 
+        let calcYeastPct = p.yeast * tempFactor;
+        if (p.mode === '1day' && currentMethod === 'direct') calcYeastPct = 0.3 * tempFactor;
         
-        // --- CALCULATION WITH ROUNDING ---
+        // If Fresh Yeast -> Multiply by 3
+        if (yeastType === 'fresh') calcYeastPct = calcYeastPct * 3;
+
+        // --- CALCULATION ---
         const totalWeight = p.balls * p.weight;
-        const totalPct = 100 + p.hyd + p.salt + p.oil + p.sugar + yPct + p.malt;
+        const totalPct = 100 + p.hyd + p.salt + p.oil + p.sugar + calcYeastPct + p.malt;
         
-        // 1. Calculate raw flour
         let rawFlour = (totalWeight / totalPct) * 100;
-        
-        // 2. Round Flour to nearest 5g
         const totalFlour = round5(rawFlour);
         
-        // 3. Calculate everything else based on the ROUNDED flour
-        // Water rounded to nearest 5g
         const water = round5(totalFlour * (p.hyd/100));
-        
-        // Others rounded to nearest 0.5g
         const salt = roundHalf(totalFlour * (p.salt/100));
         const oil = roundHalf(totalFlour * (p.oil/100));
         const sugar = roundHalf(totalFlour * (p.sugar/100));
-        const yeast = roundHalf(totalFlour * (yPct/100));
+        const yeast = roundHalf(totalFlour * (calcYeastPct/100)); 
         const malt = roundHalf(totalFlour * (p.malt/100));
 
         // --- SCHEDULE LOGIC ---
@@ -418,28 +455,21 @@
 
         let mix, ball;
         
-        // WORK CONSTRAINT FIX (Applies to all styles)
         const applyWorkConstraint = (d) => {
-            // General Constraint: Shift morning/noon to 17:00 if in Work mode
             if (p.work === 'work' && d.getHours() < 17 && d.getHours() > 6) {
                 d.setHours(17, 0);
             }
             return d;
         };
 
-        // SLEEP CONSTRAINT FIX (Applies to ALL modes including Flexible)
-        // If Biga time falls between 01:00 and 06:00, shift back to 23:00 previous day
         const ensureSensibleHours = (mixDate, prefermentDuration) => {
             let prefDate = subH(mixDate, prefermentDuration);
-            // If preferment is between 1am and 6am
             if (prefDate.getHours() >= 1 && prefDate.getHours() < 6) {
-                // Set preferment to 23:00 previous day
                 let newPref = new Date(prefDate);
                 newPref.setHours(23, 0);
                 if(newPref > prefDate) newPref.setDate(newPref.getDate() - 1); 
                 else if(newPref.getDate() == prefDate.getDate() && newPref.getHours() > prefDate.getHours()) newPref.setDate(newPref.getDate() - 1);
                 
-                // Now shift mix date by the same delta
                 let diff = prefDate - newPref;
                 mixDate = new Date(mixDate - diff);
             }
@@ -449,17 +479,13 @@
         if(currentStyle === 'napoli') {
             if (p.mode === '3day') { // 72h
                 let mixTime = subH(bake, 48);
-                // Apply Sleep Fix First
                 mixTime = ensureSensibleHours(mixTime, 18);
-                // Apply Work constraint
                 mixTime = applyWorkConstraint(mixTime);
-                // Re-check sleep after work constraint (just in case)
                 mixTime = ensureSensibleHours(mixTime, 18);
 
                 let bigaTime = subH(mixTime, 18); 
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                // 1 hour gap to balling
                 let ballTime = new Date(mixTime.getTime() + 3600000); 
                 steps.push({t: ballTime, txt: "🔴 כדרור (למקרר)", id: "ball"});
                 steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
@@ -472,19 +498,16 @@
                 let bigaTime = subH(mixTime, 18);
                 steps.push({t: bigaTime, txt: "🥣 הכנת ביגה/פוליש", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                // 1 hour gap to balling
                 let ballTime = new Date(mixTime.getTime() + 3600000); 
                 steps.push({t: ballTime, txt: "🔴 כדרור (למקרר)", id: "ball"});
                 steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
             } else { // 24h
                 let mixTime = subH(bake, 5); 
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
-                // 1 hour gap to balling
                 let ballTime = new Date(mixTime.getTime() + 3600000); 
                 steps.push({t: ballTime, txt: "🔴 כדרור", id: "ball"});
             }
         }
-        
         else if (currentStyle === 'ny') {
             let mixTime, ballTime;
             if(p.mode === '3day') { // 72h
@@ -507,7 +530,6 @@
             }
             steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
         }
-
         else if (currentStyle === 'romana') {
             let mixTime;
             if(p.mode === '3day') mixTime = subH(bake, 72);
@@ -523,15 +545,12 @@
 
         steps.sort((a,b) => a.t - b.t);
 
-        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
-        const fmt = d => `<span class="day-badge">${days[d.getDay()]}</span> ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
-        
         let schedHtml = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         steps.forEach(s => {
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
             schedHtml += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
                 <div class="step-txt">${s.txt}</div>
-                <div class="meta-group">${fmt(s.t)} <span class="check-icon">${isChecked ? '✅' : '⬜'}</span></div>
+                <div class="meta-group">${formatRelativeDay(s.t)} <span class="check-icon">${isChecked ? '✅' : '⬜'}</span></div>
             </div>`;
         });
         document.getElementById('scheduleArea').innerHTML = schedHtml;
@@ -540,6 +559,7 @@
         let rHtml = `<h3 style="margin:0 0 10px 0;">🍕 מתכון (${currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק'})</h3>`;
         
         let cleanFlour = p.flourType.split(" (")[0]; 
+        let yeastLabel = yeastType === 'fresh' ? 'שמרים טריים' : 'שמרים יבשים';
 
         if (currentMethod === 'biga' && currentStyle === 'napoli') {
             let pFlour = round5(totalFlour); 
@@ -547,7 +567,7 @@
             let mainWater = water - pWater;
             rHtml += row(`קמח: ${cleanFlour}`, pFlour);
             rHtml += row("מים (לביגה)", pWater);
-            rHtml += row("שמרים", yeast);
+            rHtml += row(yeastLabel, yeast);
             rHtml += `<hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">`;
             rHtml += row(`מים נוספים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, mainWater);
             rHtml += row("מלח", salt);
@@ -557,14 +577,16 @@
             let pWater = pFlour;
             let mainFlour = totalFlour - pFlour;
             let mainWater = water - pWater;
-            let pYeast = 0.2; 
+            let pYeast = 0.2 * (yeastType==='fresh'?3:1); 
+            let mainYeast = yeast - pYeast;
+            
             rHtml += row(`קמח: ${cleanFlour}`, pFlour);
             rHtml += row("מים (לפוליש)", pWater);
-            rHtml += row("שמרים (לפוליש)", pYeast);
+            rHtml += row(`${yeastLabel} (לפוליש)`, pYeast.toFixed(1));
             rHtml += `<hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">`;
             rHtml += row("קמח נוסף", mainFlour);
             rHtml += row(`מים נוספים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, mainWater);
-            rHtml += row("שמרים נוספים", (yeast - pYeast).toFixed(1));
+            if(mainYeast > 0) rHtml += row(`${yeastLabel} (נוספים)`, mainYeast.toFixed(1));
             rHtml += row("מלח", salt);
         } else {
             if(currentStyle === 'romana') {
@@ -578,7 +600,7 @@
             }
             
             rHtml += row(`מים <br><span style="font-size:0.8rem;color:#1565c0">${waterTip}</span>`, water);
-            rHtml += row("שמרים", yeast);
+            rHtml += row(yeastLabel, yeast);
             rHtml += row("מלח", salt);
             if(oil > 0) rHtml += row("שמן זית", oil);
             if(sugar > 0) rHtml += row("סוכר", sugar);
@@ -750,11 +772,11 @@
             counts: menuCounts,
             checks: checkedSteps
         };
-        localStorage.setItem('pizzaOpsV10_8', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV11_1', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV10_8'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV11_1'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -785,7 +807,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV10_8');
+            localStorage.removeItem('pizzaOpsV11_1');
             location.reload();
         }
     }

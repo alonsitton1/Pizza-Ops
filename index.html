@@ -12,11 +12,11 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v13.0</title>
+    <title>Pizza Ops v13.1</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.1">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.1">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.1">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
@@ -117,20 +117,21 @@
         .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;}
         .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
         
-        /* CLEANER DAY BADGE (SMALLER) */
+        /* CLEANER & SMALLER DAY BADGE */
         .day-badge { 
-            font-weight: 700; 
+            font-weight: 500; 
             color: #546e7a;
-            background: #eceff1;
-            padding: 2px 6px; 
+            background: #f5f5f5;
+            padding: 1px 6px; 
             border-radius: 4px; 
-            font-size: 0.75rem; /* Smaller */
+            font-size: 0.75rem; 
             margin-left: 6px; 
             white-space: nowrap; 
             display: inline-block;
+            border: 1px solid #e0e0e0;
         }
-        .day-badge.today { color: #2e7d32; background: #e8f5e9; }
-        .day-badge.tomorrow { color: #ef6c00; background: #fff3e0; }
+        .day-badge.today { color: #2e7d32; background: #e8f5e9; border-color: #c8e6c9; }
+        .day-badge.tomorrow { color: #ef6c00; background: #fff3e0; border-color: #ffe0b2; }
 
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
@@ -196,7 +197,7 @@
         <div>
             <label>📅 מתי אוכלים?</label>
             <select id="scheduleMode" class="timeline-select" onchange="calc()">
-                <option value="today" id="opt_today">🚀 להיום (בצק לערב)</option>
+                <option value="today" id="opt_today">🚀 להיום (קצר)</option>
                 <option value="tomorrow" id="opt_tomorrow">🌙 למחר (לילה אחד)</option>
                 <option value="after_tomorrow" id="opt_after_tomorrow">❄️ למחרתיים (2 לילות)</option>
             </select>
@@ -493,14 +494,17 @@
         };
 
         if(currentStyle === 'napoli') {
-            if (schedMode === 'after_tomorrow') { // 48h (NOT 72h)
-                // Logic: 48h Cold Ferment. Mix -> Fridge -> Ball -> Bake
-                // To keep it simple: Mix 48h before bake. Ball 24h before.
-                // Warn about Biga? If Biga selected, it needs +18h = 66h total. 
-                // We'll just calculate it honestly.
-                let mixTime = subH(bake, 48);
+            if (schedMode === 'after_tomorrow') { // 3 Days Total
+                // Logic: Start Day 1, Eat Day 3.
+                // Mix: Day 2 (approx 24h before bake).
+                // Biga: Day 1 (18h before Mix).
+                
+                let mixTime = subH(bake, 24);
                 
                 if(currentMethod === 'biga' || currentMethod === 'poolish') {
+                    // Mix should be late enough on Day 2 so Biga starts Day 1.
+                    // If mix is at 20:00 (Day 2), Biga is 02:00 (Day 2). Bad.
+                    // Constraints will shift mix to ensure Biga is ~23:00 (Day 1).
                     mixTime = ensureSensibleHours(mixTime, 18);
                     mixTime = applyWorkConstraint(mixTime);
                     mixTime = ensureSensibleHours(mixTime, 18);
@@ -512,8 +516,9 @@
                 }
 
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                // Ball 24h before bake for 48h process
-                let ballTime = subH(bake, 24); 
+                
+                // Balling 1h after mix
+                let ballTime = new Date(mixTime.getTime() + 3600000);
                 steps.push({t: ballTime, txt: "🔴 כדרור (למקרר)", id: "ball"});
                 steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
 
@@ -532,7 +537,10 @@
                 }
 
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                let ballTime = subH(bake, 4); // Ball on bake day
+                // Direct: Ball 4-6h before bake?
+                // Standard Napoli Direct 24h: Bulk 2h, Ball, Fridge? Or Bulk 20h?
+                // Let's assume Bulk 2h then Ball.
+                let ballTime = new Date(mixTime.getTime() + 7200000); 
                 steps.push({t: ballTime, txt: "🔴 כדרור", id: "ball"});
             } else { // Today
                 let mixTime = subH(bake, 5); 
@@ -850,11 +858,11 @@
             checks: checkedSteps,
             customPizzas: customPizzas
         };
-        localStorage.setItem('pizzaOpsV13', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV13_1', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV13'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV13_1'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -882,7 +890,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV13');
+            localStorage.removeItem('pizzaOpsV13_1');
             location.reload();
         }
     }

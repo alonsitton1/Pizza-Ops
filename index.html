@@ -12,13 +12,13 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v11.1</title>
+    <title>Pizza Ops v12.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=11.1">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=11.1">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=11.1">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=12.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=12.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=12.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -37,7 +37,7 @@
             color: var(--text); 
             padding: 15px; 
             margin: 0; 
-            padding-bottom: 50px;
+            padding-bottom: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -117,28 +117,26 @@
         .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;}
         .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
         
-        /* IMPROVED DAY BADGE */
+        /* CLEANER DAY BADGE */
         .day-badge { 
-            font-weight: 900; 
-            color: #fff; 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-size: 0.95rem; 
+            font-weight: 700; 
+            color: #546e7a;
+            background: #eceff1;
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-size: 0.8rem; 
             margin-left: 8px; 
             white-space: nowrap; 
             display: inline-block;
-            min-width: 35px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        .day-badge.default { background: #546e7a; }
-        .day-badge.today { background: #2e7d32; border: 1px solid #1b5e20; } /* Green for Today */
-        .day-badge.tomorrow { background: #f57f17; border: 1px solid #e65100; } /* Orange for Tomorrow */
-        .day-badge.after-tomorrow { background: #1565c0; border: 1px solid #0d47a1; } /* Blue for Next Day */
+        .day-badge.today { color: #2e7d32; background: #e8f5e9; }
+        .day-badge.tomorrow { color: #ef6c00; background: #fff3e0; }
 
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
         .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
+        
+        /* TOGGLE SETTINGS */
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
         .menu-grid { display: grid; gap: 10px; margin-top: 15px; }
@@ -150,6 +148,10 @@
         
         .action-grid { margin-top:25px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
         .btn-main { border:none; padding:12px; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; color:white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        
+        /* ADD PIZZA MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 16px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         
         .reset-link { display:block; text-align:center; margin-top:30px; color:#ef5350; cursor:pointer; font-size:0.9rem; font-weight:500; text-decoration:none; opacity:0.7; transition:opacity 0.2s; padding-bottom: 30px; }
     </style>
@@ -192,11 +194,11 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
-            <label>📅 מתי אוכלים?</label>
+            <label>📅 אורך תהליך:</label>
             <select id="scheduleMode" class="timeline-select" onchange="calc()">
-                <option value="1day" id="opt_sched_1">🚀 להיום (קצר)</option>
-                <option value="2day" id="opt_sched_2">🌙 למחר (לילה 1)</option>
-                <option value="3day" id="opt_sched_3" selected>❄️ למחרתיים (2 לילות)</option>
+                <option value="1day" id="opt_sched_1">🚀 קצר (24 שעות)</option>
+                <option value="2day" id="opt_sched_2">🌙 בינוני (48 שעות)</option>
+                <option value="3day" id="opt_sched_3" selected>❄️ ארוך (72 שעות)</option>
             </select>
         </div>
         <div>
@@ -222,13 +224,13 @@
         </div>
     </div>
 
-    <label>🕒 שעת הארוחה (ביום היעד):</label>
+    <label>🕒 תאריך ושעת הארוחה:</label>
     <input type="datetime-local" id="targetTime" onchange="calc()">
 
     <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
     <div id="recipeArea" style="margin-top:15px; background:#fafafa; padding:15px; border-radius:12px; border:1px solid #eee;"></div>
 
-    <div style="text-align:center; margin-top:25px; font-size:0.85rem; color:#90a4ae; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('adv').style.display='block'">הגדרות מתקדמות</div>
+    <div style="text-align:center; margin-top:25px; font-size:0.85rem; color:#90a4ae; cursor:pointer; text-decoration:underline;" onclick="toggleAdv()">הגדרות מתקדמות</div>
     <div id="adv" class="hidden-adv">
         <label>🧪 סוג שמרים:</label>
         <select id="yeastType" onchange="calc()">
@@ -252,6 +254,7 @@
     </div>
     
     <div id="menuList" class="menu-grid"></div>
+    <button onclick="openAddPizzaModal()" class="btn-main" style="width:100%; margin-top:15px; background:#78909c;">+ הוסף פיצה משלך</button>
 
     <div class="action-grid">
         <button onclick="generateShopping()" class="btn-main" style="background:var(--accent);">🛒 הצג רשימה</button>
@@ -272,17 +275,30 @@
     <div onclick="resetApp()" class="reset-link">🔄 איפוס נתונים ומחיקת הכל</div>
 </div>
 
+<div class="modal-overlay" id="addPizzaModal">
+    <div class="modal-content">
+        <h3 style="margin-top:0;">🍕 הוספת פיצה</h3>
+        <label>שם הפיצה:</label>
+        <input type="text" id="newPizzaName" placeholder="למשל: פטריות ושמנת">
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="closeAddPizzaModal()" class="btn-main" style="background:#90a4ae; flex:1;">ביטול</button>
+            <button onclick="saveNewPizza()" class="btn-main" style="background:var(--primary); flex:1;">שמור</button>
+        </div>
+    </div>
+</div>
+
 <script>
     // --- STATE ---
     let currentStyle = 'napoli';
     let currentMethod = 'biga';
     let menuCounts = {};
+    let customPizzas = [];
     let checkedSteps = {}; 
 
     // --- INIT ---
     function init() {
+        loadData(); // Load first to get custom pizzas
         initMenu();
-        loadData();
         
         if(!document.getElementById('targetTime').value) {
             const t = new Date(); t.setDate(t.getDate()+2); t.setHours(20,0,0,0);
@@ -291,6 +307,11 @@
         }
         
         calc();
+    }
+
+    function toggleAdv() {
+        const el = document.getElementById('adv');
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
     }
 
     // --- LOGIC: STYLE SWITCHER ---
@@ -361,8 +382,8 @@
                 document.getElementById('roomTemp').value = Math.round(data.current_weather.temperature);
                 calc();
                 alert(`הטמפרטורה עודכנה: ${data.current_weather.temperature}°C`);
-            } catch(e) { alert("שגיאה בקבלת מזג אוויר"); }
-        }, () => alert("יש לאשר גישה למיקום"));
+            } catch(e) { alert("שגיאה בקבלת נתוני מזג אוויר. נסה להזין ידנית."); }
+        }, () => alert("יש לאשר גישה למיקום לקבלת מזג אוויר"));
     }
 
     // --- ROUNDING HELPERS ---
@@ -371,25 +392,23 @@
 
     // --- HELPER: RELATIVE DATE ---
     function formatRelativeDay(d) {
+        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
+        const dayName = days[d.getDay()];
+        
+        // Clean format: HH:MM (Day)
+        const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        
+        // Determine class based on diff from today (optional styling)
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const check = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-        
-        // Calculate diff in days
         const diff = Math.round((check - today) / (1000 * 60 * 60 * 24));
         
-        let label = "";
-        let badgeClass = "default";
-        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
-        const dayName = days[d.getDay()];
-
-        if (diff === 0) { label = `היום (${dayName})`; badgeClass = "today"; }
-        else if (diff === 1) { label = `מחר (${dayName})`; badgeClass = "tomorrow"; }
-        else if (diff === 2) { label = `מחרתיים (${dayName})`; badgeClass = "after-tomorrow"; }
-        else { label = `יום ${dayName}`; }
+        let classNm = "";
+        if(diff === 0) classNm = "today";
+        else if(diff === 1) classNm = "tomorrow";
         
-        const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
-        return `${time} <span class="day-badge ${badgeClass}">${label}</span>`;
+        return `${time} <span class="day-badge ${classNm}">יום ${dayName}</span>`;
     }
 
     // --- LOGIC: CALCULATOR ---
@@ -430,7 +449,6 @@
         let calcYeastPct = p.yeast * tempFactor;
         if (p.mode === '1day' && currentMethod === 'direct') calcYeastPct = 0.3 * tempFactor;
         
-        // If Fresh Yeast -> Multiply by 3
         if (yeastType === 'fresh') calcYeastPct = calcYeastPct * 3;
 
         // --- CALCULATION ---
@@ -630,15 +648,42 @@
 
     function initMenu() {
         const list = document.getElementById('menuList');
-        list.innerHTML = pizzaMenu.map(p => `
-            <div class="menu-item">
-                <span class="menu-name">${p.icon} ${p.name}</span>
-                <div class="menu-controls">
-                    <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
-                    <span class="qty-val" id="count-${p.id}">0</span>
-                    <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
-                </div>
-            </div>`).join('');
+        list.innerHTML = "";
+        
+        // Built-in
+        pizzaMenu.forEach(p => renderMenuItem(p));
+        // Custom
+        customPizzas.forEach(p => renderMenuItem(p, true));
+    }
+
+    function renderMenuItem(p, isCustom = false) {
+        const list = document.getElementById('menuList');
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        div.innerHTML = `
+            <span class="menu-name">${p.icon} ${p.name}</span>
+            <div class="menu-controls">
+                <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
+                <span class="qty-val" id="count-${p.id}">${menuCounts[p.id] || 0}</span>
+                <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
+            </div>`;
+        list.appendChild(div);
+    }
+
+    // --- CUSTOM PIZZA LOGIC ---
+    function openAddPizzaModal() { document.getElementById('addPizzaModal').style.display='flex'; }
+    function closeAddPizzaModal() { document.getElementById('addPizzaModal').style.display='none'; }
+    
+    function saveNewPizza() {
+        const name = document.getElementById('newPizzaName').value;
+        if(!name) return;
+        const id = 'custom_' + Date.now();
+        const newP = { id: id, name: name, icon: '🍕', ing: {} }; // Generic ing
+        customPizzas.push(newP);
+        saveData();
+        initMenu();
+        closeAddPizzaModal();
+        document.getElementById('newPizzaName').value = "";
     }
 
     function changeQty(id, d) {
@@ -665,13 +710,10 @@
         let totalIng = {};
         const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
         
+        // Built-in
         pizzaMenu.forEach(p => {
             const c = menuCounts[p.id] || 0;
-            if (c > 0) {
-                for (const [k, v] of Object.entries(p.ing)) {
-                    totalIng[k] = (totalIng[k] || 0) + (v * c);
-                }
-            }
+            if (c > 0) for (const [k, v] of Object.entries(p.ing)) totalIng[k] = (totalIng[k] || 0) + (v * c);
         });
 
         // Add Style Specific Ingredients
@@ -690,6 +732,14 @@
         for (const [k, v] of Object.entries(totalIng)) {
             html += `<div class="checklist-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-icon').innerText = this.classList.contains('checked') ? '✅' : '⬜'"><div class="shop-text" style="flex-grow:1">${dict[k] || extraDict[k] || k}</div><div class="check-icon">⬜</div></div>`;
         }
+
+        // Add Custom Pizzas to List
+        customPizzas.forEach(p => {
+            if(menuCounts[p.id] > 0) {
+                html += `<div class="checklist-item" onclick="this.classList.toggle('checked')"><div class="shop-text" style="flex-grow:1">מצרכים ל-${p.name}</div><div class="check-icon">⬜</div></div>`;
+            }
+        });
+
         document.getElementById('shopList').innerHTML = html || "לא נבחרו פיצות";
         document.getElementById('shoppingResult').style.display = 'block';
         document.getElementById('shoppingResult').scrollIntoView({behavior:'smooth'});
@@ -708,6 +758,7 @@
         
         let totalIng = {};
         const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
+        
         pizzaMenu.forEach(p => {
             const c = menuCounts[p.id] || 0;
             if (c > 0) for (const [k, v] of Object.entries(p.ing)) totalIng[k] = (totalIng[k] || 0) + (v * c);
@@ -724,11 +775,20 @@
         }
         const extraDict = { semolina: "קמח סמולינה", oil: "שמן זית", sugar: "סוכר לבן", ap_flour: "קמח רב-תכליתי" };
 
-        if (Object.keys(totalIng).length === 0) return alert("בחר פיצות קודם!");
-
+        let hasItems = false;
         for (const [k, v] of Object.entries(totalIng)) {
             txt += `✅ ${dict[k] || extraDict[k] || k}\n`;
+            hasItems = true;
         }
+        
+        customPizzas.forEach(p => {
+            if(menuCounts[p.id] > 0) {
+                txt += `✅ מצרכים ל-${p.name}\n`;
+                hasItems = true;
+            }
+        });
+
+        if (!hasItems) return alert("בחר פיצות קודם!");
         
         const balls = document.getElementById('balls').value;
         const styleName = currentStyle === 'napoli' ? 'נאפולי' : currentStyle === 'romana' ? 'רומאית' : 'ניו-יורק';
@@ -770,13 +830,14 @@
             method: currentMethod,
             style: currentStyle,
             counts: menuCounts,
-            checks: checkedSteps
+            checks: checkedSteps,
+            customPizzas: customPizzas
         };
-        localStorage.setItem('pizzaOpsV11_1', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV12', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV11_1'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV12'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -789,12 +850,9 @@
             
             if(d.counts) menuCounts = d.counts;
             if(d.checks) checkedSteps = d.checks;
+            if(d.customPizzas) customPizzas = d.customPizzas;
             
-            // UI Update
-            for (const [id, c] of Object.entries(menuCounts)) {
-                const el = document.getElementById(`count-${id}`);
-                if(el) el.innerText = c;
-            }
+            // UI Update will happen in initMenu()
         }
     }
 
@@ -807,7 +865,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV11_1');
+            localStorage.removeItem('pizzaOpsV12');
             location.reload();
         }
     }

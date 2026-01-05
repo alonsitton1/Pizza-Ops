@@ -12,13 +12,13 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v12.0</title>
+    <title>Pizza Ops v13.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=12.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=12.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=12.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=13.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -117,15 +117,15 @@
         .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;}
         .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
         
-        /* CLEANER DAY BADGE */
+        /* CLEANER DAY BADGE (SMALLER) */
         .day-badge { 
             font-weight: 700; 
             color: #546e7a;
             background: #eceff1;
             padding: 2px 6px; 
             border-radius: 4px; 
-            font-size: 0.8rem; 
-            margin-left: 8px; 
+            font-size: 0.75rem; /* Smaller */
+            margin-left: 6px; 
             white-space: nowrap; 
             display: inline-block;
         }
@@ -194,11 +194,11 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
-            <label>📅 אורך תהליך:</label>
+            <label>📅 מתי אוכלים?</label>
             <select id="scheduleMode" class="timeline-select" onchange="calc()">
-                <option value="1day" id="opt_sched_1">🚀 קצר (24 שעות)</option>
-                <option value="2day" id="opt_sched_2">🌙 בינוני (48 שעות)</option>
-                <option value="3day" id="opt_sched_3" selected>❄️ ארוך (72 שעות)</option>
+                <option value="today" id="opt_today">🚀 להיום (בצק לערב)</option>
+                <option value="tomorrow" id="opt_tomorrow">🌙 למחר (לילה אחד)</option>
+                <option value="after_tomorrow" id="opt_after_tomorrow">❄️ למחרתיים (2 לילות)</option>
             </select>
         </div>
         <div>
@@ -224,7 +224,7 @@
         </div>
     </div>
 
-    <label>🕒 תאריך ושעת הארוחה:</label>
+    <label>🕒 שעת הארוחה (ביום היעד):</label>
     <input type="datetime-local" id="targetTime" onchange="calc()">
 
     <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
@@ -297,7 +297,7 @@
 
     // --- INIT ---
     function init() {
-        loadData(); // Load first to get custom pizzas
+        loadData(); 
         initMenu();
         
         if(!document.getElementById('targetTime').value) {
@@ -320,7 +320,6 @@
         document.querySelectorAll('.style-tab').forEach(e => e.classList.remove('active'));
         document.getElementById(`tab-${style}`).classList.add('active');
 
-        // Toggle UI Elements
         const methodContainer = document.getElementById('methodSelectorContainer');
         const napoliFlour = document.getElementById('napoliFlourSelect');
         const romanaInfo = document.getElementById('romanaInfo');
@@ -382,8 +381,8 @@
                 document.getElementById('roomTemp').value = Math.round(data.current_weather.temperature);
                 calc();
                 alert(`הטמפרטורה עודכנה: ${data.current_weather.temperature}°C`);
-            } catch(e) { alert("שגיאה בקבלת נתוני מזג אוויר. נסה להזין ידנית."); }
-        }, () => alert("יש לאשר גישה למיקום לקבלת מזג אוויר"));
+            } catch(e) { alert("לא הצלחנו לקבל מזג אוויר אוטומטי"); }
+        }, () => alert("יש לאשר גישה למיקום"));
     }
 
     // --- ROUNDING HELPERS ---
@@ -394,21 +393,20 @@
     function formatRelativeDay(d) {
         const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
         const dayName = days[d.getDay()];
-        
-        // Clean format: HH:MM (Day)
         const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
         
-        // Determine class based on diff from today (optional styling)
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const check = new Date(d.getFullYear(), d.getMonth(), d.getDate());
         const diff = Math.round((check - today) / (1000 * 60 * 60 * 24));
         
         let classNm = "";
-        if(diff === 0) classNm = "today";
-        else if(diff === 1) classNm = "tomorrow";
+        let label = "";
+        if(diff === 0) { classNm = "today"; label = "היום"; }
+        else if(diff === 1) { classNm = "tomorrow"; label = "מחר"; }
+        else { label = dayName; }
         
-        return `${time} <span class="day-badge ${classNm}">יום ${dayName}</span>`;
+        return `${time} <span class="day-badge ${classNm}">${label}</span>`;
     }
 
     // --- LOGIC: CALCULATOR ---
@@ -416,6 +414,7 @@
         const flourSelect = document.getElementById('flourMix');
         const flourName = flourSelect.options[flourSelect.selectedIndex].text;
         const yeastType = document.getElementById('yeastType').value;
+        const schedMode = document.getElementById('scheduleMode').value;
         
         const p = {
             balls: +document.getElementById('balls').value,
@@ -427,7 +426,6 @@
             sugar: +document.getElementById('sugarPct').value,
             yeast: +document.getElementById('yeastPct').value,
             malt: +document.getElementById('maltPct').value,
-            mode: document.getElementById('scheduleMode').value,
             work: document.getElementById('workMode').value,
             date: new Date(document.getElementById('targetTime').value),
             flourType: flourName
@@ -447,7 +445,7 @@
         }
         
         let calcYeastPct = p.yeast * tempFactor;
-        if (p.mode === '1day' && currentMethod === 'direct') calcYeastPct = 0.3 * tempFactor;
+        if (schedMode === 'today' && currentMethod === 'direct') calcYeastPct = 0.3 * tempFactor;
         
         if (yeastType === 'fresh') calcYeastPct = calcYeastPct * 3;
 
@@ -495,66 +493,85 @@
         };
 
         if(currentStyle === 'napoli') {
-            if (p.mode === '3day') { // 72h
+            if (schedMode === 'after_tomorrow') { // 48h (NOT 72h)
+                // Logic: 48h Cold Ferment. Mix -> Fridge -> Ball -> Bake
+                // To keep it simple: Mix 48h before bake. Ball 24h before.
+                // Warn about Biga? If Biga selected, it needs +18h = 66h total. 
+                // We'll just calculate it honestly.
                 let mixTime = subH(bake, 48);
-                mixTime = ensureSensibleHours(mixTime, 18);
-                mixTime = applyWorkConstraint(mixTime);
-                mixTime = ensureSensibleHours(mixTime, 18);
+                
+                if(currentMethod === 'biga' || currentMethod === 'poolish') {
+                    mixTime = ensureSensibleHours(mixTime, 18);
+                    mixTime = applyWorkConstraint(mixTime);
+                    mixTime = ensureSensibleHours(mixTime, 18);
+                    
+                    let bigaTime = subH(mixTime, 18); 
+                    steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
+                } else {
+                    mixTime = applyWorkConstraint(mixTime);
+                }
 
-                let bigaTime = subH(mixTime, 18); 
-                steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                let ballTime = new Date(mixTime.getTime() + 3600000); 
+                // Ball 24h before bake for 48h process
+                let ballTime = subH(bake, 24); 
                 steps.push({t: ballTime, txt: "🔴 כדרור (למקרר)", id: "ball"});
                 steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
-            } else if (p.mode === '2day') { // 48h
+
+            } else if (schedMode === 'tomorrow') { // 24h
                 let mixTime = subH(bake, 24);
-                mixTime = ensureSensibleHours(mixTime, 18);
-                mixTime = applyWorkConstraint(mixTime);
-                mixTime = ensureSensibleHours(mixTime, 18);
+                
+                if(currentMethod === 'biga' || currentMethod === 'poolish') {
+                    mixTime = ensureSensibleHours(mixTime, 18);
+                    mixTime = applyWorkConstraint(mixTime);
+                    mixTime = ensureSensibleHours(mixTime, 18);
+                    
+                    let bigaTime = subH(mixTime, 18);
+                    steps.push({t: bigaTime, txt: "🥣 הכנת ביגה/פוליש", id: "pref"});
+                } else {
+                    mixTime = applyWorkConstraint(mixTime);
+                }
 
-                let bigaTime = subH(mixTime, 18);
-                steps.push({t: bigaTime, txt: "🥣 הכנת ביגה/פוליש", id: "pref"});
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                let ballTime = new Date(mixTime.getTime() + 3600000); 
-                steps.push({t: ballTime, txt: "🔴 כדרור (למקרר)", id: "ball"});
-                steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
-            } else { // 24h
+                let ballTime = subH(bake, 4); // Ball on bake day
+                steps.push({t: ballTime, txt: "🔴 כדרור", id: "ball"});
+            } else { // Today
                 let mixTime = subH(bake, 5); 
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
                 let ballTime = new Date(mixTime.getTime() + 3600000); 
                 steps.push({t: ballTime, txt: "🔴 כדרור", id: "ball"});
             }
         }
+        
         else if (currentStyle === 'ny') {
             let mixTime, ballTime;
-            if(p.mode === '3day') { // 72h
-                mixTime = subH(bake, 72);
-                mixTime = applyWorkConstraint(mixTime);
-                ballTime = subH(bake, 24);
-                steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
-                steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
-            } else if(p.mode === '2day') { // 48h
+            if(schedMode === 'after_tomorrow') { // 48h
                 mixTime = subH(bake, 48);
                 mixTime = applyWorkConstraint(mixTime);
                 ballTime = subH(bake, 24);
                 steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
                 steps.push({t: ballTime, txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
-            } else { // 24h
+            } else if(schedMode === 'tomorrow') { // 24h
                 mixTime = subH(bake, 24);
                 mixTime = applyWorkConstraint(mixTime);
+                ballTime = subH(bake, 6); // Ball closer to bake for 24h
+                steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
+                steps.push({t: ballTime, txt: "🔴 כדרור", id: "ball"});
+            } else { // Today
+                mixTime = subH(bake, 6);
+                mixTime = applyWorkConstraint(mixTime);
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
-                steps.push({t: subH(bake, 6), txt: "🔴 כדרור", id: "ball"});
+                steps.push({t: subH(bake, 4), txt: "🔴 כדרור", id: "ball"});
             }
             steps.push({t: subH(bake, 1.5), txt: "🌡️ הוצאה לטמפ' החדר", id: "pull"});
         }
+
         else if (currentStyle === 'romana') {
             let mixTime;
-            if(p.mode === '3day') mixTime = subH(bake, 72);
-            else if(p.mode === '2day') mixTime = subH(bake, 48);
-            else mixTime = subH(bake, 24);
+            if(schedMode === 'after_tomorrow') mixTime = subH(bake, 48);
+            else if(schedMode === 'tomorrow') mixTime = subH(bake, 24);
+            else mixTime = subH(bake, 5);
             
-            mixTime = applyWorkConstraint(mixTime);
+            if (p.work === 'work' && schedMode !== 'today' && mixTime.getHours() < 17 && mixTime.getHours() > 6) mixTime.setHours(17,0);
 
             steps.push({t: mixTime, txt: "🏗️ לישה + מנוחה 10 דק' + קיפול + מקרר (גוש)", id: "mix"});
             steps.push({t: subH(bake, 5), txt: "🔴 כדרור (לפיצה דקה)", id: "ball"});
@@ -833,11 +850,11 @@
             checks: checkedSteps,
             customPizzas: customPizzas
         };
-        localStorage.setItem('pizzaOpsV12', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV13', JSON.stringify(d));
     }
 
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV12'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV13'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -865,7 +882,7 @@
 
     function resetApp() {
         if(confirm("בטוח שרוצים לאפס הכל?")) {
-            localStorage.removeItem('pizzaOpsV12');
+            localStorage.removeItem('pizzaOpsV13');
             location.reload();
         }
     }

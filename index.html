@@ -9,11 +9,11 @@
     <meta name="apple-mobile-web-app-title" content="Pizza Ops">
     <meta name="theme-color" content="#d32f2f">
     
-    <title>Pizza Ops v20.0</title>
+    <title>Pizza Ops v21.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=20.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=20.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=20.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=21.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=21.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=21.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
@@ -24,10 +24,29 @@
         .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; max-width: 500px; }
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 15px; }
         
-        /* DATE SECTION */
+        /* DATE SECTION FIX */
         .date-section { background: #e3f2fd; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bbdefb; }
         .date-label { font-weight: 700; color: #1565c0; margin-bottom: 8px; display: block; text-align:center; }
-        input[type="datetime-local"] { width: 100%; padding: 12px; border: 1px solid #90caf9; border-radius: 8px; font-size: 1.1rem; background: #fff; color: #1565c0; text-align: center; font-weight: 700; font-family: 'Heebo', sans-serif; direction: ltr; }
+        
+        /* IPHONE INPUT FIX */
+        input[type="datetime-local"] { 
+            width: 100%; 
+            max-width: 100%; /* Prevent overflow */
+            padding: 12px; 
+            border: 1px solid #90caf9; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            background: #fff; 
+            color: #1565c0; 
+            text-align: center; 
+            font-weight: 700; 
+            font-family: 'Heebo', sans-serif; 
+            direction: ltr; 
+            display: block; 
+            margin: 0 auto; /* Center block */
+            box-sizing: border-box; /* Crucial for iOS */
+            -webkit-appearance: none; /* Remove iOS styling */
+        }
 
         /* ERROR BOX */
         .error-box { display: none; background: #ffebee; color: #c62828; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ef9a9a; text-align: center; font-weight: 600; line-height: 1.4; }
@@ -44,7 +63,7 @@
         .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
         
         /* INPUTS & DROPDOWNS */
-        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background-color: #fff; font-family: 'Heebo', sans-serif; color: #333; max-width: 100%; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background-color: #fff; font-family: 'Heebo', sans-serif; color: #333; max-width: 100%; box-sizing: border-box; }
         
         select { 
             -webkit-appearance: none; appearance: none; 
@@ -82,7 +101,6 @@
         .day-badge.today { color: #2e7d32; background: #e8f5e9; border-color: #c8e6c9; }
         .day-badge.tomorrow { color: #e65100; background: #fff3e0; border-color: #ffe0b2; }
         
-        /* TIME GAP (Fixed) */
         .time-gap { 
             display: block; width: fit-content; margin: -10px auto 5px auto;
             text-align: center; font-size: 0.7rem; color: #90a4ae; 
@@ -95,7 +113,6 @@
         .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
-        /* SHOPPING */
         .menu-grid { display: grid; gap: 10px; margin-top: 15px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; }
         .menu-name { font-weight: 600; font-size: 1rem; color: #333; }
@@ -355,88 +372,65 @@
             return d;
         };
 
-        const ensureBigaNight = (d) => {
-            // Force Preferment to 23:00 the night before the Mix day
-            // But we need to make sure Mix is actually ~18h later.
-            // Simplified: If Work mode -> Biga 23:00, Mix 17:00 next day (18h gap)
-            return d;
+        const ensureBigaHours = (mixDate) => {
+            let pref = subH(mixDate, 18);
+            if (pref.getHours() >= 1 && pref.getHours() < 6) {
+                let newPref = new Date(pref);
+                newPref.setHours(23, 0);
+                if (newPref >= pref) newPref.setDate(newPref.getDate() - 1);
+                let diff = pref - newPref;
+                mixDate = new Date(mixDate - diff);
+            }
+            return mixDate;
         };
 
         let mixTime, ballTime, bigaTime;
 
         if (currentStyle === 'napoli') {
-            if (schedMode === '3day') { // 48h (Long)
+            if (schedMode === '3day') { // 48h
+                mixTime = subH(targetDate, 48); // Classic 48h
                 
-                // FIX: If Biga, 48h means "3 Days" (Day 1 Biga, Day 2 Mix, Day 3 Bake)
-                // Mix should be ~24h before bake.
-                mixTime = subH(targetDate, 24); 
-                
+                // IF BIGA + 48H: It means 3 days total (Day 1 Biga, Day 2 Mix, Day 3 Bake)
+                // So Mix is actually ~24h before bake.
                 if (currentMethod !== 'direct') {
-                    // Biga needs 18h before Mix.
-                    // If Mix is 17:00 (Day 2), Biga is 23:00 (Day 1). Perfect.
-                    mixTime = applyWork(mixTime); 
+                    mixTime = subH(targetDate, 24); 
+                    mixTime = ensureBigaHours(mixTime);
+                    mixTime = applyWork(mixTime);
+                    mixTime = ensureBigaHours(mixTime);
                     bigaTime = subH(mixTime, 18);
-                    
-                    // Safety for weird hours
-                    if(bigaTime.getHours() < 6 && bigaTime.getHours() > 0) {
-                        bigaTime.setHours(23,0);
-                        bigaTime.setDate(bigaTime.getDate()-1);
-                        mixTime = new Date(bigaTime.getTime() + (18*3600000));
-                    }
-
                     steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 } else {
-                    // Direct Long: 48h Mix
-                    mixTime = subH(targetDate, 48);
                     mixTime = applyWork(mixTime);
                 }
                 
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                
-                // Balling Logic:
-                if (currentMethod === 'direct') {
-                    // Direct Long: Ball 24h before bake
-                    steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור (למקרר)", id: "ball"});
-                } else {
-                    // Biga Long: Ball after Mix (1h)
-                    steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
-                }
+                // Direct: Ball 24h. Biga: Ball 1h after mix.
+                if (currentMethod === 'direct') steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור (למקרר)", id: "ball"});
+                else steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
                 
                 steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
 
-            } else if (schedMode === '2day') { // 24h (Medium)
+            } else if (schedMode === '2day') { // 24h
                 mixTime = subH(targetDate, 24);
-                
                 if (currentMethod !== 'direct') {
-                    // Biga 24h Total:
-                    // Biga Today (Evening) -> Mix Tomorrow (Afternoon) -> Bake Tomorrow (Evening)?
-                    // Wait, that's impossible if Mix is 24h before.
-                    // "Medium" Biga = Biga Yesterday -> Mix Today -> Bake Today. (Same as Long basically but tighter).
-                    // Or: Biga Today -> Mix Tomorrow -> Bake Tomorrow.
-                    // Let's force Mix to be 5-6h before bake.
-                    mixTime = subH(targetDate, 5); 
-                    mixTime = applyWork(mixTime); 
-                    
+                    // Biga 24h Total: Start Today Evening, Bake Tomorrow Evening
+                    mixTime = subH(targetDate, 5); // Short bulk after mix
+                    mixTime = applyWork(mixTime);
                     bigaTime = subH(mixTime, 18);
                     steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 } else {
                     mixTime = applyWork(mixTime);
                 }
-                
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 
                 if (currentMethod === 'direct') {
-                    // Direct 24h: Ball 4h before? Or 24h? Usually Mix->Fridge->Ball->Bake or Mix->Ball->Fridge.
-                    // Let's go Mix->Ball->Fridge (24h bulk is rare for home)
-                    steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
-                    steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+                     steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
+                     steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
                 } else {
-                    // Biga Short: Ball after mix
-                    steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
+                     steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
                 }
 
-            } else { // 1day (Short)
-                // Cannot do Biga really. If chosen, warn? Or just do short.
+            } else { // 1day
                 mixTime = subH(targetDate, 5);
                 mixTime = applyWork(mixTime);
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
@@ -444,7 +438,6 @@
             }
         } 
         else { // Romana / NY
-            // Direct mostly
             if (schedMode === '3day') mixTime = subH(targetDate, 48);
             else if (schedMode === '2day') mixTime = subH(targetDate, 24);
             else mixTime = subH(targetDate, 5);
@@ -466,35 +459,32 @@
 
         steps.sort((a,b) => a.t - b.t);
         
-        // --- VALIDATION: CHECK FOR PAST DATES & IMPOSSIBLE WORK ---
+        // VALIDATION
         const now = new Date();
         const firstStep = steps[0];
         let hasError = false;
         let errorMsg = "";
 
-        // 1. Check if start time is in the past
+        // Past check
         if (firstStep.t < now) {
             const diffHrs = Math.round((now - firstStep.t)/36e5);
             hasError = true;
-            errorMsg = `⚠️ <b>פספסת את הזמן!</b><br>לפי המסלול הזה, היית צריך להתחיל לפני ${diffHrs} שעות.<br>נסה לשנות ל"תהליך קצר" או להזיז את התאריך למחר.`;
+            errorMsg = `⚠️ <b>פספסת את הזמן!</b><br>לפי הלו"ז, היית צריך להתחיל לפני ${diffHrs} שעות.<br>הזז את התאריך או בחר תהליך קצר יותר.`;
         }
 
-        // 2. Check Short + Work feasibility
+        // Short + Work check
         if (schedMode === '1day' && workMode === 'work') {
-            // Need ~5 hours. If target is 20:00, start 15:00. Work ends 17:00.
-            // mixTime is already clamped to 17:00.
-            // If mixTime (17:00) + 5h > targetTime (20:00) -> Impossible.
             const minTimeNeeded = 5 * 3600000;
             if (mixTime.getTime() + minTimeNeeded > targetDate.getTime()) {
                 hasError = true;
-                errorMsg = `⚠️ <b>אין מספיק זמן!</b><br>אתה מסיים לעבוד ב-17:00, אבל הפיצה צריכה מינימום 5 שעות.<br>אי אפשר לאכול ב-${targetDate.getHours()}:${targetDate.getMinutes()}. דחה את הארוחה או וותר על העבודה 😉`;
+                errorMsg = `⚠️ <b>אין מספיק זמן!</b><br>עבודה עד 17:00 ופיצה ב-${targetDate.getHours()}:${targetDate.getMinutes()} זה צפוף מדי לתהליך קצר.`;
             }
         }
 
         if (hasError) {
             errorBox.style.display = 'block';
             errorBox.innerHTML = errorMsg;
-            mainContent.style.display = 'none'; // Hide results
+            mainContent.style.display = 'none'; 
         } else {
             renderSchedule(steps);
             renderRecipe(totalFlour, water, yeast, salt, oil, sugar, malt, flourName);
@@ -504,41 +494,46 @@
     function renderSchedule(steps) {
         const styleName = {napoli: 'נאפוליטנית', romana: 'רומאית', ny: 'ניו-יורק'}[currentStyle];
         let html = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${styleName})</h3>`;
+        
+        // Use Hebrew Letters with correct Geresh
+        const dayLetters = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+
         steps.forEach((s, idx) => {
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
             if (idx > 0) {
                 const diffHrs = (s.t - steps[idx-1].t) / 36e5;
                 if(diffHrs >= 0.5) html += `<div class="time-gap">⬇ ${Math.round(diffHrs*10)/10} שעות</div>`;
             }
+            
+            const d = s.t;
+            const dayName = dayLetters[d.getDay()];
+            const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+            
+            // Calc badge
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const check = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+            const diff = Math.round((check - today) / (1000 * 60 * 60 * 24));
+            
+            let badgeClass = "";
+            let label = "";
+            if(diff === 0) { badgeClass = "today"; label = "היום"; }
+            else if(diff === 1) { badgeClass = "tomorrow"; label = "מחר"; }
+            else { label = `יום ${dayName}`; }
+
             html += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
                 <div class="check-icon">${isChecked ? '✅' : '⬜'}</div>
                 <div class="step-txt">${s.txt}</div>
-                <div class="meta-group">${formatRelativeDay(s.t)}</div>
+                <div class="meta-group">
+                    <span class="day-badge ${badgeClass}">${label}</span>
+                    ${time}
+                </div>
             </div>`;
         });
         document.getElementById('scheduleArea').innerHTML = html;
     }
 
-    function formatRelativeDay(d) {
-        const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
-        const dayName = days[d.getDay()];
-        const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
-        
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const check = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-        const diff = Math.round((check - today) / (1000 * 60 * 60 * 24));
-        
-        let classNm = "";
-        let label = "";
-        if(diff === 0) { classNm = "today"; label = "היום"; }
-        else if(diff === 1) { classNm = "tomorrow"; label = "מחר"; }
-        else { label = dayName; }
-        
-        return `<span class="day-badge ${classNm}">${label}</span> ${time}`;
-    }
-
-    // [Standard Functions: Recipe, Menu, Shopping...]
+    // [Recipe, Menu, Saving logic remains standard...]
     function renderRecipe(flour, water, yeast, salt, oil, sugar, malt, flourName) {
         let html = `<h3 style="margin:0 0 10px 0;">🍕 מתכון</h3>`;
         let yeastLabel = document.getElementById('yeastType').value === 'fresh' ? 'שמרים טריים' : 'שמרים יבשים';
@@ -656,10 +651,10 @@
             checks: checkedSteps,
             customPizzas: customPizzas
         };
-        localStorage.setItem('pizzaOpsV20', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV21', JSON.stringify(d));
     }
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV20'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV21'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -686,7 +681,7 @@
             } catch(e) { alert("שגיאה בקבלת מזג אוויר"); }
         }, () => alert("יש לאשר גישה למיקום"));
     }
-    function resetApp() { localStorage.removeItem('pizzaOpsV20'); location.reload(); }
+    function resetApp() { localStorage.removeItem('pizzaOpsV21'); location.reload(); }
 
     init();
 </script>

@@ -12,27 +12,56 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v17.0</title>
+    <title>Pizza Ops v18.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=17.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=17.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=17.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=18.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=18.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=18.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #d32f2f; --accent: #1565c0; --bg: #f4f6f8; --card: #ffffff; --text: #37474f; }
-        body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 15px; margin: 0; padding-bottom: 80px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; max-width: 500px; }
+        
+        :root { 
+            --primary: #d32f2f; 
+            --accent: #1565c0; 
+            --bg: #f4f6f8; 
+            --card: #ffffff; 
+            --text: #37474f; 
+        }
+        
+        body { 
+            font-family: 'Heebo', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            padding: 15px; 
+            margin: 0; 
+            padding-bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container { 
+            background: var(--card); 
+            padding: 20px; 
+            border-radius: 16px; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05); 
+            margin-bottom: 20px; 
+            width: 100%; 
+            max-width: 500px; 
+        }
+        
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 15px; }
         
-        /* DATE SECTION (Fixed) */
+        /* DATE SECTION */
         .date-section { background: #e3f2fd; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bbdefb; }
         .date-label { font-weight: 700; color: #1565c0; margin-bottom: 8px; display: block; text-align:center; }
         input[type="datetime-local"] { width: 100%; padding: 12px; border: 1px solid #90caf9; border-radius: 8px; font-size: 1.1rem; background: #fff; color: #1565c0; text-align: center; font-weight: 700; font-family: 'Heebo', sans-serif; direction: ltr; }
 
-        /* STYLE TABS (Clean & Simple) */
+        /* STYLE TABS */
         .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; background: #eceff1; padding: 5px; border-radius: 10px; }
         .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.95rem; font-weight: 500; color: #78909c; transition: 0.2s; }
         .style-tab.active { background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -43,16 +72,16 @@
         .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
         .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
         
-        /* INPUTS & DROPDOWNS (Fixed padding) */
+        /* INPUTS & DROPDOWNS FIX */
         input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background-color: #fff; font-family: 'Heebo', sans-serif; color: #333; max-width: 100%; }
-        /* Fix for RTL Arrow overlapping text */
+        
         select { 
             -webkit-appearance: none; appearance: none; 
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); 
             background-repeat: no-repeat; 
             background-position: left 15px top 50%; 
             background-size: 10px auto; 
-            padding-left: 40px; /* More space for arrow */
+            padding-left: 45px; /* FIX: More space for arrow */
             text-align: right; 
         }
         
@@ -60,30 +89,42 @@
         
         .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
-        /* SCHEDULE & BADGES */
-        .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px dashed #cfd8dc; cursor: pointer; user-select: none; }
+        /* SCHEDULE ITEMS - FIXED SPACING */
+        .checklist-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 16px 5px; /* FIX: More vertical space */
+            border-bottom: 1px dashed #cfd8dc; 
+            cursor: pointer; user-select: none; 
+        }
         .checklist-item:last-child { border-bottom: none; }
         .checklist-item.checked .step-txt { text-decoration: line-through; color: #81c784; }
         .step-txt { flex-grow: 1; padding-right: 5px; font-size: 0.95rem; } 
         .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;}
         
+        /* FIX: Checkbox distance */
+        .check-icon { 
+            width: 24px; text-align: center; 
+            margin-right: 15px; /* FIX: More space from text/badge */
+            font-size: 1.1rem; flex-shrink: 0; 
+        }
+        
+        /* DAY BADGE */
         .day-badge { 
             font-weight: 600; color: #455a64; background: #fff; 
             padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; 
-            margin-right: 12px; white-space: nowrap; display: inline-block; 
+            white-space: nowrap; display: inline-block; 
             border: 1px solid #cfd8dc; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .day-badge.today { color: #2e7d32; background: #e8f5e9; border-color: #c8e6c9; }
         .day-badge.tomorrow { color: #e65100; background: #fff3e0; border-color: #ffe0b2; }
 
-        .time-gap { text-align: center; font-size: 0.75rem; color: #90a4ae; margin-top:-5px; margin-bottom:5px; position:relative; z-index:0; }
+        .time-gap { text-align: center; font-size: 0.75rem; color: #90a4ae; margin-top:-8px; margin-bottom:5px; position:relative; z-index:0; }
 
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
         .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
-        /* SHOPPING */
         .menu-grid { display: grid; gap: 10px; margin-top: 15px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; }
         .menu-name { font-weight: 600; font-size: 1rem; color: #333; }
@@ -148,8 +189,8 @@
             <label>⏳ אורך תהליך:</label>
             <select id="scheduleMode" onchange="calc()">
                 <option value="short">🚀 קצר (היום)</option>
-                <option value="medium">🌙 בינוני (24 שעות)</option>
-                <option value="long" selected>❄️ ארוך (48 שעות)</option>
+                <option value="medium">🌙 בינוני (למחר)</option>
+                <option value="long" selected>❄️ ארוך (למחרתיים)</option>
             </select>
         </div>
         <div><label>כמות כדורים</label><input type="number" id="balls" value="6" oninput="calc()"></div>
@@ -220,7 +261,7 @@
     function init() {
         loadData(); 
         initMenu();
-        // Set default date to Tomorrow 20:00 if not set
+        // Set default date to Tomorrow 20:00
         if(!document.getElementById('targetTime').value) {
             const d = new Date();
             d.setDate(d.getDate() + 1);
@@ -308,9 +349,8 @@
             malt: +document.getElementById('maltPct').value
         };
 
-        // Ingredients Calculation
         let calcYeastPct = p.yeast;
-        if (schedMode === 'short' && currentMethod === 'direct') calcYeastPct = 0.5; // Boost for short
+        if (schedMode === 'short' && currentMethod === 'direct') calcYeastPct = 0.5; // Short boost
         if (yeastType === 'fresh') calcYeastPct *= 3;
 
         const totalWeight = p.balls * p.weight;
@@ -323,7 +363,7 @@
         const yeast = roundHalf(totalFlour * (calcYeastPct/100)); 
         const malt = roundHalf(totalFlour * (p.malt/100));
 
-        // --- SCHEDULE ENGINE (Robotic Back-Calculation) ---
+        // --- SCHEDULE LOGIC (STRICT) ---
         let steps = [];
         const subH = (d,h) => new Date(d.getTime() - (h*3600000));
         steps.push({t: targetDate, txt: "🔥 זמן אפייה", id: "bake"});
@@ -333,76 +373,75 @@
             return d;
         };
 
-        const ensureBigaHours = (mixDate) => {
-            let pref = subH(mixDate, 18);
-            if (pref.getHours() >= 1 && pref.getHours() < 6) {
-                let newPref = new Date(pref);
-                newPref.setHours(23, 0);
-                if (newPref >= pref) newPref.setDate(newPref.getDate() - 1);
-                let diff = pref - newPref;
-                mixDate = new Date(mixDate - diff);
-            }
-            return mixDate;
+        const ensureBigaNight = (d) => {
+            // Force Preferment to 23:00 the night before the Mix day
+            d.setHours(23,0,0,0);
+            return d;
         };
 
         let mixTime, ballTime, bigaTime;
 
-        if (currentStyle === 'napoli') {
-            if (schedMode === 'long') { // 48h Process
-                mixTime = subH(targetDate, 48);
-                if (currentMethod !== 'direct') {
-                    mixTime = ensureBigaHours(mixTime);
-                    mixTime = applyWork(mixTime);
-                    mixTime = ensureBigaHours(mixTime);
-                    bigaTime = subH(mixTime, 18);
-                    steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
-                } else {
-                    mixTime = applyWork(mixTime);
+        if (schedMode === 'long') { // 48h / "Day after tomorrow"
+            // Day 3: Bake
+            // Day 2: Mix -> Ball -> Fridge
+            // Day 1: Biga (if applicable)
+            
+            // Mix is Day 2 (~24h before bake)
+            mixTime = subH(targetDate, 24); 
+            mixTime = applyWork(mixTime); // Adjust mix to 17:00 if work
+            
+            if (currentMethod !== 'direct') {
+                // Biga is Day 1 (Night before Mix)
+                bigaTime = subH(mixTime, 18);
+                // Ensure sensible Biga time (e.g., 23:00)
+                if (bigaTime.getHours() < 6) { 
+                    bigaTime.setHours(23, 0);
+                    bigaTime.setDate(bigaTime.getDate() - 1); // Previous night
                 }
-                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                // Balling 24h before
-                steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור (למקרר)", id: "ball"});
-                steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+                steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
+            }
+            
+            steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+            steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"}); // 1h after mix
+            steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
 
-            } else if (schedMode === 'medium') { // 24h Process
-                mixTime = subH(targetDate, 24);
-                if (currentMethod !== 'direct') {
-                    mixTime = ensureBigaHours(mixTime);
-                    mixTime = applyWork(mixTime);
-                    mixTime = ensureBigaHours(mixTime);
-                    bigaTime = subH(mixTime, 18);
-                    steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
-                } else {
-                    mixTime = applyWork(mixTime);
-                }
-                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
-
-            } else { // Short (Today)
+        } else if (schedMode === 'medium') { // 24h / "Tomorrow"
+            // Day 2: Bake
+            // Day 1: Mix (Direct) OR Biga
+            
+            // Mix is Day 1 (~24h before bake)
+            mixTime = subH(targetDate, 24); 
+            
+            if (currentMethod !== 'direct') {
+                // Biga must be Day 0 (Night BEFORE Mix).
+                // Wait, medium means "Tomorrow". So start TODAY.
+                // If Biga: Start Biga TODAY evening. Mix TOMORROW afternoon. Bake TOMORROW night.
+                // Mix is Day 2 (Afternoon).
+                mixTime = subH(targetDate, 4); // Mix same day as bake? No, bulk is short for Biga.
+                // Biga flow: Biga (18h) -> Mix -> Bulk (1h) -> Ball (2-4h) -> Bake.
+                // So Mix is ~5h before bake.
                 mixTime = subH(targetDate, 5);
+                mixTime = applyWork(mixTime); // If work, mix at 17:00 (might be too late for 20:00 bake)
+                
+                bigaTime = subH(mixTime, 18);
+                steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
+                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+                steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
+                
+            } else {
+                // Direct: Mix Day 1 -> Fridge -> Bake Day 2
+                mixTime = subH(targetDate, 24);
+                mixTime = applyWork(mixTime);
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
-                steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
+                steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
+                steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
             }
-        } 
-        else { // Romana / NY
-            // Direct mostly
-            if (schedMode === 'long') mixTime = subH(targetDate, 48);
-            else if (schedMode === 'medium') mixTime = subH(targetDate, 24);
-            else mixTime = subH(targetDate, 5);
 
+        } else { // Short / "Today"
+            mixTime = subH(targetDate, 5);
             mixTime = applyWork(mixTime);
-            steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
-
-            if (currentStyle === 'romana') {
-                steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
-                steps.push({t: subH(targetDate, 0.5), txt: "🪵 רידוד", id: "roll"});
-            } else { // NY
-                if (schedMode === 'short') steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
-                else {
-                    steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
-                    steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה", id: "pull"});
-                }
-            }
+            steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
+            steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
         }
 
         steps.sort((a,b) => a.t - b.t);
@@ -411,7 +450,10 @@
     }
 
     function renderSchedule(steps) {
-        let html = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${currentStyle})</h3>`;
+        // Translate Style Name for Header
+        const styleName = {napoli: 'נאפוליטנית', romana: 'רומאית', ny: 'ניו-יורק'}[currentStyle];
+        
+        let html = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${styleName})</h3>`;
         steps.forEach((s, idx) => {
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
             if (idx > 0) {
@@ -445,7 +487,6 @@
         return `${time} <span class="day-badge ${classNm}">${label}</span>`;
     }
 
-    // --- RECIPE & SHOPPING (Same standard logic) ---
     function renderRecipe(flour, water, yeast, salt, oil, sugar, malt, flourName) {
         let html = `<h3 style="margin:0 0 10px 0;">🍕 מתכון</h3>`;
         let yeastLabel = document.getElementById('yeastType').value === 'fresh' ? 'שמרים טריים' : 'שמרים יבשים';
@@ -489,6 +530,7 @@
         return `<div class="row"><span class="row-label">${lbl} ${note ? `<small style="color:#90a4ae">(${note})</small>` : ''}</span><span class="row-value">${val} גרם</span></div>`;
     }
 
+    // Standard Functions
     function toggleStep(id) { checkedSteps[id] = !checkedSteps[id]; calc(); }
     function openAddPizzaModal() { document.getElementById('addPizzaModal').style.display='flex'; }
     function closeAddPizzaModal() { document.getElementById('addPizzaModal').style.display='none'; }
@@ -516,7 +558,7 @@
         if(!menuCounts[id]) menuCounts[id]=0;
         if(menuCounts[id]+d >=0) { menuCounts[id]+=d; document.getElementById(`count-${id}`).innerText=menuCounts[id]; saveData(); updateMenuStatus(); }
     }
-    function updateMenuStatus() { /* ... */ }
+    function updateMenuStatus() { }
     function generateShopping() {
         let totalIng = {};
         const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
@@ -563,10 +605,10 @@
             checks: checkedSteps,
             customPizzas: customPizzas
         };
-        localStorage.setItem('pizzaOpsV17', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV18', JSON.stringify(d));
     }
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV17'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV18'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -593,7 +635,7 @@
             } catch(e) { alert("שגיאה בקבלת מזג אוויר"); }
         }, () => alert("יש לאשר גישה למיקום"));
     }
-    function resetApp() { localStorage.removeItem('pizzaOpsV17'); location.reload(); }
+    function resetApp() { localStorage.removeItem('pizzaOpsV18'); location.reload(); }
 
     init();
 </script>

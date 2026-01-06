@@ -12,67 +12,71 @@
     <meta property="og:title" content="Pizza Ops">
     <meta property="og:type" content="website">
 
-    <title>Pizza Ops v16.0</title>
+    <title>Pizza Ops v17.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=16.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=16.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=16.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=17.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=17.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=17.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #d32f2f; --accent: #1565c0; --bg: #f4f6f8; --card: #ffffff; --text: #37474f; --error: #d32f2f; }
+        :root { --primary: #d32f2f; --accent: #1565c0; --bg: #f4f6f8; --card: #ffffff; --text: #37474f; }
         body { font-family: 'Heebo', sans-serif; background-color: var(--bg); color: var(--text); padding: 15px; margin: 0; padding-bottom: 80px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; max-width: 500px; }
-        h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 10px; }
+        h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 15px; }
         
-        /* WARNING BOX */
-        #warningBox { display:none; background-color: #ffebee; border: 1px solid #ffcdd2; color: #c62828; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-weight: 500; font-size: 0.95rem; line-height: 1.4; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
+        /* DATE SECTION (Fixed) */
+        .date-section { background: #e3f2fd; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bbdefb; }
+        .date-label { font-weight: 700; color: #1565c0; margin-bottom: 8px; display: block; text-align:center; }
+        input[type="datetime-local"] { width: 100%; padding: 12px; border: 1px solid #90caf9; border-radius: 8px; font-size: 1.1rem; background: #fff; color: #1565c0; text-align: center; font-weight: 700; font-family: 'Heebo', sans-serif; direction: ltr; }
 
-        /* DATE SECTION */
-        .date-section { background: #e3f2fd; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bbdefb; text-align: center; }
-        .date-label { font-weight: 700; color: #1565c0; margin-bottom: 8px; display: block; font-size: 1.1rem; }
-        input[type="datetime-local"] { width: 100%; padding: 12px; border: 1px solid #90caf9; border-radius: 8px; font-size: 1.2rem; background: #fff; color: #1565c0; text-align: center; font-weight: 700; font-family: 'Heebo', sans-serif; direction: ltr; }
-        .quick-dates { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .q-btn { background: #fff; border: 1px solid #90caf9; color: #1565c0; padding: 8px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
-        .q-btn.active { background: #1565c0; color: white; border-color: #1565c0; }
-
-        /* STYLE SELECTOR */
-        .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; background: #eceff1; padding: 5px; border-radius: 12px; }
-        .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.9rem; font-weight: 500; color: #78909c; transition: 0.2s; }
+        /* STYLE TABS (Clean & Simple) */
+        .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; background: #eceff1; padding: 5px; border-radius: 10px; }
+        .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.95rem; font-weight: 500; color: #78909c; transition: 0.2s; }
         .style-tab.active { background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .style-icon { display: block; font-size: 1.4rem; margin-bottom: 4px; }
+        .style-icon { display: block; font-size: 1.3rem; margin-bottom: 2px; }
 
-        /* Method Selector */
+        /* METHOD SELECTOR */
         .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
         .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
-        .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
+        .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
         
+        /* INPUTS & DROPDOWNS (Fixed padding) */
         input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background-color: #fff; font-family: 'Heebo', sans-serif; color: #333; max-width: 100%; }
-        select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: left 12px top 50%; background-size: 10px auto; padding-left: 30px; text-align: right; }
+        /* Fix for RTL Arrow overlapping text */
+        select { 
+            -webkit-appearance: none; appearance: none; 
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); 
+            background-repeat: no-repeat; 
+            background-position: left 15px top 50%; 
+            background-size: 10px auto; 
+            padding-left: 40px; /* More space for arrow */
+            text-align: right; 
+        }
         
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
         
-        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
-        /* SCHEDULE ITEMS */
-        .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px dashed #cfd8dc; cursor: pointer; transition: all 0.2s; border-radius: 6px; user-select: none; width: 100%; position: relative; z-index: 2; background: #fff;}
+        /* SCHEDULE & BADGES */
+        .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px dashed #cfd8dc; cursor: pointer; user-select: none; }
         .checklist-item:last-child { border-bottom: none; }
         .checklist-item.checked .step-txt { text-decoration: line-through; color: #81c784; }
         .step-txt { flex-grow: 1; padding-right: 5px; font-size: 0.95rem; } 
         .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;}
-        .check-icon { width: 24px; text-align: center; margin-left: 0; margin-right: 8px; font-size: 1.1rem; flex-shrink: 0; }
         
-        /* TIME GAP INDICATOR */
-        .time-gap { text-align: center; font-size: 0.75rem; color: #90a4ae; padding: 4px; background: #f9f9f9; border-radius: 4px; margin: 2px 0; font-weight: 500; position: relative; z-index: 1; }
-
-        /* DAY BADGE */
-        .day-badge { font-weight: 600; color: #455a64; background: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; margin-right: 12px; white-space: nowrap; display: inline-block; border: 1px solid #cfd8dc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .day-badge { 
+            font-weight: 600; color: #455a64; background: #fff; 
+            padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; 
+            margin-right: 12px; white-space: nowrap; display: inline-block; 
+            border: 1px solid #cfd8dc; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
         .day-badge.today { color: #2e7d32; background: #e8f5e9; border-color: #c8e6c9; }
         .day-badge.tomorrow { color: #e65100; background: #fff3e0; border-color: #ffe0b2; }
-        .day-badge.after-tomorrow { color: #1565c0; background: #e3f2fd; border-color: #bbdefb; }
+
+        .time-gap { text-align: center; font-size: 0.75rem; color: #90a4ae; margin-top:-5px; margin-bottom:5px; position:relative; z-index:0; }
 
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .row-label { font-weight: 500; font-size: 1rem; color: #455a64; }
@@ -98,24 +102,15 @@
 <div class="container">
     <h1>🍕 Pizza Ops</h1>
 
-    <div id="warningBox"></div>
-
     <div class="date-section">
         <label class="date-label">🍕 מתי אוכלים?</label>
-        <div class="quick-dates">
-            <div class="q-btn" id="btn-today" onclick="setDateTarget('today')">היום</div>
-            <div class="q-btn" id="btn-tomorrow" onclick="setDateTarget('tomorrow')">מחר</div>
-            <div class="q-btn" id="btn-after" onclick="setDateTarget('after')">מחרתיים</div>
-        </div>
-        <div style="margin-top:10px;">
-            <input type="datetime-local" id="targetTime" onchange="manualDateChange()">
-        </div>
+        <input type="datetime-local" id="targetTime" onchange="calc()">
         
-        <div style="margin-top:10px; text-align:right;">
+        <div style="margin-top:15px; text-align:right;">
             <label style="display:inline-block; margin:0;">💼 זמינות:</label>
-            <select id="workMode" style="width:auto; display:inline-block; margin-right:10px; padding:6px;" onchange="calc()">
-                <option value="flexible">🏠 גמיש</option>
-                <option value="work" selected>💼 עבודה (17:00+)</option>
+            <select id="workMode" style="width:auto; display:inline-block; margin-right:10px; padding:8px;" onchange="calc()">
+                <option value="flexible">גמיש (בבית)</option>
+                <option value="work" selected>עבודה (17:00+)</option>
             </select>
         </div>
     </div>
@@ -136,7 +131,7 @@
         <label style="margin-top:0;">🌾 בחירת קמח:</label>
         <select id="flourMix" onchange="saveData()">
             <option value="red_nuvola">מיקס 50/50 (מומלץ)</option>
-            <option value="nuvola">100% נובולה (אוורירי מאוד)</option>
+            <option value="nuvola">100% נובולה (אוורירי)</option>
             <option value="red">100% קאפוטו אדום (קלאסי)</option>
             <option value="red_shtibel">מיקס שטיבל (ביתי)</option>
         </select>
@@ -151,10 +146,10 @@
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div>
             <label>⏳ אורך תהליך:</label>
-            <select id="scheduleMode" class="timeline-select" onchange="calc()">
-                <option value="1day" id="opt_sched_1">🚀 קצר (ישיר)</option>
-                <option value="2day" id="opt_sched_2">🌙 בינוני (24 שעות)</option>
-                <option value="3day" id="opt_sched_3" selected>❄️ ארוך (48 שעות)</option>
+            <select id="scheduleMode" onchange="calc()">
+                <option value="short">🚀 קצר (היום)</option>
+                <option value="medium">🌙 בינוני (24 שעות)</option>
+                <option value="long" selected>❄️ ארוך (48 שעות)</option>
             </select>
         </div>
         <div><label>כמות כדורים</label><input type="number" id="balls" value="6" oninput="calc()"></div>
@@ -168,7 +163,7 @@
     <label>🌡️ טמפ' חדר</label>
     <div style="display:flex; gap:10px;">
         <input type="number" id="roomTemp" class="temp-select" value="20" oninput="calc()">
-        <div class="weather-btn" onclick="getWeather()">📡 עדכן אוטומטית</div>
+        <div class="weather-btn" onclick="getWeather()">📡 עדכן</div>
     </div>
 
     <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
@@ -181,7 +176,6 @@
             <option value="dry">יבשים (אינסטנט)</option>
             <option value="fresh">טריים (קוביה/פירורים)</option>
         </select>
-        
         <label>מלח (%)</label><input type="number" id="saltPct" value="2.5" step="0.1" oninput="calc()">
         <label>שמן (%)</label><input type="number" id="oilPct" value="0" step="0.5" oninput="calc()">
         <label>סוכר (%)</label><input type="number" id="sugarPct" value="0" step="0.5" oninput="calc()">
@@ -226,33 +220,20 @@
     function init() {
         loadData(); 
         initMenu();
-        if(!document.getElementById('targetTime').value) setDateTarget('after');
-        else calc();
+        // Set default date to Tomorrow 20:00 if not set
+        if(!document.getElementById('targetTime').value) {
+            const d = new Date();
+            d.setDate(d.getDate() + 1);
+            d.setHours(20, 0, 0, 0);
+            const pad = n => n<10 ? '0'+n : n;
+            document.getElementById('targetTime').value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+        calc();
     }
 
     function toggleAdv() {
         const el = document.getElementById('adv');
         el.style.display = el.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function setDateTarget(mode) {
-        const d = new Date();
-        d.setHours(20, 0, 0, 0);
-        if (mode === 'tomorrow') d.setDate(d.getDate() + 1);
-        else if (mode === 'after') d.setDate(d.getDate() + 2);
-        
-        const pad = n => n<10 ? '0'+n : n;
-        document.getElementById('targetTime').value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-        
-        document.querySelectorAll('.q-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-'+(mode === 'after' ? 'after' : mode)).classList.add('active');
-        
-        calc();
-    }
-
-    function manualDateChange() {
-        document.querySelectorAll('.q-btn').forEach(b => b.classList.remove('active'));
-        calc();
     }
 
     function switchStyle(style) {
@@ -327,9 +308,9 @@
             malt: +document.getElementById('maltPct').value
         };
 
-        // --- INGREDIENTS ---
+        // Ingredients Calculation
         let calcYeastPct = p.yeast;
-        if (schedMode === '1day' && currentMethod === 'direct') calcYeastPct = 0.5; // Short boost
+        if (schedMode === 'short' && currentMethod === 'direct') calcYeastPct = 0.5; // Boost for short
         if (yeastType === 'fresh') calcYeastPct *= 3;
 
         const totalWeight = p.balls * p.weight;
@@ -342,7 +323,7 @@
         const yeast = roundHalf(totalFlour * (calcYeastPct/100)); 
         const malt = roundHalf(totalFlour * (p.malt/100));
 
-        // --- SCHEDULE ENGINE ---
+        // --- SCHEDULE ENGINE (Robotic Back-Calculation) ---
         let steps = [];
         const subH = (d,h) => new Date(d.getTime() - (h*3600000));
         steps.push({t: targetDate, txt: "🔥 זמן אפייה", id: "bake"});
@@ -353,13 +334,11 @@
         };
 
         const ensureBigaHours = (mixDate) => {
-            let pref = subH(mixDate, 18); // Biga is 18h before mix
-            // If Biga falls between 01:00-06:00, move it to 23:00 prev day
+            let pref = subH(mixDate, 18);
             if (pref.getHours() >= 1 && pref.getHours() < 6) {
                 let newPref = new Date(pref);
                 newPref.setHours(23, 0);
                 if (newPref >= pref) newPref.setDate(newPref.getDate() - 1);
-                // Shift mix date accordingly
                 let diff = pref - newPref;
                 mixDate = new Date(mixDate - diff);
             }
@@ -369,22 +348,23 @@
         let mixTime, ballTime, bigaTime;
 
         if (currentStyle === 'napoli') {
-            if (schedMode === '3day') { // 48h
+            if (schedMode === 'long') { // 48h Process
                 mixTime = subH(targetDate, 48);
                 if (currentMethod !== 'direct') {
                     mixTime = ensureBigaHours(mixTime);
                     mixTime = applyWork(mixTime);
-                    mixTime = ensureBigaHours(mixTime); // Re-check
+                    mixTime = ensureBigaHours(mixTime);
                     bigaTime = subH(mixTime, 18);
                     steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 } else {
                     mixTime = applyWork(mixTime);
                 }
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+                // Balling 24h before
                 steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור (למקרר)", id: "ball"});
                 steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
 
-            } else if (schedMode === '2day') { // 24h
+            } else if (schedMode === 'medium') { // 24h Process
                 mixTime = subH(targetDate, 24);
                 if (currentMethod !== 'direct') {
                     mixTime = ensureBigaHours(mixTime);
@@ -396,19 +376,19 @@
                     mixTime = applyWork(mixTime);
                 }
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור (לטמפ' חדר)", id: "ball"});
+                steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
 
-            } else { // 1day (Short)
-                mixTime = subH(targetDate, 6);
+            } else { // Short (Today)
+                mixTime = subH(targetDate, 5);
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
                 steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
             }
         } 
-        else if (currentStyle === 'ny' || currentStyle === 'romana') {
-            // Direct Methods
-            if (schedMode === '3day') mixTime = subH(targetDate, 48);
-            else if (schedMode === '2day') mixTime = subH(targetDate, 24);
-            else mixTime = subH(targetDate, 6);
+        else { // Romana / NY
+            // Direct mostly
+            if (schedMode === 'long') mixTime = subH(targetDate, 48);
+            else if (schedMode === 'medium') mixTime = subH(targetDate, 24);
+            else mixTime = subH(targetDate, 5);
 
             mixTime = applyWork(mixTime);
             steps.push({t: mixTime, txt: "🏗️ לישה + מקרר (כגוש)", id: "mix"});
@@ -417,8 +397,7 @@
                 steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
                 steps.push({t: subH(targetDate, 0.5), txt: "🪵 רידוד", id: "roll"});
             } else { // NY
-                // Balling for NY depends on length. Long = ball 24h before. Short = ball 6h before.
-                if (schedMode === '1day') steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
+                if (schedMode === 'short') steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
                 else {
                     steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור + חזרה למקרר", id: "ball"});
                     steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה", id: "pull"});
@@ -426,20 +405,7 @@
             }
         }
 
-        // CHECK VALIDITY
         steps.sort((a,b) => a.t - b.t);
-        const firstStep = steps[0];
-        const now = new Date();
-        const warningBox = document.getElementById('warningBox');
-        
-        if (firstStep.t < now) {
-            const diffHours = Math.round((now - firstStep.t) / 36e5);
-            warningBox.style.display = 'block';
-            warningBox.innerHTML = `⚠️ <b>אופס! פספסת את הרכבת.</b><br>לפי הלו"ז, היית צריך להתחיל לפני ${diffHours} שעות.<br>מומלץ לשנות ל"תהליך קצר" או להזיז את התאריך קדימה.`;
-        } else {
-            warningBox.style.display = 'none';
-        }
-
         renderSchedule(steps);
         renderRecipe(totalFlour, water, yeast, salt, oil, sugar, malt, flourName);
     }
@@ -448,19 +414,10 @@
         let html = `<h3 style="margin:0 0 10px 0;">📅 לו"ז (${currentStyle})</h3>`;
         steps.forEach((s, idx) => {
             const isChecked = checkedSteps[s.id] ? 'checked' : '';
-            
-            // Calc Gap
             if (idx > 0) {
-                const prev = steps[idx-1];
-                const diffMs = s.t - prev.t;
-                const diffHrs = (diffMs / 36e5);
-                let gapTxt = "";
-                if(diffHrs >= 1) gapTxt = `⬇ ${Math.round(diffHrs)} שעות`;
-                else gapTxt = `⬇ ${Math.round(diffMs/60000)} דקות`;
-                
-                html += `<div class="time-gap">${gapTxt}</div>`;
+                const diffHrs = (s.t - steps[idx-1].t) / 36e5;
+                if(diffHrs >= 0.5) html += `<div class="time-gap">⬇ ${Math.round(diffHrs*10)/10} שעות</div>`;
             }
-
             html += `<div class="checklist-item ${isChecked}" onclick="toggleStep('${s.id}')">
                 <div class="step-txt">${s.txt}</div>
                 <div class="meta-group">${formatRelativeDay(s.t)} <span class="check-icon">${isChecked ? '✅' : '⬜'}</span></div>
@@ -473,6 +430,7 @@
         const days = ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','ש\''];
         const dayName = days[d.getDay()];
         const time = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const check = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -482,20 +440,19 @@
         let label = "";
         if(diff === 0) { classNm = "today"; label = "היום"; }
         else if(diff === 1) { classNm = "tomorrow"; label = "מחר"; }
-        else if(diff === 2) { classNm = "after-tomorrow"; label = "מחרתיים"; }
         else { label = dayName; }
         
         return `${time} <span class="day-badge ${classNm}">${label}</span>`;
     }
 
-    // --- RECIPE & SHOPPING (Standard) ---
+    // --- RECIPE & SHOPPING (Same standard logic) ---
     function renderRecipe(flour, water, yeast, salt, oil, sugar, malt, flourName) {
         let html = `<h3 style="margin:0 0 10px 0;">🍕 מתכון</h3>`;
         let yeastLabel = document.getElementById('yeastType').value === 'fresh' ? 'שמרים טריים' : 'שמרים יבשים';
         let flourDisp = flourName.split(" (")[0];
 
         if (currentStyle === 'napoli' && currentMethod !== 'direct') {
-            let pFlour = round5(flour); // 100% biga
+            let pFlour = round5(flour); 
             if(currentMethod === 'poolish') pFlour = round5(flour * 0.3);
             let mFlour = flour - pFlour;
             let pWater = round5(pFlour * (currentMethod==='biga'?0.45:1.0));
@@ -510,7 +467,6 @@
             html += row("מלח", salt);
             if(malt > 0) html += row("לתת (Malt)", malt);
         } else {
-            // Direct
             if(currentStyle === 'romana') {
                 html += row("קמח לבן (00)", round5(flour*0.7));
                 html += row("קמח סמולינה", round5(flour*0.3));
@@ -533,7 +489,6 @@
         return `<div class="row"><span class="row-label">${lbl} ${note ? `<small style="color:#90a4ae">(${note})</small>` : ''}</span><span class="row-value">${val} גרם</span></div>`;
     }
 
-    // [Standard Shopping & Menu Functions from previous versions remain here...]
     function toggleStep(id) { checkedSteps[id] = !checkedSteps[id]; calc(); }
     function openAddPizzaModal() { document.getElementById('addPizzaModal').style.display='flex'; }
     function closeAddPizzaModal() { document.getElementById('addPizzaModal').style.display='none'; }
@@ -561,33 +516,84 @@
         if(!menuCounts[id]) menuCounts[id]=0;
         if(menuCounts[id]+d >=0) { menuCounts[id]+=d; document.getElementById(`count-${id}`).innerText=menuCounts[id]; saveData(); updateMenuStatus(); }
     }
-    function updateMenuStatus() {
-        // ... (Simple logic to sum balls)
-    }
+    function updateMenuStatus() { /* ... */ }
     function generateShopping() {
-        // ... (Standard logic)
-        let html="";
-        // ... build list
+        let totalIng = {};
+        const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
+        [...pizzaMenu, ...customPizzas].forEach(p => { const c = menuCounts[p.id] || 0; if (c > 0) for (const [k, v] of Object.entries(p.ing)) totalIng[k] = (totalIng[k] || 0) + (v * c); });
+        
+        let html = "";
+        for (const [k, v] of Object.entries(totalIng)) html += `<div class="checklist-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-icon').innerText = this.classList.contains('checked') ? '✅' : '⬜'"><div class="shop-text" style="flex-grow:1">${dict[k] || k}</div><div class="check-icon">⬜</div></div>`;
+        customPizzas.forEach(p => { if(menuCounts[p.id] > 0) html += `<div class="checklist-item" onclick="this.classList.toggle('checked')"><div class="shop-text" style="flex-grow:1">מצרכים ל-${p.name}</div><div class="check-icon">⬜</div></div>`; });
+        
         document.getElementById('shopList').innerHTML = html || "לא נבחרו פיצות";
-        document.getElementById('shoppingResult').style.display='block';
+        document.getElementById('shoppingResult').style.display = 'block';
+        document.getElementById('shoppingResult').scrollIntoView({behavior:'smooth'});
     }
     function shareWhatsApp() {
-        // ... (Standard logic)
+        let txt = "*רשימת קניות לפיצה (Pizza Ops)* 🍕\n\n";
+        let totalIng = {};
+        const dict = { sauce: "רוטב עגבניות", mozzarella: "מוצרלה", garlic: "שום", oregano: "אורגנו", basil: "בזיליקום", parmesan: "פרמז'ן", zucchini: "זוקיני", rosemary: "רוזמרין", pepperoni: "פפרוני", potato: "תפוח אדמה", guanciale: "גוואנצ'לה", chili: "צ'ילי" };
+        [...pizzaMenu, ...customPizzas].forEach(p => { const c = menuCounts[p.id] || 0; if (c > 0) for (const [k, v] of Object.entries(p.ing)) totalIng[k] = (totalIng[k] || 0) + (v * c); });
+        
+        for (const [k, v] of Object.entries(totalIng)) txt += `✅ ${dict[k] || k}\n`;
+        customPizzas.forEach(p => { if(menuCounts[p.id] > 0) txt += `✅ מצרכים ל-${p.name}\n`; });
+        
+        if (!Object.keys(totalIng).length && !customPizzas.some(p => menuCounts[p.id]>0)) return alert("בחר פיצות קודם!");
+        window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
     }
     function saveData() {
-        // ... (Save all inputs + customPizzas)
-        const d = { inputs: { balls: document.getElementById('balls').value }, customPizzas: customPizzas }; // Simplified for brevity in snippet
-        localStorage.setItem('pizzaOpsV16', JSON.stringify(d));
+        const d = {
+            inputs: {
+                balls: document.getElementById('balls').value,
+                weight: document.getElementById('weight').value,
+                hyd: document.getElementById('hydration').value,
+                salt: document.getElementById('saltPct').value,
+                oil: document.getElementById('oilPct').value,
+                sugar: document.getElementById('sugarPct').value,
+                yeast: document.getElementById('yeastPct').value,
+                malt: document.getElementById('maltPct').value,
+                work: document.getElementById('workMode').value,
+                date: document.getElementById('targetTime').value,
+                flour: document.getElementById('flourMix').value
+            },
+            style: currentStyle,
+            method: currentMethod,
+            counts: menuCounts,
+            checks: checkedSteps,
+            customPizzas: customPizzas
+        };
+        localStorage.setItem('pizzaOpsV17', JSON.stringify(d));
     }
     function loadData() {
-        // ... (Load)
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV17'));
+        if (d) {
+            if(d.inputs) {
+                for(let k in d.inputs) {
+                    const el = document.getElementById(k==='date'?'targetTime': k==='work'?'workMode': k==='flour'?'flourMix' : k==='salt'?'saltPct' : k==='oil'?'oilPct' : k==='sugar'?'sugarPct' : k==='yeast'?'yeastPct' : k==='malt'?'maltPct' : k);
+                    if(el) el.value = d.inputs[k];
+                }
+            }
+            if(d.style) switchStyle(d.style);
+            if(d.style === 'napoli' && d.method) setMethod(d.method);
+            if(d.counts) menuCounts = d.counts;
+            if(d.checks) checkedSteps = d.checks;
+            if(d.customPizzas) customPizzas = d.customPizzas;
+        }
     }
     function getWeather() {
-        // ... (API call)
+        if (!navigator.geolocation) return alert("הדפדפן לא תומך במיקום");
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            try {
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current_weather=true`);
+                const data = await res.json();
+                document.getElementById('roomTemp').value = Math.round(data.current_weather.temperature);
+                calc();
+                alert(`הטמפרטורה עודכנה: ${data.current_weather.temperature}°C`);
+            } catch(e) { alert("שגיאה בקבלת מזג אוויר"); }
+        }, () => alert("יש לאשר גישה למיקום"));
     }
-    function resetApp() {
-        localStorage.removeItem('pizzaOpsV16'); location.reload();
-    }
+    function resetApp() { localStorage.removeItem('pizzaOpsV17'); location.reload(); }
 
     init();
 </script>

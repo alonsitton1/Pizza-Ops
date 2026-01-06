@@ -9,11 +9,11 @@
     <meta name="apple-mobile-web-app-title" content="Pizza Ops">
     <meta name="theme-color" content="#d32f2f">
     
-    <title>Pizza Ops v19.0</title>
+    <title>Pizza Ops v20.0</title>
     
-    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=19.0">
-    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=19.0">
-    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=19.0">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=20.0">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=20.0">
+    <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/pizza_1f355.png?v=20.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
@@ -24,18 +24,7 @@
         .container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; max-width: 500px; }
         h1 { margin-top: 0; text-align: center; color: var(--primary); font-size: 2rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 15px; }
         
-        /* STYLE TABS (First) */
-        .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; background: #eceff1; padding: 5px; border-radius: 12px; }
-        .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.95rem; font-weight: 500; color: #78909c; transition: 0.2s; }
-        .style-tab.active { background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .style-icon { display: block; font-size: 1.3rem; margin-bottom: 2px; }
-
-        /* METHOD SELECTOR (Second) */
-        .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-        .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
-        .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
-
-        /* DATE SECTION (Third) */
+        /* DATE SECTION */
         .date-section { background: #e3f2fd; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bbdefb; }
         .date-label { font-weight: 700; color: #1565c0; margin-bottom: 8px; display: block; text-align:center; }
         input[type="datetime-local"] { width: 100%; padding: 12px; border: 1px solid #90caf9; border-radius: 8px; font-size: 1.1rem; background: #fff; color: #1565c0; text-align: center; font-weight: 700; font-family: 'Heebo', sans-serif; direction: ltr; }
@@ -43,44 +32,47 @@
         /* ERROR BOX */
         .error-box { display: none; background: #ffebee; color: #c62828; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ef9a9a; text-align: center; font-weight: 600; line-height: 1.4; }
 
+        /* STYLE TABS */
+        .style-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; background: #eceff1; padding: 5px; border-radius: 10px; }
+        .style-tab { text-align: center; padding: 10px 5px; cursor: pointer; border-radius: 8px; font-size: 0.95rem; font-weight: 500; color: #78909c; transition: 0.2s; }
+        .style-tab.active { background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .style-icon { display: block; font-size: 1.3rem; margin-bottom: 2px; }
+
+        /* METHOD SELECTOR */
+        .method-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .method-opt { border: 1px solid #cfd8dc; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: #78909c; transition: all 0.2s; font-size: 0.9rem; background: #fff; }
+        .method-opt.active { background-color: var(--primary); color: white; border-color: var(--primary); font-weight: 700; box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2); transform: translateY(-1px); }
+        
         /* INPUTS & DROPDOWNS */
         input, select { width: 100%; padding: 12px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 1rem; margin-top: 5px; background-color: #fff; font-family: 'Heebo', sans-serif; color: #333; max-width: 100%; }
         
-        /* FIX ARROW OVERLAP */
         select { 
             -webkit-appearance: none; appearance: none; 
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); 
             background-repeat: no-repeat; 
-            background-position: left 12px center; 
+            background-position: left 15px top 50%; 
             background-size: 10px auto; 
-            padding-left: 40px; /* Space for arrow */
+            padding-left: 45px; 
             text-align: right; 
         }
         
         label { margin-top: 15px; display: block; font-weight: 600; font-size: 0.9rem; color: #546e7a; }
         .weather-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; border-radius: 8px; padding: 10px; width: 100%; margin-top: 5px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
-        /* SCHEDULE ITEMS - CLEANER LAYOUT */
+        /* SCHEDULE ITEMS */
         .checklist-item { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 18px 8px; /* More space */
+            padding: 18px 8px; 
             border-bottom: 1px solid #eceff1; 
             cursor: pointer; user-select: none; 
         }
         .checklist-item:last-child { border-bottom: none; }
         .checklist-item.checked .step-txt { text-decoration: line-through; color: #81c784; }
-        
         .step-txt { flex-grow: 1; padding-right: 15px; font-size: 1rem; font-weight: 500; } 
-        
         .meta-group { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap; direction: ltr; }
+        .check-icon { width: 24px; text-align: center; margin-left: 10px; font-size: 1.2rem; flex-shrink: 0; }
         
-        .check-icon { 
-            width: 24px; text-align: center; 
-            margin-left: 10px; /* Space from edge */
-            font-size: 1.2rem; flex-shrink: 0; 
-        }
-        
-        /* DAY BADGE - CLEANER */
+        /* DAY BADGE */
         .day-badge { 
             font-weight: 700; color: #546e7a; background: #f5f5f5; 
             padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; 
@@ -88,15 +80,14 @@
             border: 1px solid #e0e0e0;
         }
         .day-badge.today { color: #2e7d32; background: #e8f5e9; border-color: #c8e6c9; }
-        .day-badge.tomorrow { color: #ef6c00; background: #fff3e0; border-color: #ffe0b2; }
+        .day-badge.tomorrow { color: #e65100; background: #fff3e0; border-color: #ffe0b2; }
         
-        /* TIME GAP */
+        /* TIME GAP (Fixed) */
         .time-gap { 
-            text-align: center; font-size: 0.7rem; color: #b0bec5; 
-            margin-top: -10px; margin-bottom: -5px; 
-            position: relative; z-index: 0; background: #fff; 
-            padding: 2px 8px; border-radius: 10px; display: inline-block;
-            left: 50%; transform: translateX(-50%);
+            display: block; width: fit-content; margin: -10px auto 5px auto;
+            text-align: center; font-size: 0.7rem; color: #90a4ae; 
+            background: #fff; padding: 2px 8px; border-radius: 10px; 
+            position: relative; z-index: 0; border: 1px solid #f0f0f0;
         }
 
         .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
@@ -104,6 +95,7 @@
         .row-value { font-weight: 700; font-family: 'Heebo', monospace; font-size: 1.1em; color: #263238; }
         .hidden-adv { display: none; margin-top: 15px; padding-top:15px; border-top:1px dashed #cfd8dc; }
         
+        /* SHOPPING */
         .menu-grid { display: grid; gap: 10px; margin-top: 15px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; padding: 12px 15px; border-radius: 10px; }
         .menu-name { font-weight: 600; font-size: 1rem; color: #333; }
@@ -121,24 +113,6 @@
 
 <div class="container">
     <h1>🍕 Pizza Ops</h1>
-
-    <div class="style-tabs">
-        <div class="style-tab active" id="tab-napoli" onclick="switchStyle('napoli')">
-            <span class="style-icon">🇮🇹</span>נאפוליטנית
-        </div>
-        <div class="style-tab" id="tab-romana" onclick="switchStyle('romana')">
-            <span class="style-icon">🏛️</span>רומאית
-        </div>
-        <div class="style-tab" id="tab-ny" onclick="switchStyle('ny')">
-            <span class="style-icon">🗽</span>ניו-יורק
-        </div>
-    </div>
-
-    <div class="method-selector" id="methodSelectorContainer">
-        <div class="method-opt" onclick="setMethod('direct')" id="btn-direct">ישיר</div>
-        <div class="method-opt" onclick="setMethod('poolish')" id="btn-poolish">פוליש</div>
-        <div class="method-opt active" onclick="setMethod('biga')" id="btn-biga">Biga 100%</div>
-    </div>
 
     <div class="date-section">
         <label class="date-label">🍕 מתי אוכלים?</label>
@@ -165,14 +139,32 @@
 
     <div id="errorBox" class="error-box"></div>
 
+    <div class="style-tabs">
+        <div class="style-tab active" id="tab-napoli" onclick="switchStyle('napoli')">
+            <span class="style-icon">🇮🇹</span>נאפוליטנית
+        </div>
+        <div class="style-tab" id="tab-romana" onclick="switchStyle('romana')">
+            <span class="style-icon">🏛️</span>רומאית
+        </div>
+        <div class="style-tab" id="tab-ny" onclick="switchStyle('ny')">
+            <span class="style-icon">🗽</span>ניו-יורק
+        </div>
+    </div>
+
     <div id="napoliFlourSelect" style="display:block; margin-bottom:15px;">
-        <label style="margin-top:0;">🌾 קמח:</label>
+        <label style="margin-top:0;">🌾 בחירת קמח:</label>
         <select id="flourMix" onchange="saveData()">
             <option value="red_nuvola">מיקס 50/50 (מומלץ)</option>
             <option value="nuvola">100% נובולה (אוורירי)</option>
             <option value="red">100% קאפוטו אדום (קלאסי)</option>
             <option value="red_shtibel">מיקס שטיבל (ביתי)</option>
         </select>
+    </div>
+
+    <div class="method-selector" id="methodSelectorContainer">
+        <div class="method-opt" onclick="setMethod('direct')" id="btn-direct">ישיר</div>
+        <div class="method-opt" onclick="setMethod('poolish')" id="btn-poolish">פוליש</div>
+        <div class="method-opt active" onclick="setMethod('biga')" id="btn-biga">Biga 100%</div>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -189,8 +181,10 @@
         </div>
     </div>
 
-    <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
-    <div id="recipeArea" style="margin-top:15px; background:#fafafa; padding:15px; border-radius:12px; border:1px solid #eee;"></div>
+    <div id="scheduleContainer">
+        <div id="scheduleArea" style="margin-top:25px; background:#f1f8e9; padding:10px; border-radius:12px;"></div>
+        <div id="recipeArea" style="margin-top:15px; background:#fafafa; padding:15px; border-radius:12px; border:1px solid #eee;"></div>
+    </div>
 
     <div style="text-align:center; margin-top:25px; font-size:0.85rem; color:#90a4ae; cursor:pointer; text-decoration:underline;" onclick="toggleAdv()">הגדרות מתקדמות</div>
     <div id="adv" class="hidden-adv">
@@ -321,7 +315,9 @@
         
         // Hide Error Box initially
         const errorBox = document.getElementById('errorBox');
+        const mainContent = document.getElementById('scheduleContainer');
         errorBox.style.display = 'none';
+        mainContent.style.display = 'block';
 
         const p = {
             balls: +document.getElementById('balls').value,
@@ -359,72 +355,96 @@
             return d;
         };
 
-        const ensureBigaHours = (mixDate) => {
-            let pref = subH(mixDate, 18);
-            if (pref.getHours() >= 1 && pref.getHours() < 6) {
-                let newPref = new Date(pref);
-                newPref.setHours(23, 0);
-                if (newPref >= pref) newPref.setDate(newPref.getDate() - 1);
-                let diff = pref - newPref;
-                mixDate = new Date(mixDate - diff);
-            }
-            return mixDate;
+        const ensureBigaNight = (d) => {
+            // Force Preferment to 23:00 the night before the Mix day
+            // But we need to make sure Mix is actually ~18h later.
+            // Simplified: If Work mode -> Biga 23:00, Mix 17:00 next day (18h gap)
+            return d;
         };
 
         let mixTime, ballTime, bigaTime;
 
         if (currentStyle === 'napoli') {
-            if (schedMode === '3day') { // 48h
-                mixTime = subH(targetDate, 48);
+            if (schedMode === '3day') { // 48h (Long)
+                
+                // FIX: If Biga, 48h means "3 Days" (Day 1 Biga, Day 2 Mix, Day 3 Bake)
+                // Mix should be ~24h before bake.
+                mixTime = subH(targetDate, 24); 
+                
                 if (currentMethod !== 'direct') {
-                    mixTime = ensureBigaHours(mixTime);
-                    mixTime = applyWork(mixTime);
-                    mixTime = ensureBigaHours(mixTime);
+                    // Biga needs 18h before Mix.
+                    // If Mix is 17:00 (Day 2), Biga is 23:00 (Day 1). Perfect.
+                    mixTime = applyWork(mixTime); 
                     bigaTime = subH(mixTime, 18);
-                    steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
-                } else {
-                    mixTime = applyWork(mixTime);
-                }
-                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
-                steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור (למקרר)", id: "ball"});
-                steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
-
-            } else if (schedMode === '2day') { // 24h
-                mixTime = subH(targetDate, 24);
-                if (currentMethod !== 'direct') {
-                    // For 24h Biga: Biga starts "Tonight", Mix "Tomorrow", Bake "Tomorrow Night"
-                    // 18h biga -> mix -> 4h proof -> bake.
-                    // Mix should be ~5-6h before bake.
-                    mixTime = subH(targetDate, 5); 
-                    mixTime = applyWork(mixTime); // Work might push this
                     
-                    // Check if Biga (Mix - 18h) is possible. 
-                    // If Mix is 17:00 tomorrow, Biga is 23:00 today. Perfect.
-                    bigaTime = subH(mixTime, 18);
+                    // Safety for weird hours
+                    if(bigaTime.getHours() < 6 && bigaTime.getHours() > 0) {
+                        bigaTime.setHours(23,0);
+                        bigaTime.setDate(bigaTime.getDate()-1);
+                        mixTime = new Date(bigaTime.getTime() + (18*3600000));
+                    }
+
                     steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
                 } else {
-                    // Direct 24h
+                    // Direct Long: 48h Mix
+                    mixTime = subH(targetDate, 48);
                     mixTime = applyWork(mixTime);
                 }
+                
                 steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
                 
-                // If Direct: Ball 24h before? Or after mix?
-                // Let's stick to standard: Mix -> 1h -> Ball -> Fridge
+                // Balling Logic:
                 if (currentMethod === 'direct') {
-                     steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
-                     steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+                    // Direct Long: Ball 24h before bake
+                    steps.push({t: subH(targetDate, 24), txt: "🔴 כדרור (למקרר)", id: "ball"});
                 } else {
-                     // Biga 24h total: Ball after mix (4h before bake)
-                     steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
+                    // Biga Long: Ball after Mix (1h)
+                    steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
+                }
+                
+                steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+
+            } else if (schedMode === '2day') { // 24h (Medium)
+                mixTime = subH(targetDate, 24);
+                
+                if (currentMethod !== 'direct') {
+                    // Biga 24h Total:
+                    // Biga Today (Evening) -> Mix Tomorrow (Afternoon) -> Bake Tomorrow (Evening)?
+                    // Wait, that's impossible if Mix is 24h before.
+                    // "Medium" Biga = Biga Yesterday -> Mix Today -> Bake Today. (Same as Long basically but tighter).
+                    // Or: Biga Today -> Mix Tomorrow -> Bake Tomorrow.
+                    // Let's force Mix to be 5-6h before bake.
+                    mixTime = subH(targetDate, 5); 
+                    mixTime = applyWork(mixTime); 
+                    
+                    bigaTime = subH(mixTime, 18);
+                    steps.push({t: bigaTime, txt: "🥣 הכנת ביגה", id: "pref"});
+                } else {
+                    mixTime = applyWork(mixTime);
+                }
+                
+                steps.push({t: mixTime, txt: "🏗️ הכנת בצק עיקרי", id: "mix"});
+                
+                if (currentMethod === 'direct') {
+                    // Direct 24h: Ball 4h before? Or 24h? Usually Mix->Fridge->Ball->Bake or Mix->Ball->Fridge.
+                    // Let's go Mix->Ball->Fridge (24h bulk is rare for home)
+                    steps.push({t: new Date(mixTime.getTime() + 3600000), txt: "🔴 כדרור (למקרר)", id: "ball"});
+                    steps.push({t: subH(targetDate, 1.5), txt: "🌡️ הוצאה מהמקרר", id: "pull"});
+                } else {
+                    // Biga Short: Ball after mix
+                    steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
                 }
 
-            } else { // 1day
+            } else { // 1day (Short)
+                // Cannot do Biga really. If chosen, warn? Or just do short.
                 mixTime = subH(targetDate, 5);
+                mixTime = applyWork(mixTime);
                 steps.push({t: mixTime, txt: "🏗️ לישה", id: "mix"});
                 steps.push({t: subH(targetDate, 4), txt: "🔴 כדרור", id: "ball"});
             }
         } 
         else { // Romana / NY
+            // Direct mostly
             if (schedMode === '3day') mixTime = subH(targetDate, 48);
             else if (schedMode === '2day') mixTime = subH(targetDate, 24);
             else mixTime = subH(targetDate, 5);
@@ -446,17 +466,39 @@
 
         steps.sort((a,b) => a.t - b.t);
         
-        // VALIDATION: CHECK FOR PAST DATES
+        // --- VALIDATION: CHECK FOR PAST DATES & IMPOSSIBLE WORK ---
         const now = new Date();
         const firstStep = steps[0];
+        let hasError = false;
+        let errorMsg = "";
+
+        // 1. Check if start time is in the past
         if (firstStep.t < now) {
             const diffHrs = Math.round((now - firstStep.t)/36e5);
-            errorBox.style.display = 'block';
-            errorBox.innerHTML = `⚠️ <b>שגיאת זמן:</b><br>המסלול שבחרת דורש להתחיל לפני ${diffHrs} שעות.<br>אנא בחר תאריך רחוק יותר או מסלול קצר יותר.`;
+            hasError = true;
+            errorMsg = `⚠️ <b>פספסת את הזמן!</b><br>לפי המסלול הזה, היית צריך להתחיל לפני ${diffHrs} שעות.<br>נסה לשנות ל"תהליך קצר" או להזיז את התאריך למחר.`;
         }
 
-        renderSchedule(steps);
-        renderRecipe(totalFlour, water, yeast, salt, oil, sugar, malt, flourName);
+        // 2. Check Short + Work feasibility
+        if (schedMode === '1day' && workMode === 'work') {
+            // Need ~5 hours. If target is 20:00, start 15:00. Work ends 17:00.
+            // mixTime is already clamped to 17:00.
+            // If mixTime (17:00) + 5h > targetTime (20:00) -> Impossible.
+            const minTimeNeeded = 5 * 3600000;
+            if (mixTime.getTime() + minTimeNeeded > targetDate.getTime()) {
+                hasError = true;
+                errorMsg = `⚠️ <b>אין מספיק זמן!</b><br>אתה מסיים לעבוד ב-17:00, אבל הפיצה צריכה מינימום 5 שעות.<br>אי אפשר לאכול ב-${targetDate.getHours()}:${targetDate.getMinutes()}. דחה את הארוחה או וותר על העבודה 😉`;
+            }
+        }
+
+        if (hasError) {
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = errorMsg;
+            mainContent.style.display = 'none'; // Hide results
+        } else {
+            renderSchedule(steps);
+            renderRecipe(totalFlour, water, yeast, salt, oil, sugar, malt, flourName);
+        }
     }
 
     function renderSchedule(steps) {
@@ -496,7 +538,7 @@
         return `<span class="day-badge ${classNm}">${label}</span> ${time}`;
     }
 
-    // [Rest of standard functions: Recipe, Menu, Shopping etc...]
+    // [Standard Functions: Recipe, Menu, Shopping...]
     function renderRecipe(flour, water, yeast, salt, oil, sugar, malt, flourName) {
         let html = `<h3 style="margin:0 0 10px 0;">🍕 מתכון</h3>`;
         let yeastLabel = document.getElementById('yeastType').value === 'fresh' ? 'שמרים טריים' : 'שמרים יבשים';
@@ -614,10 +656,10 @@
             checks: checkedSteps,
             customPizzas: customPizzas
         };
-        localStorage.setItem('pizzaOpsV19', JSON.stringify(d));
+        localStorage.setItem('pizzaOpsV20', JSON.stringify(d));
     }
     function loadData() {
-        const d = JSON.parse(localStorage.getItem('pizzaOpsV19'));
+        const d = JSON.parse(localStorage.getItem('pizzaOpsV20'));
         if (d) {
             if(d.inputs) {
                 for(let k in d.inputs) {
@@ -644,7 +686,7 @@
             } catch(e) { alert("שגיאה בקבלת מזג אוויר"); }
         }, () => alert("יש לאשר גישה למיקום"));
     }
-    function resetApp() { localStorage.removeItem('pizzaOpsV19'); location.reload(); }
+    function resetApp() { localStorage.removeItem('pizzaOpsV20'); location.reload(); }
 
     init();
 </script>
